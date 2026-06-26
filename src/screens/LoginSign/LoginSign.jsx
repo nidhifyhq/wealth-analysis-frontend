@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { ArrowLeft, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import styles from './LoginSign.module.css';
-
-// Universal Back Chevron Arrow
-const ArrowBackIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-);
-
-// Alert Banner Triangle
-const AlertIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-);
+import { checkEmail, userLogin, registerSendOtp, registerVerifyOtp } from '../../services/apis/login.service';
+import { setAuthFromLogin } from '../../store/auth/auth.slice';
+import logoFull from '../../assets/images/nidhifylogofull.png';
 
 export default function LoginSign() {
+  const dispatch = useDispatch();
+
+  const formatFirstName = (fullName) => {
+    if (!fullName) return '';
+    const first = fullName.split(' ')[0];
+    return first.charAt(0).toUpperCase() + first.slice(1).toLowerCase();
+  };
+
   // Navigation steps: 'INITIAL' | 'PASSWORD' | 'SIGNUP' | 'OTP'
   const [step, setStep] = useState('INITIAL');
   
@@ -26,7 +29,10 @@ export default function LoginSign() {
   // OTP Management State (4 fields split string)
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(60);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   
   const otpRefs = [useRef(), useRef(), useRef(), useRef()];
 
@@ -46,6 +52,7 @@ export default function LoginSign() {
   // Back Button Navigation Rules
   const handleBackNavigation = () => {
     setErrorMsg('');
+    setSuccessMsg('');
     if (step === 'PASSWORD' || step === 'SIGNUP') {
       setStep('INITIAL');
     } else if (step === 'OTP') {
@@ -54,44 +61,88 @@ export default function LoginSign() {
   };
 
   // Step 1: Handle initial email checking submission
-  const handleInitialProceed = (e) => {
+  const handleInitialProceed = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    setSuccessMsg('');
     
     if (!email || !email.includes('@')) {
       setErrorMsg('Please enter a valid email address.');
       return;
     }
 
-    // Mock Business Logic: "test@user.com" is treated as existing
-    if (email.toLowerCase() === 'test@user.com') {
+    const res = await checkEmail({ email });
+    if (!res) {
+      setErrorMsg('Network error. Please try again.');
+      return;
+    }
+    if (res.isExist) {
+      if (res.Name) setName(res.Name);
       setStep('PASSWORD');
     } else {
+      setName('');
       setStep('SIGNUP');
     }
   };
 
   // Step 2A: Handle Existing User Password Validation
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    setSuccessMsg('');
     if (password.length < 6) {
       setErrorMsg('Invalid credentials. Please verify your password.');
       return;
     }
+
+    const res = await userLogin({ email, password });
+    if (!res) {
+      setErrorMsg('Network error. Please try again.');
+      return;
+    }
+    if (!res.success) {
+      setErrorMsg(res.message || 'Invalid email or password');
+      return;
+    }
+
+    dispatch(setAuthFromLogin({
+      authToken: res.token,
+      userId: res.userId,
+      name: res.Name,
+      email,
+    }));
     alert('Logged in successfully!');
   };
 
   // Step 2B: Handle New Registration Validation
-  const handleSignupSubmit = (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    setSuccessMsg('');
 
     if (!name.trim()) return setErrorMsg('Name field cannot be blank.');
-    if (mobile.length < 8) return setErrorMsg('Enter a valid mobile number.');
+    if (!/^[6-9]\d{9}$/.test(mobile)) return setErrorMsg('Mobile number must be 10 digits starting with 6-9.');
     if (password !== confirmPassword) return setErrorMsg('Passwords do not match.');
     if (password.length < 6) return setErrorMsg('Password must be at least 6 characters.');
     if (!agreeTerms) return setErrorMsg('You must accept the terms and conditions.');
+
+    const titleCaseName = name.replace(/\b\w/g, (c) => c.toUpperCase());
+
+    const res = await registerSendOtp({
+      name: titleCaseName,
+      mobile,
+      email,
+      password,
+      isRegisterConsent: true,
+    });
+    if (!res) {
+      setErrorMsg('Network error. Please try again.');
+      return;
+    }
+    if (!res.success) {
+      setErrorMsg(res.message || 'Registration failed. Please try again.');
+      return;
+    }
 
     // Transition to verification stage
     setTimer(60);
@@ -119,31 +170,54 @@ export default function LoginSign() {
     }
   };
 
-  const handleVerifyOtp = (e) => {
+  const handleVerifyOtp = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    setSuccessMsg('');
     const fullOtp = otp.join('');
     
     if (fullOtp.length < 4) {
       setErrorMsg('Please fill in the entire 4-digit code.');
       return;
     }
-    
-    // Mock Validation: Success criteria code is 1234
-    if (fullOtp !== '1234') {
-      setErrorMsg('The security code you entered is incorrect. Try again.');
+
+    const res = await registerVerifyOtp({ email, otp: fullOtp });
+    if (!res) {
+      setErrorMsg('Network error. Please try again.');
+      return;
+    }
+    if (!res.success) {
+      setErrorMsg(res.message || 'Invalid OTP. Try again.');
       return;
     }
 
+    dispatch(setAuthFromLogin({
+      authToken: res.token,
+      userId: res.userId,
+      name: res.Name,
+      email,
+    }));
     alert('Account successfully registered & verified!');
   };
 
-  const handleResendOtp = () => {
+  const handleResendOtp = async () => {
     if (timer === 0) {
+      const titleCaseName = name.replace(/\b\w/g, (c) => c.toUpperCase());
+      const res = await registerSendOtp({
+        name: titleCaseName,
+        mobile,
+        email,
+        password,
+        isRegisterConsent: true,
+      });
+      if (!res || !res.success) {
+        setErrorMsg(res?.message || 'Failed to resend OTP. Try again.');
+        return;
+      }
       setOtp(['', '', '', '']);
       setTimer(60);
       setErrorMsg('');
-      alert('A fresh verification token has been routed to your inbox.');
+      setSuccessMsg(res?.message || 'OTP sent successfully');
     }
   };
 
@@ -158,20 +232,21 @@ export default function LoginSign() {
             onClick={handleBackNavigation}
             aria-label="Navigate back"
           >
-            <ArrowBackIcon />
+            <ArrowLeft size={20} />
           </button>
         )}
         
         <div className={styles.LoginSignHeroTextGroup}>
+          <img src={logoFull} alt="Nidhify" className={styles.LoginSignLogo} />
           {step === 'INITIAL' && (
             <>
-              <h2 className={styles.LoginSignTitle}>Welcome to Investment</h2>
-              <p className={styles.LoginSignSubtitle}>Enter your details to coordinate wealth growth pipelines.</p>
+              <h2 className={styles.LoginSignTitle}>All Your Investments. One Place</h2>
+              <p className={styles.LoginSignSubtitle}>Keep track of your investments and watch your wealth grow over time.</p>
             </>
           )}
           {step === 'PASSWORD' && (
             <>
-              <h2 className={styles.LoginSignTitle}>Welcome back!</h2>
+              <h2 className={styles.LoginSignTitle}>Welcome back{name ? `, ${formatFirstName(name)}` : ''}!</h2>
               <p className={styles.LoginSignSubtitle}>Please provide authorization credentials linked to {email}.</p>
             </>
           )}
@@ -192,10 +267,17 @@ export default function LoginSign() {
 
       {/* Dynamic Sheet Block Container */}
       <main className={styles.LoginSignFormSheet}>
+        {/* Success Notification Banner */}
+        {successMsg && (
+          <div className={styles.LoginSignSuccessAlert}>
+            <span className={styles.LoginSignSuccessText}>{successMsg}</span>
+          </div>
+        )}
+
         {/* Styled Contextual Application Error Framework */}
         {errorMsg && (
           <div className={styles.LoginSignErrorAlert}>
-            <AlertIcon />
+            <AlertTriangle size={16} />
             <span className={styles.LoginSignErrorText}>{errorMsg}</span>
           </div>
         )}
@@ -225,15 +307,20 @@ export default function LoginSign() {
           <form onSubmit={handlePasswordSubmit} className={styles.LoginSignFormLayout}>
             <div className={styles.LoginSignInputBlock}>
               <label className={styles.LoginSignLabel}>Enter Password</label>
-              <input 
-                type="password" 
-                placeholder="••••••••" 
-                className={styles.LoginSignInput}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoFocus
-              />
+              <div className={styles.LoginSignPasswordWrapper}>
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="••••••••" 
+                  className={styles.LoginSignInput}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoFocus
+                />
+                <button type="button" className={styles.LoginSignPasswordToggle} onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
             <button type="submit" className={styles.LoginSignActionBtn}>
               Sign In
@@ -263,7 +350,11 @@ export default function LoginSign() {
                 placeholder="Enter mobile number" 
                 className={styles.LoginSignInput}
                 value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
+                onChange={(e) => {
+                  const cleaned = e.target.value.replace(/\D/g, '');
+                  if (cleaned.length > 0 && !/^[6-9]/.test(cleaned[0])) return;
+                  setMobile(cleaned.slice(0, 10));
+                }}
                 required
               />
             </div>
@@ -281,26 +372,36 @@ export default function LoginSign() {
 
             <div className={styles.LoginSignInputBlock}>
               <label className={styles.LoginSignLabel}>New Password</label>
-              <input 
-                type="password" 
-                placeholder="••••••••" 
-                className={styles.LoginSignInput}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className={styles.LoginSignPasswordWrapper}>
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="••••••••" 
+                  className={styles.LoginSignInput}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button type="button" className={styles.LoginSignPasswordToggle} onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
 
             <div className={styles.LoginSignInputBlock}>
               <label className={styles.LoginSignLabel}>Confirm Password</label>
-              <input 
-                type="password" 
-                placeholder="••••••••" 
-                className={styles.LoginSignInput}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+              <div className={styles.LoginSignPasswordWrapper}>
+                <input 
+                  type={showConfirmPassword ? "text" : "password"} 
+                  placeholder="••••••••" 
+                  className={styles.LoginSignInput}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <button type="button" className={styles.LoginSignPasswordToggle} onClick={() => setShowConfirmPassword(!showConfirmPassword)} tabIndex={-1}>
+                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
 
             <div className={styles.LoginSignCheckboxBlock}>
