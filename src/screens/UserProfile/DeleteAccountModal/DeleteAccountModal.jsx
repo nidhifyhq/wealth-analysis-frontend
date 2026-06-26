@@ -61,7 +61,7 @@ export default function DeleteAccountModal({ isOpen, onCancel, onConfirm, isDele
           <div className={styles.DeleteAccountModalBulletItem}>
             <span className={styles.DeleteAccountModalBulletDot} />
             <p className={styles.DeleteAccountModalBulletText}>
-              <strong>Permanent Data Wipe:</strong> All your personal details, manual Fixed Deposit (FD) data, and imported Mutual Fund tracking insights will be permanently erased from Nidhify's databases.
+              <strong>Permanent Data Wipe:</strong> All your personal details, manual data, and imported Mutual Fund tracking insights will be permanently erased from Nidhify's databases.
             </p>
           </div>
           <div className={styles.DeleteAccountModalBulletItem}>

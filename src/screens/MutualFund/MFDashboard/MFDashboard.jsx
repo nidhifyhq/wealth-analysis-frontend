@@ -12,8 +12,9 @@ import {
   ChevronsDown,
   Info
 } from 'lucide-react';
-import { fetchMyFundSummary, fetchAllMyFundViews } from '../../../services/apis/portfolio.service';
+import { fetchMyFundSummary, fetchAllMyFundViews, deleteCasData } from '../../../services/apis/portfolio.service';
 import MFCasUpload from '../MFCasUpload/MFCasUpload'
+import DeLinkCas from './DeLinkCas/DeLinkCas'
 import styles from './MFDashboard.module.css';
 
 const formatCurrency = (value) => {
@@ -33,6 +34,8 @@ export default function MFDashboard() {
   const [showBalance, setShowBalance] = useState(true);
   const [showReturns, setShowReturns] = useState(false);
   const [showCasUpload, setShowCasUpload] = useState(false);
+  const [showDeLinkCas, setShowDeLinkCas] = useState(false);
+  const [isDelinking, setIsDelinking] = useState(false);
   const [fundSummary, setFundSummary] = useState(null);
   const [holdings, setHoldings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,10 +50,20 @@ export default function MFDashboard() {
       fetchMyFundSummary(),
       fetchAllMyFundViews(),
     ]);
-    if (summaryRes?.success) setFundSummary(summaryRes.data);
-    if (holdingsRes?.success) setHoldings(holdingsRes.data.holdings || []);
+    setFundSummary(summaryRes?.success ? summaryRes.data : null);
+    setHoldings(holdingsRes?.success ? (holdingsRes.data.holdings || []) : []);
     setIsLoading(false);
   };
+
+  const handleDeLinkCas = async () => {
+    setIsDelinking(true)
+    const res = await deleteCasData()
+    if (res?.success) {
+      setShowDeLinkCas(false)
+      loadData()
+    }
+    setIsDelinking(false)
+  }
 
   const s = fundSummary?.summary;
   const r = fundSummary?.ratings;
@@ -244,15 +257,27 @@ export default function MFDashboard() {
           )}
         </div>
 
-        <div className={styles.MFDashboardDateRow}>
-          <span className={styles.MFDashboardDateRowItem}>
-            Statement: <strong>{formatDate(statementDate) || '—'}</strong>
-          </span>
-          <span className={styles.MFDashboardDateRowDivider}>|</span>
-          <span className={styles.MFDashboardDateRowItem}>
-            Imported: <strong>{formatDate(importedAt) || '—'}</strong>
-          </span>
-        </div>
+        {fundSummary && (
+          <>
+            <div className={styles.MFDashboardDateRow}>
+              <span className={styles.MFDashboardDateRowItem}>
+                Statement: <strong>{formatDate(statementDate) || '—'}</strong>
+              </span>
+              <span className={styles.MFDashboardDateRowDivider}>|</span>
+              <span className={styles.MFDashboardDateRowItem}>
+                Imported: <strong>{formatDate(importedAt) || '—'}</strong>
+              </span>
+            </div>
+
+            <button
+              type="button"
+              className={styles.MFDashboardDelinkBtn}
+              onClick={() => setShowDeLinkCas(true)}
+            >
+              Delink CAS
+            </button>
+          </>
+        )}
       </section>
 
       <p className={styles.MFDashboardDisclaimer}>
@@ -269,6 +294,13 @@ export default function MFDashboard() {
         isOpen={showCasUpload}
         onClose={() => setShowCasUpload(false)}
         onUploadSuccess={loadData}
+      />
+
+      <DeLinkCas
+        isOpen={showDeLinkCas}
+        onCancel={() => setShowDeLinkCas(false)}
+        onConfirm={handleDeLinkCas}
+        isDeleting={isDelinking}
       />
     </div>
   );

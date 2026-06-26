@@ -10,4 +10,5 @@ export const API_ROUTES = {
   ALL_MYFUND_VIEWS: "/api/portfolio/all-myfund-views",
   USER_DETAILS: "/api/user/details",
   USER_DELETE: "/api/user/delete",
+  CAS_DATA_DELETE: "/api/portfolio/cas-data-delete",
 }

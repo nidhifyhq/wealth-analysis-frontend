@@ -1,4 +1,4 @@
-import { getRequest, uploadFileRequest } from "../apiClient"
+import { getRequest, deleteRequest, uploadFileRequest } from "../apiClient"
 import { API_ROUTES } from "../../constants/apiRoutes"
 
 export const uploadCas = (formData) => {
@@ -11,4 +11,8 @@ export const fetchMyFundSummary = () => {
 
 export const fetchAllMyFundViews = () => {
   return getRequest(API_ROUTES.ALL_MYFUND_VIEWS)
+}
+
+export const deleteCasData = () => {
+  return deleteRequest(API_ROUTES.CAS_DATA_DELETE)
 }
