@@ -194,10 +194,13 @@
 }
 
 .MFCasUploadTermsRow {
-  display: flex;
+  margin: 0 0 16px 4px;
+}
+
+.MFCasUploadTermsRow label {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin: 0 0 16px 4px;
   cursor: pointer;
 }
 
@@ -207,6 +210,7 @@
   accent-color: #0c3e38;
   cursor: pointer;
   flex-shrink: 0;
+  margin: 0;
 }
 
 .MFCasUploadTermsLabel {
@@ -214,6 +218,7 @@
   color: #374151;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   user-select: none;
+  line-height: 1.4;
 }
 
 .MFCasUploadActions {
@@ -249,7 +254,7 @@
   border-radius: 14px;
   padding: 14px 12px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
   cursor: pointer;
   font-family: inherit;

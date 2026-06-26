@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { X, Upload, CheckCircle, FileText, XCircle, Eye, EyeOff } from 'lucide-react'
 import { uploadCas } from '../../../services/apis/portfolio.service'
 import MFCasImportModal from '../MFCasImport/MFCasImportModal'
+import MFCasuploadConcent from './MFCasuploadConcent/MFCasuploadConcent'
 import styles from './MFCasUpload.module.css'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
@@ -13,6 +14,7 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState('')
   const [termsAccepted, setTermsAccepted] = useState(false)
+  const [showTermsModal, setShowTermsModal] = useState(false)
   const [showCasImport, setShowCasImport] = useState(false)
   const fileInputRef = useRef(null)
 
@@ -51,6 +53,7 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
       setUploading(false)
       setUploadError('')
       setTermsAccepted(false)
+      setShowTermsModal(false)
     }
   }, [isOpen])
 
@@ -206,17 +209,19 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
           {uploadError && <p className={styles.MFCasUploadErrorText}>{uploadError}</p>}
 
           {/* Terms Checkbox */}
-          <label className={styles.MFCasUploadTermsRow}>
-            <input
-              type="checkbox"
-              className={styles.MFCasUploadTermsCheckbox}
-              checked={termsAccepted}
-              onChange={(e) => setTermsAccepted(e.target.checked)}
-            />
-            <span className={styles.MFCasUploadTermsLabel}>
-              I authorize Nidhify to process this statement and understand the data shown is for tracking purposes only.
-            </span>
-          </label>
+          <div className={styles.MFCasUploadTermsRow}>
+            <label className={styles.MFCasUploadTermsLabel} onClick={() => setShowTermsModal(true)}>
+              <input
+                type="checkbox"
+                className={styles.MFCasUploadTermsCheckbox}
+                checked={termsAccepted}
+                readOnly
+              />
+              <span>
+                I agree with the terms and conditions
+              </span>
+            </label>
+          </div>
 
           {/* Action Buttons */}
           <div className={styles.MFCasUploadActions}>
@@ -241,6 +246,14 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
         onSkip={() => setShowCasImport(false)}
         onProceed={() => setShowCasImport(false)}
       />
+
+      {/* Upload Consent Modal */}
+      {showTermsModal && (
+        <MFCasuploadConcent
+          onClose={() => { setTermsAccepted(false); setShowTermsModal(false); }}
+          onConsent={() => { setTermsAccepted(true); setShowTermsModal(false); }}
+        />
+      )}
     </>
   )
 }
