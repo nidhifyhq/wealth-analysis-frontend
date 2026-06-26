@@ -1,41 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import { Bell, Eye, ArrowUp, ArrowDown, Plus, Download } from 'lucide-react';
+import { fetchInvestmentShortDetails } from '../../services/apis/dashboard.service';
+import LoadingDots from '../../components/LoadingDots/LoadingDots';
+import { selectUserName } from '../../store/auth/auth.selectors';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 import styles from './Dashboard.module.css';
 
-// SVG Icon Components
-const BellIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
-);
-const EyeIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-);
-const ArrowUpIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-);
-const PlusIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="12" y2="12"></line></svg>
-);
-const DownloadIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-);
+const productConfig = {
+  'Mutual Funds': { className: 'mobileDashboardProductMf', label: 'MFs' },
+  'FD': { className: 'mobileDashboardProductFd', label: 'FDs' },
+};
+
+const stringToColor = (str) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const h = Math.abs(hash) % 360;
+  return `hsl(${h}, 55%, 45%)`;
+};
+
+const formatCurrency = (value) => {
+  if (value == null) return '₹0.00';
+  return `₹${Number(value).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+};
 
 export default function Dashboard() {
+  const userName = useSelector(selectUserName);
   const [showBalance, setShowBalance] = useState(true);
+  const [dashboardData, setDashboardData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      setIsLoading(true);
+      const res = await fetchInvestmentShortDetails();
+      if (res && res.summary) {
+        setDashboardData(res);
+      }
+      setIsLoading(false);
+    };
+    loadData();
+  }, []);
+
+  const summary = dashboardData?.summary;
+  const mutualFund = dashboardData?.MutualFund;
+  const fixedDeposit = dashboardData?.FixedDeposit;
+
+  const totalAssets = summary?.totalAssets;
+  const investProduct = summary?.investProduct || [];
+
+  const productTags = useMemo(() => {
+    return investProduct.map((name) => {
+      const known = productConfig[name];
+      if (known) {
+        return { label: known.label, className: styles[known.className] };
+      }
+      return {
+        label: name,
+        style: { backgroundColor: stringToColor(name), color: '#ffffff' },
+      };
+    });
+  }, [investProduct]);
 
   return (
     <div className={styles.mobileDashboardContainer}>
       {/* Top Header Section */}
       <header className={styles.mobileDashboardHeader}>
         <div className={styles.mobileDashboardWelcome}>
-          <h1 className={styles.mobileDashboardGreeting}>Hi, Andreas 👋</h1>
-          <p className={styles.mobileDashboardSubGreeting}>Welcome back to Stock!</p>
+          <h1 className={styles.mobileDashboardGreeting}>Hi, {(userName || 'User').split(' ')[0]} 👋</h1>
+          <p className={styles.mobileDashboardSubGreeting}>Welcome back!</p>
         </div>
         <button className={styles.mobileDashboardNotificationBtn} aria-label="Notifications">
-          <BellIcon />
+          <Bell size={20} />
           <span className={styles.mobileDashboardNotificationDot} />
         </button>
       </header>
@@ -57,25 +99,29 @@ export default function Dashboard() {
                 <div className={styles.mobileDashboardAssetHeader}>
                   <span className={styles.mobileDashboardAssetLabel}>Total asset value</span>
                   <button className={styles.mobileDashboardToggleEye} onClick={() => setShowBalance(!showBalance)}>
-                    <EyeIcon />
+                    <Eye size={18} />
                   </button>
                 </div>
                 <h2 className={styles.mobileDashboardAssetAmount}>
-                  {showBalance ? '$18,908.00' : '••••••'}
+                  {isLoading ? <LoadingDots speed={300} /> : showBalance ? formatCurrency(totalAssets) : '••••••'}
                 </h2>
-                <div className={styles.mobileDashboardAssetTrend}>
-                  <span className={styles.mobileDashboardTrendBadge}><ArrowUpIcon /> 4.78%</span>
-                  <span className={styles.mobileDashboardTrendPeriod}>(+0.20%) vs Last week</span>
-                </div>
                 
                 {/* Overlapping Badges with white border */}
-                <div className={styles.mobileDashboardHoldingAvatars}>
-                  <span className={`${styles.mobileDashboardTag} ${styles.mobileDashboardProductStocks}`}>Stocks</span>
-                  <span className={`${styles.mobileDashboardTag} ${styles.mobileDashboardProductMf}`}>MFs</span>
-                  <span className={`${styles.mobileDashboardTag} ${styles.mobileDashboardProductFd}`}>FDs</span>
-                  <span className={`${styles.mobileDashboardTag} ${styles.mobileDashboardProductGold}`}>Gold</span>
-                </div>
+                {!isLoading && productTags.length > 0 && (
+                  <div className={styles.mobileDashboardHoldingAvatars}>
+                    {productTags.map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className={`${styles.mobileDashboardTag}${tag.className ? ` ${tag.className}` : ''}`}
+                        style={tag.style || {}}
+                      >
+                        {tag.label}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
+               <div className={styles.mobileDashboardDecorativeCircle}></div>
             </section>
           </SwiperSlide>
 
@@ -87,13 +133,24 @@ export default function Dashboard() {
                   <span className={styles.mobileDashboardAssetLabel}>Mutual Funds Investment</span>
                 </div>
                 <h2 className={styles.mobileDashboardAssetAmount}>
-                  {showBalance ? '$6,420.50' : '••••••'}
+                  {isLoading ? <LoadingDots speed={300} /> : showBalance ? formatCurrency(mutualFund?.currentVal) : '••••••'}
                 </h2>
                 <div className={styles.mobileDashboardAssetTrend}>
-                  <span className={styles.mobileDashboardTrendBadge} style={{ color: '#0d5257' }}><ArrowUpIcon /> 8.12%</span>
+                  <span className={styles.mobileDashboardTrendBadge} style={{ color: '#0d5257' }}>
+                    {isLoading ? <LoadingDots speed={300} /> : (
+                      <>
+                        {mutualFund?.absoluteReturn != null && mutualFund.absoluteReturn >= 0 ? (
+                          <ArrowUp size={12} />
+                        ) : (
+                          <ArrowDown size={12} />
+                        )}
+                        {' '}{mutualFund?.absoluteReturn != null ? mutualFund.absoluteReturn.toFixed(2) : '0.00'}%
+                      </>
+                    )}
+                  </span>
                   <span className={styles.mobileDashboardTrendPeriod}>All-time Returns</span>
                 </div>
-                <p className={styles.mobileDashboardCardFooterText}>Active in 3 Top-tier Funds</p>
+                <p className={styles.mobileDashboardCardFooterText}>{isLoading ? <LoadingDots speed={300} /> : `Active in ${mutualFund?.totalFunds || 0} Fund${mutualFund?.totalFunds !== 1 ? 's' : ''}`}</p>
               </div>
               <div className={styles.mobileDashboardDecorativeCircle}></div>
             </section>
@@ -107,13 +164,13 @@ export default function Dashboard() {
                   <span className={styles.mobileDashboardAssetLabel}>Fixed Deposits (FD)</span>
                 </div>
                 <h2 className={styles.mobileDashboardAssetAmount}>
-                  {showBalance ? '$5,000.00' : '••••••'}
+                  {isLoading ? <LoadingDots speed={300} /> : showBalance ? formatCurrency(fixedDeposit?.currentVal) : '••••••'}
                 </h2>
                 <div className={styles.mobileDashboardAssetTrend}>
-                  <span className={styles.mobileDashboardTrendBadge} style={{ color: '#4a1f05' }}>⚡ 7.10%</span>
-                  <span className={styles.mobileDashboardTrendPeriod}>Assured Annual Interest</span>
+                  <span className={styles.mobileDashboardTrendBadge} style={{ color: '#4a1f05' }}>{isLoading ? <LoadingDots speed={300} /> : <>⚡ {fixedDeposit?.fDpct || '0.00'}%</>}</span>
+                  <span className={styles.mobileDashboardTrendPeriod}>{isLoading ? <LoadingDots speed={300} /> : fixedDeposit?.interestTime || 'Annual'} Interest</span>
                 </div>
-                <p className={styles.mobileDashboardCardFooterText}>Matures on: 12 Dec 2027</p>
+                <p className={styles.mobileDashboardCardFooterText}>{isLoading ? <LoadingDots speed={300} /> : (fixedDeposit?.matureOn ? `Matures on: ${fixedDeposit.matureOn}` : 'No active FD')}</p>
               </div>
               <div className={styles.mobileDashboardDecorativeCircle}></div>
             </section>
@@ -124,10 +181,10 @@ export default function Dashboard() {
       {/* Action Buttons */}
       <div className={styles.mobileDashboardActionGroup}>
         <button className={styles.mobileDashboardActionButton}>
-          <PlusIcon /> Deposit
+          <Plus size={18} /> Deposit
         </button>
         <button className={styles.mobileDashboardActionButton}>
-          <DownloadIcon /> Withdraw
+          <Download size={18} /> Withdraw
         </button>
       </div>
 

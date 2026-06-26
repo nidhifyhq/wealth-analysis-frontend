@@ -3,4 +3,5 @@ export const API_ROUTES = {
   REGISTER_SEND_OTP: "/api/auth/register-send-otp",
   REGISTER_VERIFY_OTP: "/api/auth/register-verify-otp",
   LOGIN: "/api/auth/login",
+  INVESTMENT_SHORT_DETAILS: "/api/user/investment-assets-details",
 }

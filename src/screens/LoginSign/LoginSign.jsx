@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import styles from './LoginSign.module.css';
 import { checkEmail, userLogin, registerSendOtp, registerVerifyOtp } from '../../services/apis/login.service';
 import { setAuthFromLogin } from '../../store/auth/auth.slice';
 import logoFull from '../../assets/images/nidhifylogofull.png';
 import RegisterConcentModal from './RegisterConcentModal/RegisterConcentModal';
+import MFCasImportModal from '../MutualFund/MFCasImport/MFCasImportModal';
 
 export default function LoginSign() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const formatFirstName = (fullName) => {
     if (!fullName) return '';
@@ -33,6 +36,7 @@ export default function LoginSign() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showCasModal, setShowCasModal] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   
@@ -123,7 +127,7 @@ export default function LoginSign() {
       name: res.Name,
       email,
     }));
-    alert('Logged in successfully!');
+    navigate('/dashboard');
   };
 
   // Step 2B: Handle New Registration Validation
@@ -209,7 +213,7 @@ export default function LoginSign() {
       name: res.Name,
       email,
     }));
-    alert('Account successfully registered & verified!');
+    setShowCasModal(true);
   };
 
   const handleResendOtp = async () => {
@@ -485,6 +489,15 @@ export default function LoginSign() {
         <RegisterConcentModal
           onClose={() => { setAgreeTerms(false); setShowTermsModal(false); }}
           onConsent={() => { setAgreeTerms(true); setShowTermsModal(false); }}
+        />
+      )}
+
+      {showCasModal && (
+        <MFCasImportModal
+          isOpen={showCasModal}
+          skipUrl="/dashboard"
+          onProceed={() => setShowCasModal(false)}
+          illustrationSrc={logoFull}
         />
       )}
     </div>

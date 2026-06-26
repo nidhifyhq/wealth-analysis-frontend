@@ -1,7 +1,6 @@
 /* Core Styling Matrix aligning with premium mobile constraints */
 .LoginSignContainer {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #0c3e38; /* Premium depth dark teal */
+  background-color: #0c3e38;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

@@ -1,23 +1,21 @@
+.BottomBarSafeArea {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
 .BottomBarContainer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  padding-bottom: env(safe-area-inset-bottom);
-  z-index: 1000;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.08), 0 -2px 6px rgba(0, 0, 0, 0.04);
-}
-
-.BottomBarWrapper {
+  background: #ffffff;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  height: 65px;
-  max-width: 600px; 
-  margin: 0 auto;
+  justify-content: space-around;
+  height: 64px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid #edf1f0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+  z-index: 999;
 }
 
 .BottomBarItem {
@@ -25,53 +23,56 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
-  color: #8e8e93; 
-  flex: 1;
-  position: relative;
-  transition: all 0.2s ease;
   gap: 4px;
+  flex: 1;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  transition: transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.BottomBarIcon {
+.BottomBarItem:active {
+  transform: scale(0.92);
+}
+
+.BottomBarIconWrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
+  height: 24px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.BottomBarIcon svg {
-  width: 24px;
-  height: 24px;
+.BottomBarItemActive .BottomBarIconWrapper {
+  transform: translateY(-2px);
 }
 
 .BottomBarLabel {
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: color 0.25s ease;
 }
 
-
-.BottomBarItemActive {
-  color: #1565c0;
+.BottomBarLabelActive {
+  color: #0c3e38;
 }
 
-.BottomBarItemActive .BottomBarIcon {
-  transform: translateY(-2px);
+.BottomBarLabelInactive {
+  color: #9ca3af;
 }
 
 .BottomBarIndicator {
   position: absolute;
-  top: -12px;
+  top: 0;
   width: 20px;
-  height: 4px;
-  background-color: #1565c0;
+  height: 3px;
+  background: #0c3e38;
   border-radius: 0 0 4px 4px;
-  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
-}
-
-
-@media (min-width: 768px) {
-  .BottomBarContainer {
-    display: none; 
-  }
+  transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

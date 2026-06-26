@@ -4,14 +4,11 @@ import BottomBar from "../components/BottomBar/BottomBar";
 const ProtectedLayout = () => {
   const { pathname } = useLocation();
 
-  const hideBottomBar =
-    pathname.startsWith("/profile")
-
   return (
-    <>
+    <div style={{ paddingBottom: 80 }}>
       <Outlet />
-      {!hideBottomBar && <BottomBar />}
-    </>
+      <BottomBar />
+    </div>
   );
 };
 

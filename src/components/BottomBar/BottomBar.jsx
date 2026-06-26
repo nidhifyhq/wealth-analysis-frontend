@@ -1,75 +1,55 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Coins, 
-  History, 
-  Briefcase 
-} from 'lucide-react'; // Using lucide-react for clean icons
+import { useLocation, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, TrendingUp, Landmark, User } from 'lucide-react';
 import styles from './BottomBar.module.css';
 
-const BottomBar = () => {
-  const location = useLocation();
-  const pathname = location.pathname;
-
-  const hiddenPaths = [
-  '/digitalGold/GoldHistory'
+const navItems = [
+  { label: 'Home', icon: LayoutDashboard, route: '/dashboard' },
+  { label: 'MF', icon: TrendingUp, route: '/mf/' },
+  { label: 'FD', icon: Landmark, route: '/dashboard' },
+  { label: 'Profile', icon: User, route: '/dashboard' },
 ];
 
-if (hiddenPaths.includes(pathname)) {
-  return null;
-}
+export default function BottomBar() {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-  
-  const navItems = [
-    { id: 'dashboard', label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard /> },
-    { id: 'digitalGold', label: 'Digital Gold', path: '/digitalGold', icon: <Coins /> },
-    { id: 'goldOrders', label: 'Orders', path: '/digitalGold/GoldOrders', icon: <History /> },
-    { id: 'portfolio', label: 'Portfolio', path: '/portfolio', icon: <Briefcase /> },
-  ];
+  const activeIndex = navItems.findIndex((item) => {
+    if (item.route === '/mf/') return pathname.startsWith('/mf');
+    return pathname === item.route;
+  });
 
-
-  const getVisibleItems = () => {
-    if (pathname.startsWith('/digitalGold')) {
-      return navItems.filter(item => 
-        ['dashboard', 'digitalGold', 'goldOrders'].includes(item.id)
-      );
-    }
-    
-    if (pathname === '/dashboard') {
-      return navItems.filter(item => 
-        ['dashboard', 'digitalGold'].includes(item.id)
-      );
-    }
-
-    return navItems.filter(item => ['dashboard', 'digitalGold'].includes(item.id));
-  };
-
-  const visibleItems = getVisibleItems();
+  const indicatorLeft = activeIndex >= 0 ? `calc(${activeIndex * 25}% + ${50 - 10}px)` : '0px';
 
   return (
-    <nav className={styles.BottomBarContainer}>
-      <div className={styles.BottomBarWrapper}>
-        {visibleItems.map((item) => {
-          const isActive = pathname === item.path;
-          
-          return (
-            <Link 
-              key={item.id} 
-              to={item.path} 
-              className={`${styles.BottomBarItem} ${isActive ? styles.BottomBarItemActive : ''}`}
-            >
-              <div className={styles.BottomBarIcon}>
-                {item.icon}
-              </div>
-              <span className={styles.BottomBarLabel}>{item.label}</span>
-              {isActive && <div className={styles.BottomBarIndicator} />}
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
-  );
-};
+    <div className={styles.BottomBarContainer}>
+      {navItems.map((item, idx) => {
+        const isActive = idx === activeIndex;
+        const Icon = item.icon;
 
-export default BottomBar;
+        return (
+          <button
+            key={idx}
+            className={`${styles.BottomBarItem} ${isActive ? styles.BottomBarItemActive : ''}`}
+            onClick={() => navigate(item.route)}
+          >
+            <div className={styles.BottomBarIconWrapper}>
+              <Icon
+                size={22}
+                strokeWidth={isActive ? 2.5 : 2}
+                color={isActive ? '#0c3e38' : '#9ca3af'}
+              />
+            </div>
+            <span
+              className={`${styles.BottomBarLabel} ${
+                isActive ? styles.BottomBarLabelActive : styles.BottomBarLabelInactive
+              }`}
+            >
+              {item.label}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}

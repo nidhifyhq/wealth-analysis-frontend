@@ -23,14 +23,13 @@ const App = () => {
       />
       <Routes>
         <Route element={<PublicRoute />}>
-         <Route path="/login" element={<LoginSign />} />
-         <Route path="/dashboard" element={<Dashboard />} />
-         <Route path="/mf/*" element={<MutualFund />} />
+          <Route path="/login" element={<LoginSign />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>
           <Route element={<ProtectedLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/mf/*" element={<MutualFund />} />
           </Route>
         </Route>
 
