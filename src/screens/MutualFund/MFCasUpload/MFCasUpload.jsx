@@ -3,6 +3,7 @@ import { X, Upload, CheckCircle, FileText, XCircle, Eye, EyeOff } from 'lucide-r
 import { uploadCas } from '../../../services/apis/portfolio.service'
 import MFCasImportModal from '../MFCasImport/MFCasImportModal'
 import MFCasuploadConcent from './MFCasuploadConcent/MFCasuploadConcent'
+import ExternalFundsSyncedSuccess from './ExternalFundsSynced/ExternalFundsSyncedSuccess'
 import styles from './MFCasUpload.module.css'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
@@ -16,6 +17,7 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [showCasImport, setShowCasImport] = useState(false)
+  const [uploadResult, setUploadResult] = useState(null)
   const fileInputRef = useRef(null)
 
   useEffect(() => {
@@ -54,6 +56,7 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
       setUploadError('')
       setTermsAccepted(false)
       setShowTermsModal(false)
+      setUploadResult(null)
     }
   }, [isOpen])
 
@@ -73,8 +76,8 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
     }
 
     const fileNameWithoutExt = file.name.replace(/\.pdf$/i, '')
-    if (!/^CAS_\d+$/.test(fileNameWithoutExt)) {
-      setUploadError('File name must start with CAS_ followed by digits (e.g. CAS_203256)')
+    if (!/^CAS_/i.test(fileNameWithoutExt)) {
+      setUploadError('File name must start with CAS_')
       return
     }
 
@@ -119,8 +122,7 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
     }
 
     if (result.success) {
-      if (onUploadSuccess) onUploadSuccess(result.data)
-      onClose()
+      setUploadResult(result.data)
       return
     }
 
@@ -141,102 +143,117 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
     setShowCasImport(true)
   }
 
+  const handleSuccessClose = async () => {
+    if (onUploadSuccess) await onUploadSuccess(uploadResult)
+    onClose()
+  }
+
   if (!isOpen) return null
 
   return (
     <>
-      <div className={styles.MFCasUploadOverlay} onClick={onClose}>
+      <div className={styles.MFCasUploadOverlay} onClick={uploadResult ? undefined : onClose}>
         <div className={styles.MFCasUploadSheet} onClick={(e) => e.stopPropagation()}>
-          {/* Header */}
-          <div className={styles.MFCasUploadHeader}>
-            <h2 className={styles.MFCasUploadTitle}>Upload CAS</h2>
-            <button className={styles.MFCasUploadCloseBtn} onClick={onClose} aria-label="Close">
-              <X size={22} />
-            </button>
-          </div>
-
-          {/* File Picker Drop Zone */}
-          {!selectedFile ? (
-            <div className={styles.MFCasUploadDropZone} onClick={() => fileInputRef.current?.click()}>
-              <Upload size={32} className={styles.MFCasUploadDropZoneIcon} />
-              <p className={styles.MFCasUploadDropZoneText}>Tap to upload PDF</p>
-              <p className={styles.MFCasUploadDropZoneHint}>Max 10MB</p>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf,application/pdf"
-                style={{ display: 'none' }}
-                onChange={handleFileSelect}
-              />
-            </div>
-          ) : (
-            <div className={styles.MFCasUploadFileSelected}>
-              <CheckCircle size={20} className={styles.MFCasUploadFileSelectedIcon} />
-              <span className={styles.MFCasUploadFileSelectedName}>{selectedFile.name}</span>
-              <button className={styles.MFCasUploadFileSelectedRemove} onClick={handleRemoveFile} aria-label="Remove file">
-                <XCircle size={18} />
-              </button>
-            </div>
-          )}
-
-          {/* Password Input */}
-          <p className={styles.MFCasUploadFieldLabel}>
-            PDF Password <span className={styles.MFCasUploadFieldOptional}>(optional)</span>
-          </p>
-          <div className={styles.MFCasUploadPasswordWrapper}>
-            <input
-              className={styles.MFCasUploadPasswordInput}
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Enter password if PDF is protected"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+          {uploadResult ? (
+            <ExternalFundsSyncedSuccess
+              portfolioValue={uploadResult.summary?.totalCostValue}
+              mutualFundsCount={uploadResult.summary?.totalFunds}
+              onClose={handleSuccessClose}
             />
-            <button
-              type="button"
-              className={styles.MFCasUploadPasswordToggle}
-              onClick={() => setShowPassword(!showPassword)}
-              tabIndex={-1}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
-          </div>
-          <p className={styles.MFCasUploadPasswordHint}>
-           Enter the password that you created when requesting your CAS PDF statement from CAMS.
-          </p>
+          ) : (
+            <>
+              {/* Header */}
+              <div className={styles.MFCasUploadHeader}>
+                <h2 className={styles.MFCasUploadTitle}>Upload CAS</h2>
+                <button className={styles.MFCasUploadCloseBtn} onClick={onClose} aria-label="Close">
+                  <X size={22} />
+                </button>
+              </div>
 
-          {/* Error */}
-          {uploadError && <p className={styles.MFCasUploadErrorText}>{uploadError}</p>}
+              {/* File Picker Drop Zone */}
+              {!selectedFile ? (
+                <div className={styles.MFCasUploadDropZone} onClick={() => fileInputRef.current?.click()}>
+                  <Upload size={32} className={styles.MFCasUploadDropZoneIcon} />
+                  <p className={styles.MFCasUploadDropZoneText}>Tap to upload PDF</p>
+                  <p className={styles.MFCasUploadDropZoneHint}>Max 10MB</p>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".pdf,application/pdf"
+                    style={{ display: 'none' }}
+                    onChange={handleFileSelect}
+                  />
+                </div>
+              ) : (
+                <div className={styles.MFCasUploadFileSelected}>
+                  <CheckCircle size={20} className={styles.MFCasUploadFileSelectedIcon} />
+                  <span className={styles.MFCasUploadFileSelectedName}>{selectedFile.name}</span>
+                  <button className={styles.MFCasUploadFileSelectedRemove} onClick={handleRemoveFile} aria-label="Remove file">
+                    <XCircle size={18} />
+                  </button>
+                </div>
+              )}
 
-          {/* Terms Checkbox */}
-          <div className={styles.MFCasUploadTermsRow}>
-            <label className={styles.MFCasUploadTermsLabel} onClick={() => setShowTermsModal(true)}>
-              <input
-                type="checkbox"
-                className={styles.MFCasUploadTermsCheckbox}
-                checked={termsAccepted}
-                readOnly
-              />
-              <span>
-                I agree with the terms and conditions
-              </span>
-            </label>
-          </div>
+              {/* Password Input */}
+              <p className={styles.MFCasUploadFieldLabel}>
+                PDF Password <span className={styles.MFCasUploadFieldOptional}>(optional)</span>
+              </p>
+              <div className={styles.MFCasUploadPasswordWrapper}>
+                <input
+                  className={styles.MFCasUploadPasswordInput}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter password if PDF is protected"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className={styles.MFCasUploadPasswordToggle}
+                  onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={-1}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              <p className={styles.MFCasUploadPasswordHint}>
+               Enter the password that you created when requesting your CAS PDF statement from CAMS.
+              </p>
 
-          {/* Action Buttons */}
-          <div className={styles.MFCasUploadActions}>
-            <button type="button" className={styles.MFCasUploadSecondaryBtn} onClick={handleGetCasPdf}>
-              Get CAS PDF
-            </button>
-            <button
-              type="button"
-              className={styles.MFCasUploadPrimaryBtn}
-              onClick={handleUpload}
-              disabled={uploading}
-            >
-              {uploading ? 'Uploading...' : 'Upload CAS'}
-            </button>
-          </div>
+              {/* Error */}
+              {uploadError && <p className={styles.MFCasUploadErrorText}>{uploadError}</p>}
+
+              {/* Terms Checkbox */}
+              <div className={styles.MFCasUploadTermsRow}>
+                <label className={styles.MFCasUploadTermsLabel} onClick={() => setShowTermsModal(true)}>
+                  <input
+                    type="checkbox"
+                    className={styles.MFCasUploadTermsCheckbox}
+                    checked={termsAccepted}
+                    readOnly
+                  />
+                  <span>
+                    I agree with the terms and conditions
+                  </span>
+                </label>
+              </div>
+
+              {/* Action Buttons */}
+              <div className={styles.MFCasUploadActions}>
+                <button type="button" className={styles.MFCasUploadSecondaryBtn} onClick={handleGetCasPdf}>
+                  Get CAS PDF
+                </button>
+                <button
+                  type="button"
+                  className={styles.MFCasUploadPrimaryBtn}
+                  onClick={handleUpload}
+                  disabled={uploading}
+                >
+                  {uploading ? 'Uploading...' : 'Upload CAS'}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

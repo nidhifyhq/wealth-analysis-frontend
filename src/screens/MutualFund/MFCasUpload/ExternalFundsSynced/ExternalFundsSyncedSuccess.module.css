@@ -1,0 +1,167 @@
+.ExternalFundsSyncedSuccess_container {
+  padding: 8px 4px 4px;
+  animation: ExternalFundsSyncedSuccess_fadeIn 0.3s ease-out;
+}
+
+.ExternalFundsSyncedSuccess_illustration {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.ExternalFundsSyncedSuccess_syncIconCircle {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #e3f2fd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.15);
+}
+
+.ExternalFundsSyncedSuccess_syncBadge {
+  position: absolute;
+  top: -2px;
+  right: 20px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #00a651;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 166, 81, 0.3);
+}
+
+.ExternalFundsSyncedSuccess_statusLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1976d2;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0 0 0;
+}
+
+.ExternalFundsSyncedSuccess_title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #092042;
+  margin: 8px 0 0;
+  line-height: 1.3;
+}
+
+.ExternalFundsSyncedSuccess_statList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.ExternalFundsSyncedSuccess_statRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ExternalFundsSyncedSuccess_statIcon {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 50%;
+  background: #00a651;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ExternalFundsSyncedSuccess_statText {
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.ExternalFundsSyncedSuccess_statValue {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.ExternalFundsSyncedSuccess_ctaButton {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  /* background: #00a651; */
+  background: #005ce5;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 36px;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ExternalFundsSyncedSuccess_ctaButton:hover {
+  /* background: #009148; */
+  background: #377ae0;
+  box-shadow: 0 4px 12px rgba(0, 166, 81, 0.35);
+}
+
+.ExternalFundsSyncedSuccess_ctaButton:active {
+  transform: scale(0.98);
+}
+
+.ExternalFundsSyncedSuccess_ctaButton:disabled {
+  background: #94d3a8;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.ExternalFundsSyncedSuccess_closeButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-left: auto;
+}
+
+.ExternalFundsSyncedSuccess_closeButton:hover {
+  background: #e2e8f0;
+}
+
+.ExternalFundsSyncedSuccess_spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: ExternalFundsSyncedSuccess_spin 0.6s linear infinite;
+}
+
+@keyframes ExternalFundsSyncedSuccess_fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ExternalFundsSyncedSuccess_spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
