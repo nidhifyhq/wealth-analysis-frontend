@@ -1,0 +1,344 @@
+.MFDashboardContainer {
+  background-color: #ffffff;
+  min-height: 100vh;
+  color: #111111;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding-bottom: 30px;
+}
+
+/* SECTION 1: Top Hero Jumbotron Block Styling */
+.MFDashboardHeaderBanner {
+  background-color: #0c3e38;
+  padding: 20px 20px 56px 20px; /* Generous padding bottom to securely mask background alignment layers */
+  color: #ffffff;
+}
+
+.MFDashboardTopActionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.MFDashboardCircularBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.MFDashboardCircularBtn:active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.MFDashboardBalanceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.MFDashboardBalanceTitle {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.MFDashboardToggleEye {
+  background: none;
+  border: none;
+  color: #ffffff;
+  opacity: 0.7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.MFDashboardBalanceRowGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.MFDashboardPrimaryAmount {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.MFDashboardMonthDropdown {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.MFDashboardMetricsRow {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 14px;
+  gap: 8px;
+}
+
+.MFDashboardMetricItem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.MFDashboardMetricLabel {
+  font-size: 11px;
+  color: #8fa7a4;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.MFDashboardMetricValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.MFDashboardNegativeReturn {
+  color: #ff6b7a;
+}
+
+/* SECTION 2: Fixed 30% Overlapping Layout Section Wrapper */
+.MFDashboardPerformanceContainer {
+  padding: 0 20px; /* Left and Right container padding */
+  margin-top: -46px; /* Pulls ~30% of the section upwards into the banner */
+  position: relative;
+  z-index: 5;
+}
+
+.MFDashboardPerformanceTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.MFDashboardPerformanceHeading {
+  font-size: 13px; /* Compact title size */
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff; /* Contrast white title over dark green background zone */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.MFDashboardInfoIcon {
+  opacity: 0.8;
+}
+
+.MFDashboardPerformanceLink {
+  background: none;
+  border: none;
+  color: #8fa7a4;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Master White Card Block layout */
+.MFDashboardPerformanceCardGroup {
+  background-color: #ffffff; /* Core white base requested */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(12, 62, 56, 0.08);
+  border: 1px solid #edf1f0;
+  padding: 4px 0; /* Interior vertical tracking buffers */
+}
+
+/* Performance Row items with explicit nested side paddings */
+.MFDashboardPerfRowItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px; /* Shrunk height padding with dedicated left/right alignment spacing */
+  border-bottom: 1px solid #f5f8f7;
+  color: #7e8a8c;
+  background-color: #ffffff; /* Keeps fallback default backgrounds neutral white */
+  cursor: pointer;
+}
+
+.MFDashboardPerfRowItem:last-child {
+  border-bottom: none;
+}
+
+/* Light translucent tint variations from Image 2 mapped cleanly */
+.MFDashboardInFormBg {
+  background-color: #eafbf0;
+  color: #0b451f;
+}
+
+.MFDashboardOnTrackBg {
+  background-color: #f3fdf7;
+  color: #0e5027;
+}
+
+.MFDashboardPerfLeading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.MFDashboardIconBadgeWrapper {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.MFDashboardGreenCircle { background-color: #a3f0ba; color: #0a3d1b; }
+.MFDashboardLightGreenCircle { background-color: #cbf7da; color: #0b4220; }
+.MFDashboardGreyCircle { background-color: #f4f7f6; color: #9da3a1; }
+
+.MFDashboardCounterBadge {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  background-color: #ffffff;
+  color: #111111;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+}
+
+.MFDashboardPerfStatusText {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+  color: inherit;
+}
+
+.MFDashboardMutedText {
+  color: #5d6769;
+}
+
+.MFDashboardPerfSubText {
+  font-size: 11px;
+  opacity: 0.85;
+  margin: 1px 0 0 0;
+}
+
+/* SECTION 3: Investment Holdings Area Styling (Image 3) */
+.MFDashboardFundsSection {
+  padding: 24px 20px 16px 20px;
+}
+
+.MFDashboardSectionHeading {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 14px 0;
+}
+
+.MFDashboardSearchBoxWrapper {
+  display: flex;
+  align-items: center;
+  background-color: #f6f8f7;
+  border-radius: 14px;
+  padding: 12px 14px;
+  gap: 10px;
+  color: #777777;
+  margin-bottom: 16px;
+}
+
+.MFDashboardSearchInputElement {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #111111;
+  width: 100%;
+}
+
+.MFDashboardSearchInputElement::placeholder {
+  color: #9da3a1;
+}
+
+.MFDashboardFundsListStack {
+  display: flex;
+  flex-direction: column;
+}
+
+.MFDashboardFundListItem {
+  border-bottom: 1px solid #eef2f1;
+  padding: 18px 0;
+}
+
+.MFDashboardFundListItem:last-child {
+  border-bottom: none;
+}
+
+.MFDashboardFundMainMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.MFDashboardFundTitleName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #33334e;
+  line-height: 1.45;
+  margin: 0;
+  max-width: 65%;
+}
+
+.MFDashboardFundValueBlock {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.MFDashboardCurrentPriceText {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.MFDashboardPriceNegativeColor {
+  color: #eb5757;
+}
+
+.MFDashboardPricePositiveColor {
+  color: #27ae60;
+}
+
+.MFDashboardInvestedPriceSubText {
+  font-size: 11px;
+  color: #828282;
+  font-weight: 400;
+}

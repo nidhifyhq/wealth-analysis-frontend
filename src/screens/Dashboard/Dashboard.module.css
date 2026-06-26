@@ -1,0 +1,329 @@
+.mobileDashboardContainer {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #0c3e38;
+  min-height: 100vh;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Header Styles */
+.mobileDashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 12px 20px;
+}
+
+.mobileDashboardGreeting {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.mobileDashboardSubGreeting {
+  font-size: 13px;
+  color: #8fa7a4;
+  margin: 4px 0 0 0;
+}
+
+.mobileDashboardNotificationBtn {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  position: relative;
+  cursor: pointer;
+}
+
+.mobileDashboardNotificationDot {
+  position: absolute;
+  top: 11px;
+  right: 12px;
+  width: 6px;
+  height: 6px;
+  background-color: #ff5252;
+  border-radius: 50%;
+}
+
+/* Swiper Slider Wrapper */
+.mobileDashboardSliderWrapper {
+  width: 100%;
+  padding-bottom: 6px;
+}
+
+/* Reduced Height Asset Card Layout */
+.mobileDashboardAssetCard {
+  border-radius: 24px;
+  margin: 4px 20px 20px 20px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(12, 62, 56, 0.15);
+}
+
+/* Card Color Themes */
+.mobileDashboardTotalAssetBg {
+  background-color: #39cc6e;
+  color: #0f4c43;
+}
+
+.mobileDashboardMutualFundsBg {
+  background: linear-gradient(135deg, #4ed9be 0%, #2aab95 100%);
+  color: #063438;
+}
+
+.mobileDashboardFdBg {
+  background: linear-gradient(135deg, #ffb076 0%, #ff7e42 100%);
+  color: #4a1f05;
+}
+
+/* Asset Card Internal Rules */
+.mobileDashboardAssetHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobileDashboardAssetLabel {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.mobileDashboardToggleEye {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.mobileDashboardAssetAmount {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 4px 0;
+  letter-spacing: -0.5px;
+}
+
+.mobileDashboardAssetTrend {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  gap: 6px;
+}
+
+.mobileDashboardTrendBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1px 6px;
+  border-radius: 12px;
+}
+
+.mobileDashboardTrendPeriod {
+  opacity: 0.8;
+}
+
+.mobileDashboardCardFooterText {
+  margin: 6px 0 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* Flex Container for Overlapping elements */
+.mobileDashboardHoldingAvatars {
+  display: flex;
+  padding-left: 6px;
+  margin-top: 12px;
+}
+
+/* Premium White Border Pill Tags Overlapping */
+.mobileDashboardTag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 11px;
+  color: #ffffff;
+  border: 2px solid #ffffff; /* Clean white bounding borders */
+  margin-left: -8px; /* Forces elements to touch and overlap precisely */
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+/* Ensure the first element resets its margin so it aligns left perfectly */
+.mobileDashboardTag:first-child {
+  margin-left: 0;
+}
+
+/* Theme color blocks */
+.mobileDashboardProductStocks { background-color: #1a73e8; }
+.mobileDashboardProductMf { background-color: #00796b; }
+.mobileDashboardProductFd { background-color: #e65100; }
+.mobileDashboardProductGold { background-color: #f5b000; color: #3e2723; }
+
+/* Abstract decorative circle */
+.mobileDashboardDecorativeCircle {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  right: -20px;
+  bottom: -20px;
+  pointer-events: none;
+}
+
+/* Action Group Buttons */
+.mobileDashboardActionGroup {
+  display: flex;
+  gap: 12px;
+  padding: 0 20px 20px 20px;
+}
+
+.mobileDashboardActionButton {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* Bottom White Sheet Area */
+.mobileDashboardContentSheet {
+  background-color: #ffffff;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  padding: 24px 20px;
+  flex-grow: 1;
+  color: #111111;
+}
+
+.mobileDashboardSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.mobileDashboardSectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.mobileDashboardSectionLink {
+  background: none;
+  border: none;
+  color: #777777;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Watchlist Rows */
+.mobileDashboardListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileDashboardRowCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8faf9;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.mobileDashboardRowLeading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mobileDashboardBrandIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.mobileDashboardNflxIconBg { background-color: #000000; color: #e50914; }
+.mobileDashboardAmznIconBg { background-color: #ff9900; }
+
+.mobileDashboardStockTicker {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.mobileDashboardStockName {
+  font-size: 12px;
+  color: #777777;
+  margin: 2px 0 0 0;
+}
+
+.mobileDashboardRowTrailing {
+  text-align: right;
+}
+
+.mobileDashboardStockPrice {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.mobileDashboardStockChange {
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.mobileDashboardNegative { color: #ff4a5a; }
+.mobileDashboardPositive { color: #2aab74; }
+
+/* Swiper Pagination Customization Overrides */
+:global(.swiper-pagination) {
+  bottom: -2px !important;
+}
+:global(.swiper-pagination-bullet) {
+  background: rgba(255, 255, 255, 0.3) !important;
+  opacity: 1 !important;
+}
+:global(.swiper-pagination-bullet-active) {
+  background: #39cc6e !important;
+  width: 16px !important;
+  border-radius: 4px !important;
+  transition: width 0.2s ease;
+}
