@@ -1,0 +1,295 @@
+.MFCasUploadOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: MFCasUploadFadeIn 0.3s ease-out;
+}
+
+.MFCasUploadSheet {
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 40px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: MFCasUploadSlideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.MFCasUploadHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.MFCasUploadTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.MFCasUploadCloseBtn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.MFCasUploadCloseBtn:hover {
+  background: #F3F4F6;
+}
+
+.MFCasUploadDropZone {
+  border: 2px dashed #D1D5DB;
+  border-radius: 16px;
+  padding: 36px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #FAFAFA;
+  margin-bottom: 16px;
+}
+
+.MFCasUploadDropZone:hover {
+  border-color: #0c3e38;
+  background: #F0FDF4;
+}
+
+.MFCasUploadDropZoneIcon {
+  margin-bottom: 12px;
+  color: #9CA3AF;
+}
+
+.MFCasUploadDropZoneText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 4px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.MFCasUploadDropZoneHint {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.MFCasUploadFileSelected {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.MFCasUploadFileSelectedIcon {
+  color: #16A34A;
+  flex-shrink: 0;
+}
+
+.MFCasUploadFileSelectedName {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #166534;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.MFCasUploadFileSelectedRemove {
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.MFCasUploadFieldLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 6px 4px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.MFCasUploadFieldOptional {
+  font-weight: 400;
+  color: #9CA3AF;
+  font-size: 12px;
+}
+
+.MFCasUploadPasswordWrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.MFCasUploadPasswordInput {
+  width: 100%;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 12px;
+  padding: 14px 44px 14px 16px;
+  font-size: 14px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  background: #FAFAFA;
+}
+
+.MFCasUploadPasswordInput:focus {
+  border-color: #0c3e38;
+  background: #FFFFFF;
+}
+
+.MFCasUploadPasswordInput::placeholder {
+  color: #9CA3AF;
+}
+
+.MFCasUploadPasswordToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.MFCasUploadPasswordToggle:hover {
+  color: #0c3e38;
+}
+
+.MFCasUploadTermsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px 4px;
+  cursor: pointer;
+}
+
+.MFCasUploadTermsCheckbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #0c3e38;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.MFCasUploadTermsLabel {
+  font-size: 12px;
+  color: #374151;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  user-select: none;
+}
+
+.MFCasUploadActions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.MFCasUploadSecondaryBtn {
+  flex: 1;
+  background: #F3F4F6;
+  border: 1px solid #D1D5DB;
+  border-radius: 14px;
+  padding: 14px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.3;
+  transition: background 0.2s;
+}
+
+.MFCasUploadSecondaryBtn:hover {
+  background: #E5E7EB;
+}
+
+.MFCasUploadPrimaryBtn {
+  flex: 1;
+  background: #0c3e38;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.3;
+  transition: background 0.2s;
+}
+
+.MFCasUploadPrimaryBtn:hover {
+  background: #0a322d;
+}
+
+.MFCasUploadPrimaryBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.MFCasUploadPasswordHint {
+  font-size: 10px;
+  color: #9CA3AF;
+  margin: -14px 0 16px 4px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.MFCasUploadErrorText {
+  font-size: 12px;
+  color: #EF4444;
+  margin: 0 0 12px 4px;
+  font-weight: 500;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding: 8px 12px;
+  background: #FEF2F2;
+  border-radius: 8px;
+}
+
+@keyframes MFCasUploadFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes MFCasUploadSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

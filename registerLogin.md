@@ -1,339 +1,115 @@
-# Register & Login API - Curl Examples
-
-**Base URL:** `http://localhost:5000`
-
----
-
-## 1. Check Email
-
-### Case A: Email exists and is verified
-```bash
-curl -X POST http://localhost:5000/api/auth/check-email \
-  -H "Content-Type: application/json" \
-  -d '{"email":"verifieduser@example.com"}'
-```
-**Response (200):**
-```json
-{
-  "success": true,
-  "isExist": true,
-  "Name": "Adarsgh"
-}
-```
-
-### Case B: Email does not exist
-```bash
-curl -X POST http://localhost:5000/api/auth/check-email \
-  -H "Content-Type: application/json" \
-  -d '{"email":"newuser@example.com"}'
-```
-**Response (200):**
-```json
-{
-  "success": true,
-  "isExist": false
-}
-```
-
-### Case C: Email exists but is NOT verified (registered but never verified OTP)
-```bash
-curl -X POST http://localhost:5000/api/auth/check-email \
-  -H "Content-Type: application/json" \
-  -d '{"email":"unverified@example.com"}'
-```
-**Response (200):**
-```json
-{
-  "success": true,
-  "isExist": false
-}
-```
-> User is redirected to Register page — can re-register with same email.
-
----
-
-## 2. Register - Send OTP
-
-### Success: New user
-```bash
-curl -X POST http://localhost:5000/api/auth/register-send-otp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name":"John Doe",
-    "mobile":"9876543210",
-    "email":"john.doe@example.com",
-    "password":"MyPass@123",
-    "isRegisterConsent":true
-  }'
-```
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "OTP sent to email"
-}
-```
-
-### Success: Re-register (unverified user trying again with same email)
-```bash
-curl -X POST http://localhost:5000/api/auth/register-send-otp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name":"John Updated",
-    "mobile":"9123456789",
-    "email":"unverified@example.com",
-    "password":"NewPass@456",
-    "isRegisterConsent":true
-  }'
-```
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "OTP sent to email"
-}
-```
-> Existing unverified record is overwritten with new details and new OTP sent.
-
-### Error: Missing required fields
-```bash
-curl -X POST http://localhost:5000/api/auth/register-send-otp \
-  -H "Content-Type: application/json" \
-  -d '{"name":"John","email":"john@example.com"}'
-```
-**Response (400):**
-```json
-{
-  "success": false,
-  "message": "Name, mobile, email, and password are required"
-}
-```
-
-### Error: Invalid mobile (not 10 digits)
-```bash
-curl -X POST http://localhost:5000/api/auth/register-send-otp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name":"John Doe",
-    "mobile":"12345",
-    "email":"john@example.com",
-    "password":"Pass@123",
-    "isRegisterConsent":true
-  }'
-```
-**Response (400):**
-```json
-{
-  "success": false,
-  "message": "Mobile number must be exactly 10 digits"
-}
-```
-
-### Error: Email already verified
-```bash
-curl -X POST http://localhost:5000/api/auth/register-send-otp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name":"John Doe",
-    "mobile":"9876543210",
-    "email":"verifieduser@example.com",
-    "password":"Pass@123",
-    "isRegisterConsent":true
-  }'
-```
-**Response (400):**
-```json
-{
-  "success": false,
-  "message": "Email already registered and verified"
-}
-```
-
----
-
-## 3. Verify OTP
-
-### Success: Correct OTP
-```bash
-curl -X POST http://localhost:5000/api/auth/register-verify-otp \
-  -H "Content-Type: application/json" \
-  -d '{"email":"john.doe@example.com","otp":"4821"}'
-```
-**Response (200):**
-```json
-{
-  "success": true,
-  "token": "eyJhbGciOiJIUzI1NiIs...",
-  "userId": 10,
-  "Name": "John Doe"
-}
-```
-
-### Error: Invalid OTP
-```bash
-curl -X POST http://localhost:5000/api/auth/register-verify-otp \
-  -H "Content-Type: application/json" \
-  -d '{"email":"john.doe@example.com","otp":"0000"}'
-```
-**Response (400):**
-```json
-{
-  "success": false,
-  "message": "Invalid OTP"
-}
-```
-
-### Error: Expired OTP
-```bash
-curl -X POST http://localhost:5000/api/auth/register-verify-otp \
-  -H "Content-Type: application/json" \
-  -d '{"email":"john.doe@example.com","otp":"4821"}'
-```
-**Response (400):**
-```json
-{
-  "success": false,
-  "message": "OTP expired. Please request a new OTP."
-}
-```
-
-### Error: User not found
-```bash
-curl -X POST http://localhost:5000/api/auth/register-verify-otp \
-  -H "Content-Type: application/json" \
-  -d '{"email":"nonexistent@example.com","otp":"1234"}'
-```
-**Response (400):**
-```json
-{
-  "success": false,
-  "message": "User not found"
-}
-```
-
-### Error: Already verified
-```bash
-curl -X POST http://localhost:5000/api/auth/register-verify-otp \
-  -H "Content-Type: application/json" \
-  -d '{"email":"verifieduser@example.com","otp":"1234"}'
-```
-**Response (400):**
-```json
-{
-  "success": false,
-  "message": "Email already verified"
-}
-```
-
----
-
-## 4. Login
-
-### Success: Verified user, correct credentials
-```bash
-curl -X POST http://localhost:5000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"john.doe@example.com","password":"MyPass@123"}'
-```
-**Response (200):**
-```json
-{
-  "success": true,
-  "token": "eyJhbGciOiJIUzI1NiIs...",
-  "userId": 10,
-  "Name": "John Doe"
-}
-```
-
-### Error: Unverified user
-```bash
-curl -X POST http://localhost:5000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"unverified@example.com","password":"NewPass@456"}'
-```
-**Response (401):**
-```json
-{
-  "success": false,
-  "message": "Email not verified. Please register again."
-}
-```
-
-### Error: Wrong password
-```bash
-curl -X POST http://localhost:5000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"john.doe@example.com","password":"WrongPass"}'
-```
-**Response (401):**
-```json
-{
-  "success": false,
-  "message": "Invalid email or password"
-}
-```
-
-### Error: Email not registered
-```bash
-curl -X POST http://localhost:5000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"ghost@example.com","password":"SomePass@1"}'
-```
-**Response (401):**
-```json
-{
-  "success": false,
-  "message": "Invalid email or password"
-}
-```
-
----
-
-## 5. Get Current User (Me) - Requires Token
-
-### Success: Valid token
-```bash
-curl http://localhost:5000/api/auth/me \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..."
-```
-**Response (200):**
-```json
+Here are the curl examples with all scenarios for CAS upload:
+CAS Upload — POST /api/portfolio/cas-upload
+Endpoint: POST http://localhost:5000/api/portfolio/cas-upload  
+Auth: Bearer token required  
+Content-Type: multipart/form-data  
+Field: file (PDF), optional password (string)
+1. Success — Upload without password (unprotected PDF)
+curl -X POST http://localhost:5000/api/portfolio/cas-upload \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
+  -F "file=@/path/to/CAS_Statement.pdf"
+Response (200):
 {
   "success": true,
   "data": {
-    "id": "665a1b2c3d4e5f6a7b8c9d0e",
-    "userId": 10,
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "mobile": "9876543210",
-    "isRegisterConsent": true,
-    "isVerified": true,
-    "createdAt": "2026-06-26T06:00:00.000Z"
+    "portfolio": {
+      "_id": "665a1b2c3d4e5f6a7b8c9d0e",
+      "userId": "665a1b2c3d4e5f6a7b8c9d0f",
+      "investorName": "Adarsh Pandey",
+      "investorEmail": "adarsh@example.com",
+      "statementDate": "2026-06-23T00:00:00.000Z",
+      "importedAt": "2026-06-26T10:30:00.000Z",
+      "holdings": [
+        {
+          "folioNumber": "12345678",
+          "isin": "INF179K01V25",
+          "schemeCode": 120716,
+          "schemeName": "UTI Nifty 50 Index Fund - Growth Option - Direct",
+          "amcName": "UTI Mutual Fund",
+          "category": "Equity: Large Cap",
+          "planType": "Direct",
+          "registrar": "CAMS",
+          "costValue": 50000,
+          "unitBalance": 1250.456,
+          "navDate": "2026-06-23T00:00:00.000Z",
+          "currentNAV": 42.15,
+          "marketValue": 52689.72,
+          "unrealizedPnL": 2689.72,
+          "unrealizedPnLPercent": 5.38,
+          "rating": { ... }
+        }
+      ],
+      "summary": {
+        "totalCostValue": 50000,
+        "totalMarketValue": 52689.72,
+        "totalPnL": 2689.72,
+        "totalPnLPercent": 5.38,
+        "totalFunds": 1,
+        "directFundsCount": 1,
+        "regularFundsCount": 0
+      }
+    },
+    "ratingsAttached": true
   }
 }
-```
-
-### Error: No token
-```bash
-curl http://localhost:5000/api/auth/me
-```
-**Response (401):**
-```json
+2. Success — Password-protected PDF (correct password)
+curl -X POST http://localhost:5000/api/portfolio/cas-upload \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
+  -F "file=@/path/to/Password_Protected_CAS.pdf" \
+  -F "password=MyPassword123"
+Response same as above.
+3. Error — No file uploaded
+curl -X POST http://localhost:5000/api/portfolio/cas-upload \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..."
+Response (400):
+{
+  "success": false,
+  "message": "No file uploaded"
+}
+4. Error — Password required
+curl -X POST http://localhost:5000/api/portfolio/cas-upload \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
+  -F "file=@/path/to/Password_Protected_CAS.pdf"
+Response (403):
+{
+  "success": false,
+  "needsPassword": true,
+  "message": "This PDF is password protected. Please provide the password."
+}
+5. Error — Wrong password
+curl -X POST http://localhost:5000/api/portfolio/cas-upload \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
+  -F "file=@/path/to/Password_Protected_CAS.pdf" \
+  -F "password=WrongPassword"
+Response (403):
+{
+  "success": false,
+  "wrongPassword": true,
+  "message": "Incorrect password. Please try again."
+}
+6. Error — File too large (> 10MB)
+curl -X POST http://localhost:5000/api/portfolio/cas-upload \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
+  -F "file=@/path/to/Large_File.pdf"
+Response (413):
+{
+  "success": false,
+  "message": "File too large"
+}
+7. Error — No auth token
+curl -X POST http://localhost:5000/api/portfolio/cas-upload \
+  -F "file=@/path/to/CAS_Statement.pdf"
+Response (401):
 {
   "success": false,
   "message": "No token provided"
 }
-```
-
-### Error: Invalid token
-```bash
-curl http://localhost:5000/api/auth/me \
-  -H "Authorization: Bearer invalidtoken"
-```
-**Response (401):**
-```json
+8. Error — Invalid/malformed PDF
+curl -X POST http://localhost:5000/api/portfolio/cas-upload \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
+  -F "file=@/path/to/random_file.txt"
+Response (500):
 {
   "success": false,
-  "message": "Invalid token"
+  "message": "Failed to parse CAS PDF. Please upload a valid CAS statement."
 }
-```

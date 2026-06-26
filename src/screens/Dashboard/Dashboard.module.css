@@ -216,8 +216,8 @@
 /* Bottom White Sheet Area */
 .mobileDashboardContentSheet {
   background-color: #ffffff;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   padding: 24px 20px;
   flex-grow: 1;
   color: #111111;
@@ -267,8 +267,8 @@
 }
 
 .mobileDashboardBrandIcon {
-  width: 44px;
-  height: 44px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -280,21 +280,25 @@
 
 .mobileDashboardNflxIconBg { background-color: #000000; color: #e50914; }
 .mobileDashboardAmznIconBg { background-color: #ff9900; }
+.mobileDashboardNewsLetterIconBg {  background: #DBEAFE;   color: #2563EB; }
 
 .mobileDashboardStockTicker {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 500;
   margin: 0;
 }
 
 .mobileDashboardStockName {
-  font-size: 12px;
+  font-size: 11px;
   color: #777777;
   margin: 2px 0 0 0;
 }
 
 .mobileDashboardRowTrailing {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  color: #D1D5DB;
+  flex-shrink: 0;
 }
 
 .mobileDashboardStockPrice {
@@ -326,4 +330,79 @@
   width: 16px !important;
   border-radius: 4px !important;
   transition: width 0.2s ease;
+}
+
+/* Import CAS Card Section */
+.MobileDashboardImportSection {
+  background: #EFF3F6;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.MobileDashboardImportCard {
+  background: #FFFFFF;
+  border-radius: 8px;
+  width: 96%;
+  max-width: 700px;
+  box-shadow: 0px 2px 12px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 200ms ease;
+  height: 55px;
+  overflow: hidden;
+}
+
+.MobileDashboardImportCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0px 6px 20px rgba(0,0,0,0.08);
+}
+
+.MobileDashboardImportCard:active {
+  transform: scale(0.98);
+}
+
+.MobileDashboardImportIconPanel {
+  width: 52px;
+  height: 100%;
+  background: #F3F4F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.MobileDashboardImportTextArea {
+  flex: 1;
+  padding: 0 14px;
+}
+
+.MobileDashboardImportTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.MobileDashboardImportSubtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #9CA3AF;
+}
+
+.MobileDashboardImportChevron {
+  padding-right: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.MobileDashboardDisclaimer {
+  font-size: 10px;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 20px 0 4px;
+  text-align: center;
+  padding: 25px;
 }

@@ -24,3 +24,13 @@ export const deleteRequest = async (url, params) => {
     return false
   }
 }
+
+export const uploadFileRequest = async (url, formData) => {
+  try {
+    return await api.post(url, formData, {
+      headers: { 'Content-Type': undefined },
+    })
+  } catch (error) {
+    return error.response?.data || false
+  }
+}
