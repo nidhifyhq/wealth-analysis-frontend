@@ -1,0 +1,111 @@
+.RegisterConcentModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: RegisterConcentModalFadeIn 0.25s ease-out;
+}
+
+.RegisterConcentModalSheet {
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: RegisterConcentModalSlideUp 0.3s ease-out;
+  padding: 20px 24px 32px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-y: auto;
+}
+
+.RegisterConcentModalHandle {
+  width: 40px;
+  height: 4px;
+  background: #d9d9d9;
+  border-radius: 4px;
+  margin: 0 auto 16px;
+}
+
+.RegisterConcentModalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0c3e38;
+  margin: 0 0 16px;
+  line-height: 1.3;
+}
+
+.RegisterConcentModalSection {
+  margin-bottom: 16px;
+}
+
+.RegisterConcentModalSectionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+  line-height: 1.4;
+}
+
+.RegisterConcentModalText {
+  font-size: 13px;
+  font-weight: 400;
+  color: #444;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.RegisterConcentModalActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.RegisterConcentModalCancelBtn {
+  flex: 1;
+  background: #f7faf9;
+  border: 1px solid #e1e8e6;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #556b68;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.RegisterConcentModalCancelBtn:hover {
+  background: #edf2f0;
+}
+
+.RegisterConcentModalConsentBtn {
+  flex: 1;
+  background: #0c3e38;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.RegisterConcentModalConsentBtn:hover {
+  background: #062320;
+}
+
+@keyframes RegisterConcentModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes RegisterConcentModalSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

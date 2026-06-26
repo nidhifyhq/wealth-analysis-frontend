@@ -5,6 +5,7 @@ import styles from './LoginSign.module.css';
 import { checkEmail, userLogin, registerSendOtp, registerVerifyOtp } from '../../services/apis/login.service';
 import { setAuthFromLogin } from '../../store/auth/auth.slice';
 import logoFull from '../../assets/images/nidhifylogofull.png';
+import RegisterConcentModal from './RegisterConcentModal/RegisterConcentModal';
 
 export default function LoginSign() {
   const dispatch = useDispatch();
@@ -31,10 +32,21 @@ export default function LoginSign() {
   const [timer, setTimer] = useState(60);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   
   const otpRefs = [useRef(), useRef(), useRef(), useRef()];
+
+  // Lock body scroll when terms modal is open
+  useEffect(() => {
+    if (showTermsModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [showTermsModal]);
 
   // Simulate an active countdown timer for OTP screen
   useEffect(() => {
@@ -133,7 +145,7 @@ export default function LoginSign() {
       mobile,
       email,
       password,
-      isRegisterConsent: true,
+      isRegisterConsent: agreeTerms,
     });
     if (!res) {
       setErrorMsg('Network error. Please try again.');
@@ -208,7 +220,7 @@ export default function LoginSign() {
         mobile,
         email,
         password,
-        isRegisterConsent: true,
+        isRegisterConsent: agreeTerms,
       });
       if (!res || !res.success) {
         setErrorMsg(res?.message || 'Failed to resend OTP. Try again.');
@@ -405,14 +417,16 @@ export default function LoginSign() {
             </div>
 
             <div className={styles.LoginSignCheckboxBlock}>
-              <label className={styles.LoginSignCheckboxLabel}>
+              <label className={styles.LoginSignCheckboxLabel} onClick={() => setShowTermsModal(true)} style={{ cursor: 'pointer' }}>
                 <input 
                   type="checkbox" 
                   className={styles.LoginSignCheckbox}
                   checked={agreeTerms}
-                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  readOnly
                 />
-                <span className={styles.LoginSignCheckboxText}>I agree with terms and conditions</span>
+                <span className={styles.LoginSignCheckboxText}>
+                  I agree to the Terms of Service and understand Nidhify is a tracking tool, not a financial advisory service.
+                </span>
               </label>
             </div>
 
@@ -466,6 +480,13 @@ export default function LoginSign() {
           </form>
         )}
       </main>
+
+      {showTermsModal && (
+        <RegisterConcentModal
+          onClose={() => { setAgreeTerms(false); setShowTermsModal(false); }}
+          onConsent={() => { setAgreeTerms(true); setShowTermsModal(false); }}
+        />
+      )}
     </div>
   );
 }
