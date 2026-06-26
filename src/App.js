@@ -7,6 +7,7 @@ import ProtectedLayout from "./routes/ProtectedLayout";
 import Dashboard from "./screens/Dashboard/Dashboard";
 import LoginSign from "./screens/LoginSign/LoginSign";
 import MutualFund from "./screens/MutualFund/MutualFundRoutes";
+import UserProfile from "./screens/UserProfile/UserProfile";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route element={<ProtectedLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/mf/*" element={<MutualFund />} />
+            <Route path="/profile" element={<UserProfile />} />
           </Route>
         </Route>
 

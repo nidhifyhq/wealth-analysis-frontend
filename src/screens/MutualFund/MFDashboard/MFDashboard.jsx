@@ -1,32 +1,101 @@
-import React, { useState } from 'react';
-import { 
-  ArrowLeft, 
-  FileText, 
-  Eye, 
-  Search, 
-  ChevronRight, 
-  ChevronUp, 
-  ChevronsUp, 
-  ChevronDown, 
-  ChevronsDown, 
-  Info 
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  ArrowLeft,
+  FileText,
+  Eye,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronsUp,
+  ChevronDown,
+  ChevronsDown,
+  Info
 } from 'lucide-react';
+import { fetchMyFundSummary, fetchAllMyFundViews } from '../../../services/apis/portfolio.service';
+import MFCasUpload from '../MFCasUpload/MFCasUpload'
 import styles from './MFDashboard.module.css';
 
+const formatCurrency = (value) => {
+  if (value == null || isNaN(value)) return '₹0.00';
+  return `₹${Number(value).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+};
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+};
+
 export default function MFDashboard() {
+  const navigate = useNavigate();
   const [showBalance, setShowBalance] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [showReturns, setShowReturns] = useState(false);
+  const [showCasUpload, setShowCasUpload] = useState(false);
+  const [fundSummary, setFundSummary] = useState(null);
+  const [holdings, setHoldings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setIsLoading(true);
+    const [summaryRes, holdingsRes] = await Promise.all([
+      fetchMyFundSummary(),
+      fetchAllMyFundViews(),
+    ]);
+    if (summaryRes?.success) setFundSummary(summaryRes.data);
+    if (holdingsRes?.success) setHoldings(holdingsRes.data.holdings || []);
+    setIsLoading(false);
+  };
+
+  const s = fundSummary?.summary;
+  const r = fundSummary?.ratings;
+  const statementDate = fundSummary?.statementDate;
+  const importedAt = fundSummary?.importedAt;
+
+  const priceColorClass = (returnVal) =>
+    returnVal != null && returnVal < 0
+      ? styles.MFDashboardPriceNegativeColor
+      : styles.MFDashboardPricePositiveColor;
+
+  const returnColorClass = (returnVal) =>
+    returnVal != null && returnVal < 0
+      ? styles.MFDashboardNegativeReturn
+      : styles.MFDashboardMetricValue;
+
+  const getRatingClass = (rating) => {
+    if (!rating) return '';
+    const map = {
+      'In-Form': styles.MFDashboardRatingInForm,
+      'On-Track': styles.MFDashboardRatingOnTrack,
+      'Off-Track': styles.MFDashboardRatingOffTrack,
+      'Out-of-form': styles.MFDashboardRatingOutOfForm,
+      'Not Rated': styles.MFDashboardRatingNotRated,
+    };
+    return map[rating] || '';
+  };
+
+  const ratingsConfig = [
+    { key: 'inform', label: 'In-form', sub: 'Performing great', icon: <ChevronsUp size={15} strokeWidth={2.5} />, bgClass: styles.MFDashboardInFormBg, circleClass: styles.MFDashboardGreenCircle },
+    { key: 'onTrack', label: 'On-track', sub: 'Performing good', icon: <ChevronUp size={15} strokeWidth={2.5} />, bgClass: styles.MFDashboardOnTrackBg, circleClass: styles.MFDashboardLightGreenCircle },
+    { key: 'offTrack', label: 'Off-track', sub: "Don't invest further", icon: <ChevronDown size={15} strokeWidth={2.5} />, bgClass: '', circleClass: styles.MFDashboardGreyCircle },
+    { key: 'outOfPerform', label: 'Out-of-form', sub: 'Exit now', icon: <ChevronsDown size={15} strokeWidth={2.5} />, bgClass: '', circleClass: styles.MFDashboardGreyCircle },
+  ];
 
   return (
     <div className={styles.MFDashboardContainer}>
-      
+
       {/* SECTION 1: Top Hero Banner Block */}
       <header className={styles.MFDashboardHeaderBanner}>
         <div className={styles.MFDashboardTopActionRow}>
-          <button className={styles.MFDashboardCircularBtn} aria-label="Go Back">
+          <button className={styles.MFDashboardCircularBtn} aria-label="Go Back" onClick={() => navigate('/dashboard')}>
             <ArrowLeft size={20} />
           </button>
-          <button className={styles.MFDashboardCircularBtn} aria-label="View Statement">
+          <button className={styles.MFDashboardCircularBtn} aria-label="View Statement" onClick={() => setShowCasUpload(true)}>
             <FileText size={20} />
           </button>
         </div>
@@ -34,42 +103,42 @@ export default function MFDashboard() {
         <div className={styles.MFDashboardMainBalanceArea}>
           <div className={styles.MFDashboardBalanceHeader}>
             <span className={styles.MFDashboardBalanceTitle}>Portfolio Balance</span>
-            <button 
-              className={styles.MFDashboardToggleEye} 
+            <button
+              className={styles.MFDashboardToggleEye}
               onClick={() => setShowBalance(!showBalance)}
             >
               <Eye size={16} />
             </button>
           </div>
-          
+
           <div className={styles.MFDashboardBalanceRowGroup}>
             <h2 className={styles.MFDashboardPrimaryAmount}>
-              {showBalance ? '₹37,603.00' : '••••••'}
+              {isLoading ? '••••••' : showBalance ? formatCurrency(s?.CurrValue) : '••••••'}
             </h2>
-            <div className={styles.MFDashboardMonthDropdown}>
-              <span>November</span>
-              <span className={styles.MFDashboardDropdownArrow}>▼</span>
-            </div>
           </div>
 
           {/* Invested, Current, and Returns Breakdown Metrics Row */}
           <div className={styles.MFDashboardMetricsRow}>
             <div className={styles.MFDashboardMetricItem}>
-              <span className={styles.MFDashboardMetricLabel}>Invested Value</span>
+              <span className={styles.MFDashboardMetricLabel}>Invested</span>
               <span className={styles.MFDashboardMetricValue}>
-                {showBalance ? '₹38,031' : '••••'}
+                {isLoading ? '••••' : showBalance ? formatCurrency(s?.InvestedValue) : '••••'}
               </span>
             </div>
             <div className={styles.MFDashboardMetricItem}>
-              <span className={styles.MFDashboardMetricLabel}>Current Value</span>
+              <span className={styles.MFDashboardMetricLabel}>Current</span>
               <span className={styles.MFDashboardMetricValue}>
-                {showBalance ? '₹37,603' : '••••'}
+                {isLoading ? '••••' : showBalance ? formatCurrency(s?.CurrValue) : '••••'}
               </span>
             </div>
             <div className={styles.MFDashboardMetricItem}>
               <span className={styles.MFDashboardMetricLabel}>Total Returns</span>
-              <span className={`${styles.MFDashboardMetricValue} ${styles.MFDashboardNegativeReturn}`}>
-                {showBalance ? '-₹428 (-1.12%)' : '••••'}
+              <span className={`${styles.MFDashboardMetricValue} ${returnColorClass(s?.currReturn)}`}>
+                {isLoading
+                  ? '••••'
+                  : showBalance
+                    ? `₹${Math.abs(s?.currReturn || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })} (${s?.AbsReturn != null ? s.AbsReturn.toFixed(2) : '0.00'}%)`
+                    : '••••'}
               </span>
             </div>
           </div>
@@ -86,115 +155,121 @@ export default function MFDashboard() {
         </div>
 
         <div className={styles.MFDashboardPerformanceCardGroup}>
-          {/* Card Item 1: In-form */}
-          <div className={`${styles.MFDashboardPerfRowItem} ${styles.MFDashboardInFormBg}`}>
-            <div className={styles.MFDashboardPerfLeading}>
-              <div className={`${styles.MFDashboardIconBadgeWrapper} ${styles.MFDashboardGreenCircle}`}>
-                <ChevronsUp size={15} strokeWidth={2.5} />
-                <span className={styles.MFDashboardCounterBadge}>7</span>
+          {ratingsConfig.map((item) => (
+            <div
+              key={item.key}
+              className={`${styles.MFDashboardPerfRowItem}${item.bgClass ? ` ${item.bgClass}` : ''}`}
+            >
+              <div className={styles.MFDashboardPerfLeading}>
+                <div className={`${styles.MFDashboardIconBadgeWrapper} ${item.circleClass}`}>
+                  {item.icon}
+                  {r?.[item.key] > 0 && (
+                    <span className={styles.MFDashboardCounterBadge}>{r[item.key]}</span>
+                  )}
+                </div>
+                <div>
+                  <h4 className={`${styles.MFDashboardPerfStatusText}${!item.bgClass ? ` ${styles.MFDashboardMutedText}` : ''}`}>
+                    {item.label}
+                  </h4>
+                  <p className={styles.MFDashboardPerfSubText}>{item.sub}</p>
+                </div>
               </div>
-              <div>
-                <h4 className={styles.MFDashboardPerfStatusText}>In-form</h4>
-                <p className={styles.MFDashboardPerfSubText}>Performing great</p>
-              </div>
+              <ChevronRight size={14} />
             </div>
-            <ChevronRight size={14} />
-          </div>
-
-          {/* Card Item 2: On-track */}
-          <div className={`${styles.MFDashboardPerfRowItem} ${styles.MFDashboardOnTrackBg}`}>
-            <div className={styles.MFDashboardPerfLeading}>
-              <div className={`${styles.MFDashboardIconBadgeWrapper} ${styles.MFDashboardLightGreenCircle}`}>
-                <ChevronUp size={15} strokeWidth={2.5} />
-                <span className={styles.MFDashboardCounterBadge}>1</span>
-              </div>
-              <div>
-                <h4 className={styles.MFDashboardPerfStatusText}>On-track</h4>
-                <p className={styles.MFDashboardPerfSubText}>Performing good</p>
-              </div>
-            </div>
-            <ChevronRight size={14} />
-          </div>
-
-          {/* Card Item 3: Off-track */}
-          <div className={styles.MFDashboardPerfRowItem}>
-            <div className={styles.MFDashboardPerfLeading}>
-              <div className={`${styles.MFDashboardIconBadgeWrapper} ${styles.MFDashboardGreyCircle}`}>
-                <ChevronDown size={15} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h4 className={`${styles.MFDashboardPerfStatusText} ${styles.MFDashboardMutedText}`}>Off-track</h4>
-                <p className={styles.MFDashboardPerfSubText}>Don't invest further</p>
-              </div>
-            </div>
-            <ChevronRight size={14} />
-          </div>
-
-          {/* Card Item 4: Out-of-form */}
-          <div className={styles.MFDashboardPerfRowItem}>
-            <div className={styles.MFDashboardPerfLeading}>
-              <div className={`${styles.MFDashboardIconBadgeWrapper} ${styles.MFDashboardGreyCircle}`}>
-                <ChevronsDown size={15} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h4 className={`${styles.MFDashboardPerfStatusText} ${styles.MFDashboardMutedText}`}>Out-of-form</h4>
-                <p className={styles.MFDashboardPerfSubText}>Exit now</p>
-              </div>
-            </div>
-            <ChevronRight size={14} />
-          </div>
+          ))}
         </div>
       </section>
 
       {/* SECTION 3: Investment Holdings Area */}
       <section className={styles.MFDashboardFundsSection}>
-        <h3 className={styles.MFDashboardSectionHeading}>Funds</h3>
+        <div className={styles.MFDashboardSectionHeadingRow}>
+          <h3 className={styles.MFDashboardSectionHeading}>Funds ({holdings.length})</h3>
+          <button className={styles.MFDashboardViewToggle} onClick={() => setShowReturns(!showReturns)}>
+            {showReturns ? (
+              <>
+                <ChevronLeft size={14} strokeWidth={2.5} /> Returns (%)
+              </>
+            ) : (
+              <>
+                Current (Invested) <ChevronRight size={14} strokeWidth={2.5} />
+              </>
+            )}
+          </button>
+        </div>
 
-        {/* Mutual Fund Asset Cards Stack */}
         <div className={styles.MFDashboardFundsListStack}>
-          
-          {/* Fund 1: HDFC Flexi Cap */}
-          <div className={styles.MFDashboardFundListItem}>
-            <div className={styles.MFDashboardFundMainMeta}>
-              <h4 className={styles.MFDashboardFundTitleName}>HDFC Flexi Cap Direct Plan Growth</h4>
-              <div className={styles.MFDashboardFundValueBlock}>
-                <span className={`${styles.MFDashboardCurrentPriceText} ${styles.MFDashboardPriceNegativeColor}`}>
-                  ₹20,568
-                </span>
-                <span className={styles.MFDashboardInvestedPriceSubText}>(₹21,032)</span>
+          {isLoading ? (
+            <p style={{ fontSize: 14, color: '#9CA3AF', textAlign: 'center', padding: '20px 0' }}>Loading...</p>
+          ) : holdings.length === 0 ? (
+            <p style={{ fontSize: 14, color: '#9CA3AF', textAlign: 'center', padding: '20px 0' }}>No funds found</p>
+          ) : (
+            holdings.map((fund, idx) => (
+              <div key={idx} className={styles.MFDashboardFundListItem}>
+                <div className={styles.MFDashboardFundMainMeta}>
+                  <div>
+                    <h4 className={styles.MFDashboardFundTitleName}>{fund.schemeName}</h4>
+                    {fund.rating && (
+                      <span className={`${styles.MFDashboardRatingBadge} ${getRatingClass(fund.rating)}`}>
+                        {fund.rating}
+                      </span>
+                    )}
+                    {fund.planType === 'Regular' && (
+                      <span className={`${styles.MFDashboardPlanBadge} ${styles.MFDashboardPlanRegular}`}>
+                        Regular
+                      </span>
+                    )}
+                  </div>
+                  {showReturns ? (
+                    <div className={styles.MFDashboardFundValueBlock}>
+                      <span className={`${styles.MFDashboardCurrentPriceText} ${fund.currReturn != null ? priceColorClass(fund.currReturn) : ''}`}>
+                        {fund.currReturn != null ? formatCurrency(Math.abs(fund.currReturn)) : '—'}
+                      </span>
+                      <span className={styles.MFDashboardInvestedPriceSubText}>
+                        {fund.AbsReturn != null ? `${fund.AbsReturn.toFixed(2)}%` : '—'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className={styles.MFDashboardFundValueBlock}>
+                      <span className={`${styles.MFDashboardCurrentPriceText} ${fund.currVal != null ? priceColorClass(fund.currReturn) : ''}`}>
+                        {fund.currVal != null ? formatCurrency(fund.currVal) : '—'}
+                      </span>
+                      <span className={styles.MFDashboardInvestedPriceSubText}>
+                        {fund.InvestedVal != null ? `(${formatCurrency(fund.InvestedVal)})` : '—'}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
+            ))
+          )}
+        </div>
 
-          {/* Fund 2: HDFC Mid Cap */}
-          <div className={styles.MFDashboardFundListItem}>
-            <div className={styles.MFDashboardFundMainMeta}>
-              <h4 className={styles.MFDashboardFundTitleName}>HDFC Mid Cap Fund Direct Growth</h4>
-              <div className={styles.MFDashboardFundValueBlock}>
-                <span className={`${styles.MFDashboardCurrentPriceText} ${styles.MFDashboardPricePositiveColor}`}>
-                  ₹13,304
-                </span>
-                <span className={styles.MFDashboardInvestedPriceSubText}>(₹12,999)</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Fund 3: UTI Nifty 50 */}
-          <div className={styles.MFDashboardFundListItem}>
-            <div className={styles.MFDashboardFundMainMeta}>
-              <h4 className={styles.MFDashboardFundTitleName}>UTI Nifty 50 Index Fund Direct Growth</h4>
-              <div className={styles.MFDashboardFundValueBlock}>
-                <span className={`${styles.MFDashboardCurrentPriceText} ${styles.MFDashboardPriceNegativeColor}`}>
-                  ₹3,731
-                </span>
-                <span className={styles.MFDashboardInvestedPriceSubText}>(₹4,000)</span>
-              </div>
-            </div>
-          </div>
-
+        <div className={styles.MFDashboardDateRow}>
+          <span className={styles.MFDashboardDateRowItem}>
+            Statement: <strong>{formatDate(statementDate) || '—'}</strong>
+          </span>
+          <span className={styles.MFDashboardDateRowDivider}>|</span>
+          <span className={styles.MFDashboardDateRowItem}>
+            Imported: <strong>{formatDate(importedAt) || '—'}</strong>
+          </span>
         </div>
       </section>
 
+      <p className={styles.MFDashboardDisclaimer}>
+        Nidhify provides portfolio tracking and analytics for informational and
+        educational purposes only. It does not constitute investment advice. All
+        data and tracking insights are provided on an "as-is" basis and may be
+        subject to parsing errors, third-party delays, or inaccuracies; users
+        should independently verify all balances with official statements.
+        Mutual fund investments are subject to market risks. Please consult a
+        SEBI registered advisor before investing.
+      </p>
+
+      <MFCasUpload
+        isOpen={showCasUpload}
+        onClose={() => setShowCasUpload(false)}
+        onUploadSuccess={loadData}
+      />
     </div>
   );
 }

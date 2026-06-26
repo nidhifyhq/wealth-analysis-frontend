@@ -71,8 +71,8 @@
 }
 
 .MFDashboardPrimaryAmount {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 600;
   margin: 0;
   letter-spacing: -0.5px;
 }
@@ -113,7 +113,7 @@
 
 .MFDashboardMetricValue {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
 }
 
@@ -257,10 +257,39 @@
   padding: 24px 20px 16px 20px;
 }
 
+.MFDashboardSectionHeadingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
 .MFDashboardSectionHeading {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  margin: 0 0 14px 0;
+  margin: 0;
+}
+
+.MFDashboardViewToggle {
+  background: none;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.MFDashboardViewToggle:hover {
+  border-color: #D1D5DB;
+  color: #374151;
+  background: #F9FAFB;
 }
 
 .MFDashboardSearchBoxWrapper {
@@ -309,7 +338,7 @@
 }
 
 .MFDashboardFundTitleName {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #33334e;
   line-height: 1.45;
@@ -325,7 +354,7 @@
 }
 
 .MFDashboardCurrentPriceText {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -341,4 +370,85 @@
   font-size: 11px;
   color: #828282;
   font-weight: 400;
+}
+
+/* Rating Badge */
+.MFDashboardRatingBadge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.MFDashboardRatingInForm {
+  background: #eafbf0;
+  color: #0b451f;
+}
+
+.MFDashboardRatingOnTrack {
+  background: #f3fdf7;
+  color: #0e5027;
+}
+
+.MFDashboardRatingOffTrack {
+  background: #F3F4F6;
+  color: #5d6769;
+}
+
+.MFDashboardRatingOutOfForm {
+  background: #F3F4F6;
+  color: #5d6769;
+}
+
+.MFDashboardRatingNotRated {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+/* Plan Type Badge */
+.MFDashboardPlanBadge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+  margin-left: 6px;
+}
+
+.MFDashboardPlanRegular {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+.MFDashboardDateRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #F3F4F6;
+  font-size: 11px;
+  color: #9CA3AF;
+}
+
+.MFDashboardDateRowItem strong {
+  font-weight: 600;
+  color: #6B7280;
+}
+
+.MFDashboardDateRowDivider {
+  color: #D1D5DB;
+  font-size: 10px;
+}
+
+.MFDashboardDisclaimer {
+  font-size: 10px;
+  color: #64748b;
+  line-height: 1.5;
+  text-align: center;
+  padding: 20px 25px;
+  margin: 0;
 }

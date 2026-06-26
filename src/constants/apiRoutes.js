@@ -6,4 +6,8 @@ export const API_ROUTES = {
   INVESTMENT_SHORT_DETAILS: "/api/user/investment-assets-details",
   COMPARE_PORTFOLIO: "/api/analysis/compare",
   CAS_UPLOAD: "/api/portfolio/cas-upload",
+  MY_FUND_SUMMARY: "/api/portfolio/my-fund-summary",
+  ALL_MYFUND_VIEWS: "/api/portfolio/all-myfund-views",
+  USER_DETAILS: "/api/user/details",
+  USER_DELETE: "/api/user/delete",
 }

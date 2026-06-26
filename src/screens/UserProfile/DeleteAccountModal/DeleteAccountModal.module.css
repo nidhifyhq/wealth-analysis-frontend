@@ -1,0 +1,194 @@
+.DeleteAccountModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: DeleteAccountModalFadeIn 0.3s ease-out;
+}
+
+.DeleteAccountModalSheet {
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px 24px 40px;
+  animation: DeleteAccountModalSlideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.DeleteAccountModalHandle {
+  width: 40px;
+  height: 4px;
+  background: #d9d9d9;
+  border-radius: 4px;
+  margin: 0 auto 20px;
+}
+
+.DeleteAccountModalTitleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.DeleteAccountModalTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  line-height: 1.4;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.DeleteAccountModalBulletList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.DeleteAccountModalBulletItem {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.DeleteAccountModalBulletDot {
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  background: #DC2626;
+  border-radius: 50%;
+  margin-top: 7px;
+}
+
+.DeleteAccountModalBulletText {
+  font-size: 13px;
+  color: #4B5563;
+  line-height: 1.6;
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.DeleteAccountModalBulletText strong {
+  color: #111827;
+}
+
+.DeleteAccountModalInputLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 8px 4px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.DeleteAccountModalInput {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #FAFAFA;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.DeleteAccountModalInput:focus {
+  border-color: #DC2626;
+  background: #FFFFFF;
+}
+
+.DeleteAccountModalInput::placeholder {
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #9CA3AF;
+  font-size: 14px;
+}
+
+.DeleteAccountModalActions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.DeleteAccountModalCancelBtn {
+  flex: 1;
+  background: #F3F4F6;
+  border: 1px solid #D1D5DB;
+  border-radius: 14px;
+  padding: 14px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.DeleteAccountModalCancelBtn:hover {
+  background: #E5E7EB;
+}
+
+.DeleteAccountModalDeleteBtn {
+  flex: 1;
+  background: #DC2626;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.DeleteAccountModalDeleteBtn:hover {
+  background: #B91C1C;
+}
+
+.DeleteAccountModalDeleteBtnDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.DeleteAccountModalDeleteBtnDisabled:hover {
+  background: #DC2626;
+}
+
+.DeleteAccountModalSpinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: DeleteAccountModalSpin 0.6s linear infinite;
+}
+
+@keyframes DeleteAccountModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes DeleteAccountModalSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes DeleteAccountModalSpin {
+  to { transform: rotate(360deg); }
+}

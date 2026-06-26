@@ -1,0 +1,260 @@
+/* Core App Frame viewport restrictions */
+.UserProfileContainer {
+  background-color: #f7f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  color: #111111;
+}
+
+/* Navbar Layout Header Styling */
+.UserProfileTopNav {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: #f7f9fa;
+}
+
+.UserProfileTopNavLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.UserProfileIconButton {
+  background: none;
+  border: none;
+  color: #111111;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.UserProfileMainTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #0c3e38; /* Your application brand core dark teal */
+}
+
+/* Avatar profile block layout rules */
+.UserProfileAvatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 24px 28px 24px;
+}
+
+.UserProfileAvatarWrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.UserProfileAvatarBadge {
+  width: 88px;
+  height: 88px;
+  background-color: #0c3e38;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.UserProfileEditAvatarBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #111111;
+  color: #ffffff;
+  border: 2px solid #f7f9fa;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.UserProfileUserName {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: #111111;
+}
+
+.UserProfileUserEmail {
+  font-size: 13px;
+  color: #728481;
+  margin: 4px 0 0 0;
+}
+
+/* Form Settings Blocks Sheet Grouping */
+.UserProfileDetailsSheet {
+  padding: 0 16px 32px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.UserProfileSectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.UserProfileSectionLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #728481;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px 4px;
+}
+
+/* High fidelity rows matching your layout blocks perfectly */
+.UserProfileRowCard {
+  background-color: #ffffff;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* Specialized container rule for combined grouped lines */
+.UserProfileSectionBlock .UserProfileRowCard {
+  border-radius: 14px;
+}
+
+/* Override borders specifically when elements are paired */
+.UserProfileSectionBlock > .UserProfileRowCard:nth-child(2):not(:last-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.UserProfileSectionBlock > .UserProfileRowCard:nth-child(3) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.UserProfileHasBorderBottom {
+  border-bottom: 1px solid #f3f6f5;
+}
+
+.UserProfileRowLeading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.UserProfileIconFrame {
+  width: 40px;
+  height: 40px;
+  background-color: #f0f4f3;
+  color: #556b68;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.UserProfileItemTitle {
+  font-size: 11px;
+  color: #8fa7a4;
+  font-weight: 500;
+}
+
+.UserProfileItemValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+  margin: 2px 0 0 0;
+}
+
+.UserProfileStandaloneText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111111;
+  margin: 0;
+}
+
+.UserProfileChevronRight {
+  color: #b0c2bf;
+}
+
+.UserProfileRowActionBtn {
+  background: none;
+  border: none;
+  color: #556b68;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Settings Action Buttons Stack styles */
+.UserProfileActionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.UserProfileLogoutButton {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #e2e8e7;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.UserProfileLogoutButton:active {
+  background-color: #f7f9fa;
+}
+
+.UserProfileDeleteButton {
+  background-color: #fff5f5;
+  color: #c92a2a;
+  border: 1px solid #ffc9c9;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 21px;
+}
+
+.UserProfileDeleteButton:active {
+  background-color: #ffe3e3;
+}
+
+.UserProfileWarningFooter {
+  font-size: 12px;
+  color: #8da29f;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0 16px;
+}

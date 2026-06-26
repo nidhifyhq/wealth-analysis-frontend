@@ -7,7 +7,7 @@ const navItems = [
   { label: 'Home', icon: LayoutDashboard, route: '/dashboard' },
   { label: 'MF', icon: TrendingUp, route: '/mf/' },
   { label: 'FD', icon: Landmark, route: '/dashboard' },
-  { label: 'Profile', icon: User, route: '/dashboard' },
+  { label: 'Profile', icon: User, route: '/profile' },
 ];
 
 export default function BottomBar() {
