@@ -1,0 +1,301 @@
+/* Core Page Layout Canvas Wrap */
+.SIPCalculatorContainer {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Navbar Top Configuration */
+.SIPCalculatorHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.SIPCalculatorBackBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #001c66;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.SIPCalculatorPageTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #001c66;
+  margin: 0;
+}
+
+/* Rounded Card Blocks wrapper */
+.SIPCalculatorCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 28, 102, 0.03);
+}
+
+/* Custom Nav Pill Button Layout Switcher */
+.SIPCalculatorTabWrapper {
+  display: flex;
+  background-color: #edf2f9;
+  border-radius: 8px;
+  padding: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.SIPCalculatorTab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.SIPCalculatorTabActive {
+  background-color: #002266;
+  color: #ffffff;
+}
+
+/* Form Controls & Range Alignment spacing */
+.SIPCalculatorInputGroup {
+  margin-bottom: 24px;
+}
+
+.SIPCalculatorInputGroup:last-of-type {
+  margin-bottom: 4px;
+}
+
+.SIPCalculatorLabelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.SIPCalculatorFieldLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+/* Floating Badges Form Box Fields design specs */
+.SIPCalculatorValueDisplay {
+  background-color: #e2ecff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 95px;
+  justify-content: flex-end;
+}
+
+.SIPCalculatorCurrencySign,
+.SIPCalculatorUnitSign {
+  font-size: 14px;
+  font-weight: 600;
+  color: #002266;
+}
+
+.SIPCalculatorNumericInput,
+.SIPCalculatorNumericInputShort {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #002266;
+  text-align: right;
+  width: 72px;
+  outline: none;
+}
+
+.SIPCalculatorNumericInputShort {
+  width: 32px;
+}
+
+/* Remove arrows from number fields */
+.SIPCalculatorNumericInput::-webkit-outer-spin-button,
+.SIPCalculatorNumericInput::-webkit-inner-spin-button,
+.SIPCalculatorNumericInputShort::-webkit-outer-spin-button,
+.SIPCalculatorNumericInputShort::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Range Sliders Node Custom Tints styling */
+.SIPCalculatorSliderRange {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: #cbdcf7;
+  outline: none;
+}
+
+.SIPCalculatorSliderRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #002266;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease;
+}
+
+.SIPCalculatorSliderRange::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+}
+
+/* Results Balance breakdown values area */
+.SIPCalculatorTotalBlock {
+  border-bottom: 1px dashed #e2e8f0;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.SIPCalculatorTotalLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #718096;
+  letter-spacing: 0.5px;
+}
+
+.SIPCalculatorTotalAmount {
+  font-size: 26px;
+  font-weight: 700;
+  color: #002266;
+  margin: 4px 0 0 0;
+}
+
+.SIPCalculatorGridSplit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.SIPCalculatorSplitItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.SIPCalculatorSplitLabel {
+  font-size: 13px;
+  color: #718096;
+}
+
+.SIPCalculatorSplitValue {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.SIPCalculatorGreenText {
+  color: #006644;
+}
+
+/* Vector Chart Donut Panel Arrangements */
+.SIPCalculatorChartLayout {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 0;
+}
+
+.SIPCalculatorDonutWrapper {
+  position: relative;
+  width: 130px;
+  height: 130px;
+}
+
+.SIPCalculatorSvgCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+.SIPCalculatorCircleBase {
+  fill: none;
+  stroke: #dbebff;
+}
+
+.SIPCalculatorCircleProgress {
+  fill: none;
+  stroke: #006644;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.SIPCalculatorDonutCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.SIPCalculatorYieldPercent {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.SIPCalculatorYieldLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: #a0aec0;
+  letter-spacing: 0.5px;
+}
+
+/* Graph Color Indicators Side Keys Panel */
+.SIPCalculatorLegendBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.SIPCalculatorLegendRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.SIPCalculatorDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.SIPCalculatorDotBlue {
+  background-color: #dbebff;
+}
+
+.SIPCalculatorDotGreen {
+  background-color: #006644;
+}
+
+.SIPCalculatorLegendText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+}

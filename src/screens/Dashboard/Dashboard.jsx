@@ -11,21 +11,24 @@ import {
   Download,
   ChevronRight,
   Upload,
+  Landmark,
 } from "lucide-react";
-import { fetchInvestmentShortDetails, fetchTotalAssets } from "../../services/apis/dashboard.service";
+import {
+  fetchInvestmentShortDetails,
+  fetchTotalAssets,
+} from "../../services/apis/dashboard.service";
 import LoadingDots from "../../components/LoadingDots/LoadingDots";
 import { selectUserName } from "../../store/auth/auth.selectors";
 import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
+import ProductSection from "./ProductSection/ProductSection";
 
-import {
-  Newspaper,
-  Calculator,
-} from "lucide-react";
+import { Newspaper, Calculator } from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import styles from "./Dashboard.module.css";
+import { useNavigate } from "react-router-dom";
 
 const productConfig = {
   "Mutual Funds": { className: "mobileDashboardProductMf", label: "MFs" },
@@ -53,6 +56,7 @@ export default function Dashboard() {
   const [totalAssetsData, setTotalAssetsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCasUpload, setShowCasUpload] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadData();
@@ -259,7 +263,7 @@ export default function Dashboard() {
                       )}
                     </span>
                     <span className={styles.mobileDashboardTrendPeriod}>
-                   All-time Returns
+                      All-time Returns
                     </span>
                   </div>
                   <p className={styles.mobileDashboardCardFooterText}>
@@ -290,25 +294,30 @@ export default function Dashboard() {
 
         {/* Main Content White Area */}
         <div className={styles.mobileDashboardContentSheet}>
+          <ProductSection />
+
           <div className={styles.mobileDashboardSectionHeader}>
             <h3 className={styles.mobileDashboardSectionTitle}>Explore</h3>
             {/* <button className={styles.mobileDashboardSectionLink}>Edit Watchlist</button> */}
           </div>
 
           <div className={styles.mobileDashboardListContainer}>
-            <div className={styles.mobileDashboardRowCard}>
+            <div
+              className={styles.mobileDashboardRowCard}
+              onClick={() => navigate("/FDCalculator")}
+            >
               <div className={styles.mobileDashboardRowLeading}>
                 <div
                   className={`${styles.mobileDashboardBrandIcon} ${styles.mobileDashboardNflxIconBg}`}
                 >
-                  N
+                  <Landmark size={15} />
                 </div>
                 <div>
                   <h4 className={styles.mobileDashboardStockTicker}>
-                    Power Rebalance
+                    Fixed & Recurring Deposit Calculator
                   </h4>
                   <p className={styles.mobileDashboardStockName}>
-                    Know when and where to switch funds
+                    Compare FD and RD returns in seconds
                   </p>
                 </div>
               </div>
@@ -317,7 +326,10 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className={styles.mobileDashboardRowCard}>
+            <div
+              className={styles.mobileDashboardRowCard}
+              onClick={() => navigate("/SIPCalculator")}
+            >
               <div className={styles.mobileDashboardRowLeading}>
                 <div
                   className={`${styles.mobileDashboardBrandIcon} ${styles.mobileDashboardAmznIconBg}`}
@@ -326,10 +338,10 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <h4 className={styles.mobileDashboardStockTicker}>
-                    Investment Calculators
+                    SIP & Lumpsum Calculator
                   </h4>
                   <p className={styles.mobileDashboardStockName}>
-                    Explore SIP and Lumpsum calculators
+                    Estimate your investment growth
                   </p>
                 </div>
               </div>

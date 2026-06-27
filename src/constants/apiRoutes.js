@@ -15,4 +15,6 @@ export const API_ROUTES = {
   FD_LIST: "/api/fd",
   FD_CREATE: "/api/fd",
   FD_BY_ID: "/api/fd", // append /:id in service
+  DASHBOARD_PRODUCT: "/api/user/get-dashboard-product",
+  OTHER_INVESTMENT_ASSETS: "/api/user/other-investment-assets",
 }

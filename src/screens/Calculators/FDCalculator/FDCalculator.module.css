@@ -1,0 +1,301 @@
+/* Core Page Layout Canvas Wrap */
+.FDCalculatorContainer {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Navbar Top Configuration */
+.FDCalculatorHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.FDCalculatorBackBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #001c66;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.FDCalculatorPageTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #001c66;
+  margin: 0;
+}
+
+/* Rounded Card Blocks wrapper */
+.FDCalculatorCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 28, 102, 0.03);
+}
+
+/* Custom Nav Pill Button Layout Switcher */
+.FDCalculatorTabWrapper {
+  display: flex;
+  background-color: #edf2f9;
+  border-radius: 8px;
+  padding: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.FDCalculatorTab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.FDCalculatorTabActive {
+  background-color: #002266;
+  color: #ffffff;
+}
+
+/* Form Controls & Range Alignment spacing */
+.FDCalculatorInputGroup {
+  margin-bottom: 24px;
+}
+
+.FDCalculatorInputGroup:last-of-type {
+  margin-bottom: 4px;
+}
+
+.FDCalculatorLabelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.FDCalculatorFieldLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+/* Floating Badges Form Box Fields design specs */
+.FDCalculatorValueDisplay {
+  background-color: #e2ecff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 105px;
+  justify-content: flex-end;
+}
+
+.FDCalculatorCurrencySign,
+.FDCalculatorUnitSign {
+  font-size: 14px;
+  font-weight: 600;
+  color: #002266;
+}
+
+.FDCalculatorNumericInput,
+.FDCalculatorNumericInputShort {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #002266;
+  text-align: right;
+  width: 82px;
+  outline: none;
+}
+
+.FDCalculatorNumericInputShort {
+  width: 40px;
+}
+
+/* Remove arrows from number fields */
+.FDCalculatorNumericInput::-webkit-outer-spin-button,
+.FDCalculatorNumericInput::-webkit-inner-spin-button,
+.FDCalculatorNumericInputShort::-webkit-outer-spin-button,
+.FDCalculatorNumericInputShort::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Range Sliders Node Custom Tints styling */
+.FDCalculatorSliderRange {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: #cbdcf7;
+  outline: none;
+}
+
+.FDCalculatorSliderRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #002266;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease;
+}
+
+.FDCalculatorSliderRange::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+}
+
+/* Results Balance breakdown values area */
+.FDCalculatorTotalBlock {
+  border-bottom: 1px dashed #e2e8f0;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.FDCalculatorTotalLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #718096;
+  letter-spacing: 0.5px;
+}
+
+.FDCalculatorTotalAmount {
+  font-size: 26px;
+  font-weight: 700;
+  color: #002266;
+  margin: 4px 0 0 0;
+}
+
+.FDCalculatorGridSplit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.FDCalculatorSplitItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.FDCalculatorSplitLabel {
+  font-size: 13px;
+  color: #718096;
+}
+
+.FDCalculatorSplitValue {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.FDCalculatorGreenText {
+  color: #006644;
+}
+
+/* Vector Chart Donut Panel Arrangements */
+.FDCalculatorChartLayout {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 0;
+}
+
+.FDCalculatorDonutWrapper {
+  position: relative;
+  width: 130px;
+  height: 130px;
+}
+
+.FDCalculatorSvgCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+.FDCalculatorCircleBase {
+  fill: none;
+  stroke: #dbebff;
+}
+
+.FDCalculatorCircleProgress {
+  fill: none;
+  stroke: #006644;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.FDCalculatorDonutCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.FDCalculatorYieldPercent {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.FDCalculatorYieldLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: #a0aec0;
+  letter-spacing: 0.5px;
+}
+
+/* Graph Color Indicators Side Keys Panel */
+.FDCalculatorLegendBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.FDCalculatorLegendRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.FDCalculatorDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.FDCalculatorDotBlue {
+  background-color: #dbebff;
+}
+
+.FDCalculatorDotGreen {
+  background-color: #006644;
+}
+
+.FDCalculatorLegendText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+}

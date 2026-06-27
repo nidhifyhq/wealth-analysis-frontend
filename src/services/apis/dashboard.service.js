@@ -12,3 +12,11 @@ export const fetchPortfolioComparison = (params) => {
 export const fetchTotalAssets = () => {
   return getRequest(API_ROUTES.TOTAL_ASSETS)
 }
+
+export const fetchDashboardProduct = () => {
+  return getRequest(API_ROUTES.DASHBOARD_PRODUCT)
+}
+
+export const fetchOtherInvestmentAssets = () => {
+  return getRequest(API_ROUTES.OTHER_INVESTMENT_ASSETS)
+}

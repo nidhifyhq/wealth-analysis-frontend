@@ -9,6 +9,8 @@ import LoginSign from "./screens/LoginSign/LoginSign";
 import MutualFund from "./screens/MutualFund/MutualFundRoutes";
 import FixedDeposit from "./screens/FixedDeposit/FixedDepositRoutes";
 import UserProfile from "./screens/UserProfile/UserProfile";
+import SIPCalculator from "./screens/Calculators/SIPCalculator/SIPCalculator";
+import FDCalculator from "./screens/Calculators/FDCalculator/FDCalculator";
 
 const App = () => {
   return (
@@ -34,6 +36,8 @@ const App = () => {
             <Route path="/mf/*" element={<MutualFund />} />
             <Route path="/fd/*" element={<FixedDeposit />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/SIPCalculator" element={<SIPCalculator />} />
+            <Route path="/FDCalculator" element={<FDCalculator />} />
           </Route>
         </Route>
 

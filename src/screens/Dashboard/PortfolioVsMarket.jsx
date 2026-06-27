@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, CartesianGrid,
 } from 'recharts';
-import { Info } from 'lucide-react';
+import { Info, ArrowDownUp  } from 'lucide-react';
 import { fetchPortfolioComparison } from '../../services/apis/dashboard.service';
 
 const PERIODS = ['1D', '1W', '1M', '6M', '1Y', 'ALL'];
@@ -50,11 +50,7 @@ export default function PortfolioVsMarket() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [showBenchmarkDropdown, setShowBenchmarkDropdown] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [showModeDropdown, setShowModeDropdown] = useState(false);
-  const benchmarkRef = useRef(null);
-  const modeRef = useRef(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -70,15 +66,6 @@ export default function PortfolioVsMarket() {
   }, [benchmark, period, mode]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (benchmarkRef.current && !benchmarkRef.current.contains(e.target)) setShowBenchmarkDropdown(false);
-      if (modeRef.current && !modeRef.current.contains(e.target)) setShowModeDropdown(false);
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   const timeline = data?.timeline || [];
   const summary = data?.summary;
@@ -122,23 +109,29 @@ export default function PortfolioVsMarket() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
         <div>
-          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: '#111827' }}>Portfolio vs Market</h2>
-          <p style={{ margin: '4px 0 0', fontSize: 13, color: '#6B7280' }}>
+          <h2 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#092042', marginBottom: '10px' }}>Portfolio vs Market</h2>
+          <p style={{ margin: '4px 0 0', fontSize: 12, color: '#6B7280', marginBottom: '5px' }}>
             {period} {mode === 'return' ? 'Absolute Returns' : 'Portfolio Value'}
           </p>
         </div>
         <div style={{ position: 'relative' }}>
           <button
-            onClick={() => setShowTooltip(!showTooltip)}
+            onClick={() => setShowTooltip(true)}
             style={{ background: '#f3f4f6', border: 'none', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#9CA3AF' }}
           >
             <Info size={16} />
           </button>
           {showTooltip && (
-            <div style={{ position: 'absolute', top: 36, right: 0, background: '#111827', color: '#fff', fontSize: 12, padding: '10px 14px', borderRadius: 10, width: 220, zIndex: 10, lineHeight: 1.5, boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
-              Compares your portfolio returns with benchmark indices over the selected period.
-              <div style={{ position: 'absolute', top: -6, right: 10, width: 0, height: 0, borderLeft: '6px solid transparent', borderRight: '6px solid transparent', borderBottom: '6px solid #111827' }} />
-            </div>
+            <>
+              <div
+                style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9 }}
+                onClick={() => setShowTooltip(false)}
+              />
+              <div style={{ position: 'absolute', top: 36, right: 0, background: '#111827', color: '#fff', fontSize: 12, padding: '10px 14px', borderRadius: 10, width: 220, zIndex: 10, lineHeight: 1.5, boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
+                Compares your portfolio returns with benchmark indices over the selected period. Benchmark data and portfolio valuations are approximate estimates and may contain parsing mismatches or data feed delays. Please cross-verify critical performance numbers independently.
+                <div style={{ position: 'absolute', top: -6, right: 10, width: 0, height: 0, borderLeft: '6px solid transparent', borderRight: '6px solid transparent', borderBottom: '6px solid #111827' }} />
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -151,11 +144,11 @@ export default function PortfolioVsMarket() {
 
       {/* Comparison Cards */}
       {loading ? renderSkeletonCards() : (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 20 }}>
           {/* Portfolio Card */}
           <div style={{ flex: 1, background: '#EEF2FF', borderRadius: 12, padding: 16 }}>
-            <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: '#4F46E5', textTransform: 'uppercase', letterSpacing: 0.5 }}>My Portfolio</p>
-            <p style={{ margin: '6px 0 0', fontSize: 24, fontWeight: 700, color: '#4F46E5', lineHeight: 1.2 }}>
+            <p style={{ margin: 0, fontSize: 10, fontWeight: 600, color: '#4F46E5', textTransform: 'uppercase', letterSpacing: 0.5 }}>My Portfolio</p>
+            <p style={{ margin: '6px 0 0', fontSize: 14, fontWeight: 600, color: '#4F46E5', lineHeight: 1.2 }}>
               {mode === 'return' ? formatReturn(portfolioSummary?.absoluteReturn) : formatValue(portfolioSummary?.currentValue)}
             </p>
             <p style={{ margin: '4px 0 0', fontSize: 11, color: '#6366F1' }}>
@@ -167,29 +160,20 @@ export default function PortfolioVsMarket() {
           <div style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', flexShrink: 0 }}>vs</div>
 
           {/* Benchmark Card */}
-          <div style={{ flex: 1, background: '#FFF7ED', borderRadius: 12, padding: 16, position: 'relative' }} ref={benchmarkRef}>
-            <button
-              onClick={() => setShowBenchmarkDropdown(!showBenchmarkDropdown)}
-              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 600, color: '#C2410C', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'inherit' }}
-            >
-              {benchmarkLabel} <span style={{ fontSize: 8 }}>▼</span>
-            </button>
-            {showBenchmarkDropdown && (
-              <div style={{ position: 'absolute', top: 32, left: 0, right: 0, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, boxShadow: '0 8px 24px rgba(0,0,0,0.1)', zIndex: 10, overflow: 'hidden' }}>
-                {BENCHMARKS.map((b) => (
-                  <button
-                    key={b.value}
-                    onClick={() => { setBenchmark(b.value); setShowBenchmarkDropdown(false); }}
-                    style={{ display: 'block', width: '100%', padding: '10px 14px', textAlign: 'left', border: 'none', background: benchmark === b.value ? '#FFF7ED' : '#fff', fontSize: 13, fontWeight: benchmark === b.value ? 700 : 500, color: '#111', cursor: 'pointer', fontFamily: 'inherit' }}
-                  >
-                    {b.label}
-                  </button>
-                ))}
-              </div>
-            )}
-            <p style={{ margin: '6px 0 0', fontSize: 24, fontWeight: 700, color: '#C2410C', lineHeight: 1.2 }}>
+          <div
+            onClick={() => {
+              const idx = BENCHMARKS.findIndex(b => b.value === benchmark);
+              const next = (idx + 1) % BENCHMARKS.length;
+              setBenchmark(BENCHMARKS[next].value);
+            }}
+            style={{ flex: 1, background: '#FFF7ED', borderRadius: 12, padding: 16, cursor: 'pointer' }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 600, color: '#C2410C', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+              {benchmarkLabel} <ArrowDownUp  size={10} />
+            </span>
+            <p style={{ margin: '6px 0 0', fontSize: 14, fontWeight: 600, color: '#C2410C', lineHeight: 1.2 }}>
               {mode === 'return' ? formatReturn(benchmarkSummary?.absoluteReturn) : formatValue(benchmarkSummary?.hypotheticalValue)}
-              <span style={{ fontSize: 14, marginLeft: 4 }}>
+              <span style={{ fontSize: 11, marginLeft: 4 }}>
                 {benchmarkSummary?.absoluteReturn != null && (benchmarkSummary.absoluteReturn >= 0 ? '▲' : '▼')}
               </span>
             </p>
@@ -204,7 +188,7 @@ export default function PortfolioVsMarket() {
       {loading ? renderSkeletonChart() : timeline.length > 0 ? (
         <div style={{ height: 280, marginBottom: 16 }}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={timeline} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
+            <LineChart data={timeline} margin={{ top: 8, right: 20, left: 20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="" vertical={false} stroke="#F3F4F6" />
               <XAxis
                 dataKey="label"
@@ -248,37 +232,19 @@ export default function PortfolioVsMarket() {
               onClick={() => setPeriod(p)}
               style={{
                 padding: '6px 14px', borderRadius: 20, border: 'none', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-                background: period === p ? '#111827' : '#F3F4F6', color: period === p ? '#fff' : '#6B7280', transition: 'all 0.15s',
+                background: period === p ? '#092042' : '#F3F4F6', color: period === p ? '#fff' : '#6B7280', transition: 'all 0.15s',
               }}
             >
               {p}
             </button>
           ))}
         </div>
-        <div style={{ position: 'relative' }} ref={modeRef}>
-          <button
-            onClick={() => setShowModeDropdown(!showModeDropdown)}
-            style={{ padding: '6px 14px', borderRadius: 20, border: 'none', fontSize: 12, fontWeight: 600, cursor: 'pointer', background: '#F3F4F6', color: '#6B7280', display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'inherit' }}
-          >
-            {mode === 'return' ? 'Return' : 'Value'} <span style={{ fontSize: 8 }}>▼</span>
-          </button>
-          {showModeDropdown && (
-            <div style={{ position: 'absolute', top: 36, right: 0, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, boxShadow: '0 8px 24px rgba(0,0,0,0.1)', zIndex: 10, overflow: 'hidden', minWidth: 130 }}>
-              <button
-                onClick={() => { setMode('return'); setShowModeDropdown(false); }}
-                style={{ display: 'block', width: '100%', padding: '10px 14px', textAlign: 'left', border: 'none', background: mode === 'return' ? '#F3F4F6' : '#fff', fontSize: 13, fontWeight: mode === 'return' ? 700 : 500, color: '#111', cursor: 'pointer', fontFamily: 'inherit' }}
-              >
-                Return %
-              </button>
-              <button
-                onClick={() => { setMode('value'); setShowModeDropdown(false); }}
-                style={{ display: 'block', width: '100%', padding: '10px 14px', textAlign: 'left', border: 'none', background: mode === 'value' ? '#F3F4F6' : '#fff', fontSize: 13, fontWeight: mode === 'value' ? 700 : 500, color: '#111', cursor: 'pointer', fontFamily: 'inherit' }}
-              >
-                Value (₹)
-              </button>
-            </div>
-          )}
-        </div>
+        <button
+          onClick={() => setMode(prev => prev === 'return' ? 'value' : 'return')}
+          style={{ padding: '6px 14px', borderRadius: 20, border: 'none', fontSize: 12, fontWeight: 600, cursor: 'pointer', background: '#F3F4F6', color: '#6B7280', fontFamily: 'inherit' }}
+        >
+          {mode === 'return' ? 'Return' : 'Value'}
+        </button>
       </div>
 
       {/* Footer */}
