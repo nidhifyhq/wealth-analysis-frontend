@@ -8,15 +8,16 @@ const ExternalFundsSyncedSuccess = ({
   onViewAnalytics,
   onClose,
 }) => {
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formatCurrency = (value) => {
     if (!value || isNaN(value)) return "0";
     return `${Math.round(parseFloat(value)).toLocaleString("en-IN")}`;
   };
 
-  const handleViewAnalytics = async () => {
- onClose();
+  const handleClose = () => {
+    setIsLoading(true);
+    onClose();
   };
 
   return (
@@ -33,7 +34,7 @@ const ExternalFundsSyncedSuccess = ({
 
         <button
           className={styles.ExternalFundsSyncedSuccess_closeButton}
-          onClick={onClose}
+          onClick={handleClose}
           aria-label="Close"
         >
           <X size={18} color="#64748b" />
@@ -76,7 +77,7 @@ const ExternalFundsSyncedSuccess = ({
 
       <button
         className={styles.ExternalFundsSyncedSuccess_ctaButton}
-        onClick={handleViewAnalytics}
+        onClick={handleClose}
         disabled={isLoading}
       >
         {isLoading ? (

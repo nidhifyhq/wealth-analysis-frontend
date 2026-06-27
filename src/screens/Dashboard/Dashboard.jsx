@@ -12,7 +12,7 @@ import {
   ChevronRight,
   Upload,
 } from "lucide-react";
-import { fetchInvestmentShortDetails } from "../../services/apis/dashboard.service";
+import { fetchInvestmentShortDetails, fetchTotalAssets } from "../../services/apis/dashboard.service";
 import LoadingDots from "../../components/LoadingDots/LoadingDots";
 import { selectUserName } from "../../store/auth/auth.selectors";
 import PortfolioVsMarket from "./PortfolioVsMarket";
@@ -50,6 +50,7 @@ export default function Dashboard() {
   const userName = useSelector(selectUserName);
   const [showBalance, setShowBalance] = useState(true);
   const [dashboardData, setDashboardData] = useState(null);
+  const [totalAssetsData, setTotalAssetsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCasUpload, setShowCasUpload] = useState(false);
 
@@ -59,22 +60,27 @@ export default function Dashboard() {
 
   const loadData = async () => {
     setIsLoading(true);
-    const res = await fetchInvestmentShortDetails();
-    if (res && res.summary) {
-      setDashboardData(res);
+    const [detailsRes, assetsRes] = await Promise.all([
+      fetchInvestmentShortDetails(),
+      fetchTotalAssets(),
+    ]);
+    if (detailsRes && (detailsRes.MutualFund || detailsRes.FixedDeposit)) {
+      setDashboardData(detailsRes);
+    }
+    if (assetsRes) {
+      setTotalAssetsData(assetsRes);
     }
     setIsLoading(false);
   };
 
-  const summary = dashboardData?.summary;
   const mutualFund = dashboardData?.MutualFund;
   const fixedDeposit = dashboardData?.FixedDeposit;
   const isCasImported = mutualFund?.isCasImported;
 
-  const totalAssets = summary?.totalAssets;
+  const totalAssets = totalAssetsData?.totalAssets;
 
   const productTags = useMemo(() => {
-    const investProduct = summary?.investProduct || [];
+    const investProduct = totalAssetsData?.investProduct || [];
     return investProduct.map((name) => {
       const known = productConfig[name];
       if (known) {
@@ -85,7 +91,7 @@ export default function Dashboard() {
         style: { backgroundColor: stringToColor(name), color: "#ffffff" },
       };
     });
-  }, [summary?.investProduct]);
+  }, [totalAssetsData?.investProduct]);
 
   return (
     <>
@@ -236,7 +242,7 @@ export default function Dashboard() {
                     {isLoading ? (
                       <LoadingDots speed={300} />
                     ) : showBalance ? (
-                      formatCurrency(fixedDeposit?.currentVal)
+                      formatCurrency(fixedDeposit?.investedVal)
                     ) : (
                       "••••••"
                     )}
@@ -249,23 +255,18 @@ export default function Dashboard() {
                       {isLoading ? (
                         <LoadingDots speed={300} />
                       ) : (
-                        <>⚡ {fixedDeposit?.fDpct || "0.00"}%</>
+                        <>⚡ {fixedDeposit?.absReturn || "0.00"}%</>
                       )}
                     </span>
                     <span className={styles.mobileDashboardTrendPeriod}>
-                      {isLoading ? (
-                        <LoadingDots speed={300} />
-                      ) : (
-                        fixedDeposit?.interestTime || "Annual"
-                      )}{" "}
-                      Interest
+                   All-time Returns
                     </span>
                   </div>
                   <p className={styles.mobileDashboardCardFooterText}>
                     {isLoading ? (
                       <LoadingDots speed={300} />
-                    ) : fixedDeposit?.matureOn ? (
-                      `Matures on: ${fixedDeposit.matureOn}`
+                    ) : fixedDeposit?.totalFD ? (
+                      `Active FDs ${fixedDeposit.totalFD}`
                     ) : (
                       "No active FD"
                     )}
@@ -278,14 +279,14 @@ export default function Dashboard() {
         </div>
 
         {/* Action Buttons */}
-        <div className={styles.mobileDashboardActionGroup}>
+        {/* <div className={styles.mobileDashboardActionGroup}>
           <button className={styles.mobileDashboardActionButton}>
             <Plus size={18} /> Deposit
           </button>
           <button className={styles.mobileDashboardActionButton}>
             <Download size={18} /> Withdraw
           </button>
-        </div>
+        </div> */}
 
         {/* Main Content White Area */}
         <div className={styles.mobileDashboardContentSheet}>

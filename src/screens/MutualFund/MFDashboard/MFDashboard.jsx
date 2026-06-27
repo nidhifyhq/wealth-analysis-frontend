@@ -103,7 +103,7 @@ export default function MFDashboard() {
       "In-Form": styles.MFDashboardRatingInForm,
       "On-Track": styles.MFDashboardRatingOnTrack,
       "Off-Track": styles.MFDashboardRatingOffTrack,
-      "Out-of-form": styles.MFDashboardRatingOutOfForm,
+      "Out-of-Form": styles.MFDashboardRatingOutOfForm,
       "Not Rated": styles.MFDashboardRatingNotRated,
     };
     return map[rating] || "";
