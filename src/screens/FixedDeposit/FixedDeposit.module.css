@@ -1,4 +1,4 @@
-.MFDashboardContainer {
+.FixedDepositContainer {
   background-color: #ffffff;
   min-height: 100vh;
   color: #111111;
@@ -8,21 +8,20 @@
   padding-bottom: 30px;
 }
 
-/* SECTION 1: Top Hero Jumbotron Block Styling */
-.MFDashboardHeaderBanner {
+.FixedDepositHeaderBanner {
   background-color: #0c3e38;
-  padding: 20px 20px 56px 20px; /* Generous padding bottom to securely mask background alignment layers */
+  padding: 20px 20px 56px 20px;
   color: #ffffff;
 }
 
-.MFDashboardTopActionRow {
+.FixedDepositTopActionRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.MFDashboardCircularBtn {
+.FixedDepositCircularBtn {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
@@ -35,23 +34,23 @@
   cursor: pointer;
 }
 
-.MFDashboardCircularBtn:active {
+.FixedDepositCircularBtn:active {
   background: rgba(255, 255, 255, 0.16);
 }
 
-.MFDashboardBalanceHeader {
+.FixedDepositBalanceHeader {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.MFDashboardBalanceTitle {
+.FixedDepositBalanceTitle {
   font-size: 13px;
   font-weight: 500;
   opacity: 0.75;
 }
 
-.MFDashboardToggleEye {
+.FixedDepositToggleEye {
   background: none;
   border: none;
   color: #ffffff;
@@ -62,7 +61,7 @@
   padding: 0;
 }
 
-.MFDashboardBalanceRowGroup {
+.FixedDepositBalanceRowGroup {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -70,27 +69,14 @@
   margin-bottom: 20px;
 }
 
-.MFDashboardPrimaryAmount {
+.FixedDepositPrimaryAmount {
   font-size: 24px;
   font-weight: 600;
   margin: 0;
   letter-spacing: -0.5px;
 }
 
-.MFDashboardMonthDropdown {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-
-.MFDashboardMetricsRow {
+.FixedDepositMetricsRow {
   display: flex;
   justify-content: space-between;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -98,38 +84,37 @@
   gap: 8px;
 }
 
-.MFDashboardMetricItem {
+.FixedDepositMetricItem {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.MFDashboardMetricLabel {
+.FixedDepositMetricLabel {
   font-size: 11px;
   color: #8fa7a4;
   margin-bottom: 2px;
   font-weight: 500;
 }
 
-.MFDashboardMetricValue {
+.FixedDepositMetricValue {
   font-size: 13px;
   font-weight: 600;
   color: #ffffff;
 }
 
-.MFDashboardNegativeReturn {
+.FixedDepositNegativeReturn {
   color: #ff6b7a;
 }
 
-/* SECTION 2: Fixed 30% Overlapping Layout Section Wrapper */
-.MFDashboardPerformanceContainer {
-  padding: 0 20px; /* Left and Right container padding */
-  margin-top: -46px; /* Pulls ~30% of the section upwards into the banner */
+.FixedDepositPerformanceContainer {
+  padding: 0 20px;
+  margin-top: -46px;
   position: relative;
   z-index: 5;
 }
 
-.MFDashboardPerformanceTitleRow {
+.FixedDepositPerformanceTitleRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -137,21 +122,21 @@
   padding: 0 4px;
 }
 
-.MFDashboardPerformanceHeading {
-  font-size: 13px; /* Compact title size */
+.FixedDepositPerformanceHeading {
+  font-size: 13px;
   font-weight: 700;
   margin: 0;
-  color: #ffffff; /* Contrast white title over dark green background zone */
+  color: #ffffff;
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.MFDashboardInfoIcon {
+.FixedDepositInfoIcon {
   opacity: 0.8;
 }
 
-.MFDashboardPerformanceLink {
+.FixedDepositPerformanceLink {
   background: none;
   border: none;
   color: #8fa7a4;
@@ -161,50 +146,42 @@
   padding: 0;
 }
 
-/* Master White Card Block layout */
-.MFDashboardPerformanceCardGroup {
-  background-color: #ffffff; /* Core white base requested */
+.FixedDepositPerformanceCardGroup {
+  background-color: #ffffff;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(12, 62, 56, 0.08);
   border: 1px solid #edf1f0;
-  padding: 4px 0; /* Interior vertical tracking buffers */
+  padding: 4px 0;
 }
 
-/* Performance Row items with explicit nested side paddings */
-.MFDashboardPerfRowItem {
+.FixedDepositPerfRowItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 16px; /* Shrunk height padding with dedicated left/right alignment spacing */
+  padding: 10px 16px;
   border-bottom: 1px solid #f5f8f7;
   color: #7e8a8c;
-  background-color: #ffffff; /* Keeps fallback default backgrounds neutral white */
+  background-color: #ffffff;
   cursor: pointer;
 }
 
-.MFDashboardPerfRowItem:last-child {
+.FixedDepositPerfRowItem:last-child {
   border-bottom: none;
 }
 
-/* Light translucent tint variations from Image 2 mapped cleanly */
-.MFDashboardInFormBg {
+.FixedDepositActiveBg {
   background-color: #eafbf0;
   color: #0b451f;
 }
 
-.MFDashboardOnTrackBg {
-  background-color: #f3fdf7;
-  color: #0e5027;
-}
-
-.MFDashboardPerfLeading {
+.FixedDepositPerfLeading {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.MFDashboardIconBadgeWrapper {
+.FixedDepositIconBadgeWrapper {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -214,11 +191,10 @@
   position: relative;
 }
 
-.MFDashboardGreenCircle { background-color: #a3f0ba; color: #0a3d1b; }
-.MFDashboardLightGreenCircle { background-color: #cbf7da; color: #0b4220; }
-.MFDashboardGreyCircle { background-color: #f4f7f6; color: #9da3a1; }
+.FixedDepositGreenCircle { background-color: #a3f0ba; color: #0a3d1b; }
+.FixedDepositGreyCircle { background-color: #f4f7f6; color: #9da3a1; }
 
-.MFDashboardCounterBadge {
+.FixedDepositCounterBadge {
   position: absolute;
   top: -2px;
   right: -3px;
@@ -235,42 +211,41 @@
   border: 1px solid currentColor;
 }
 
-.MFDashboardPerfStatusText {
+.FixedDepositPerfStatusText {
   font-size: 13px;
   font-weight: 700;
   margin: 0;
   color: inherit;
 }
 
-.MFDashboardMutedText {
+.FixedDepositMutedText {
   color: #5d6769;
 }
 
-.MFDashboardPerfSubText {
+.FixedDepositPerfSubText {
   font-size: 11px;
   opacity: 0.85;
   margin: 1px 0 0 0;
 }
 
-/* SECTION 3: Investment Holdings Area Styling (Image 3) */
-.MFDashboardFundsSection {
+.FixedDepositFundsSection {
   padding: 24px 20px 16px 20px;
 }
 
-.MFDashboardSectionHeadingRow {
+.FixedDepositSectionHeadingRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 14px;
 }
 
-.MFDashboardSectionHeading {
-  font-size: 16px;
+.FixedDepositSectionHeading {
+  font-size: 14px;
   font-weight: 700;
   margin: 0;
 }
 
-.MFDashboardViewToggle {
+.FixedDepositViewToggle {
   background: none;
   border: 1px solid #E5E7EB;
   border-radius: 8px;
@@ -286,94 +261,95 @@
   white-space: nowrap;
 }
 
-.MFDashboardViewToggle:hover {
+.FixedDepositViewToggle:hover {
   border-color: #D1D5DB;
   color: #374151;
   background: #F9FAFB;
 }
 
-.MFDashboardSearchBoxWrapper {
-  display: flex;
-  align-items: center;
-  background-color: #f6f8f7;
-  border-radius: 14px;
-  padding: 12px 14px;
-  gap: 10px;
-  color: #777777;
-  margin-bottom: 16px;
-}
-
-.MFDashboardSearchInputElement {
-  background: none;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  color: #111111;
-  width: 100%;
-}
-
-.MFDashboardSearchInputElement::placeholder {
-  color: #9da3a1;
-}
-
-.MFDashboardFundsListStack {
+.FixedDepositFundsListStack {
   display: flex;
   flex-direction: column;
 }
 
-.MFDashboardFundListItem {
+.FixedDepositFundListItem {
   border-bottom: 1px solid #eef2f1;
   padding: 18px 0;
+  cursor: pointer;
 }
 
-.MFDashboardFundListItem:last-child {
+.FixedDepositFundListItem:last-child {
   border-bottom: none;
 }
 
-.MFDashboardFundMainMeta {
+.FixedDepositFundMainMeta {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
+  align-items: center;
+  gap: 12px;
 }
 
-.MFDashboardFundTitleName {
+.FixedDepositFundTitleNameWrap {
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+
+.FixedDepositFundTitleName {
   font-size: 13px;
   font-weight: 500;
   color: #33334e;
-  line-height: 1.45;
   margin: 0;
-  max-width: 65%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.MFDashboardFundValueBlock {
+.FixedDepositFundValueBlock {
   text-align: right;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex-shrink: 0;
 }
 
-.MFDashboardCurrentPriceText {
+.FixedDepositFundSecondRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.FixedDepositFundSecondRow .FixedDepositCurrentPriceText {
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.FixedDepositGainSub {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.FixedDepositCurrentPriceText {
   font-size: 14px;
   font-weight: 600;
 }
 
-.MFDashboardPriceNegativeColor {
+.FixedDepositPriceNegativeColor {
   color: #eb5757;
 }
 
-.MFDashboardPricePositiveColor {
+.FixedDepositPricePositiveColor {
   color: #27ae60;
 }
 
-.MFDashboardInvestedPriceSubText {
+.FixedDepositInvestedPriceSubText {
   font-size: 11px;
   color: #828282;
   font-weight: 400;
 }
 
-/* Rating Badge */
-.MFDashboardRatingBadge {
+.FixedDepositStatusBadge {
   display: inline-block;
   font-size: 10px;
   font-weight: 600;
@@ -382,33 +358,37 @@
   margin-top: 4px;
 }
 
-.MFDashboardRatingInForm {
+.FixedDepositStatusActive {
   background: #eafbf0;
   color: #0b451f;
 }
 
-.MFDashboardRatingOnTrack {
-  background: #f3fdf7;
-  color: #0e5027;
-}
-
-.MFDashboardRatingOffTrack {
+.FixedDepositStatusMatured {
   background: #F3F4F6;
   color: #5d6769;
 }
 
-.MFDashboardRatingOutOfForm {
-  background: #F3F4F6;
-  color: #5d6769;
-}
-
-.MFDashboardRatingNotRated {
+.FixedDepositStatusUpcoming {
   background: #FEF3C7;
   color: #92400E;
 }
 
-/* Plan Type Badge */
-.MFDashboardPlanBadge {
+.FixedDepositPlanStatusActive {
+  background: #eafbf0;
+  color: #0b451f;
+}
+
+.FixedDepositPlanStatusMatured {
+  background: #F3F4F6;
+  color: #5d6769;
+}
+
+.FixedDepositPlanStatusUpcoming {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.FixedDepositTenureText {
   display: inline-block;
   font-size: 10px;
   font-weight: 600;
@@ -416,35 +396,23 @@
   border-radius: 6px;
   margin-top: 4px;
   margin-left: 6px;
-}
-
-.MFDashboardPlanRegular {
   background: #F3F4F6;
   color: #6B7280;
 }
-.MFDashboardDateRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid #F3F4F6;
+
+.FixedDepositFundDateMeta {
+  margin-top: 6px;
+}
+
+.FixedDepositFundDateText {
   font-size: 11px;
   color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.MFDashboardDateRowItem strong {
-  font-weight: 600;
-  color: #6B7280;
-}
-
-.MFDashboardDateRowDivider {
-  color: #D1D5DB;
-  font-size: 10px;
-}
-
-.MFDashboardTrackBtn {
+.FixedDepositTrackBtn {
   background: #0c3e38;
   color: #ffffff;
   border: none;
@@ -457,36 +425,15 @@
   transition: background 0.2s;
 }
 
-.MFDashboardTrackBtn:hover {
+.FixedDepositTrackBtn:hover {
   background: #0a322d;
 }
 
-.MFDashboardDisclaimer {
+.FixedDepositDisclaimer {
   font-size: 10px;
   color: #64748b;
   line-height: 1.5;
   text-align: center;
   padding: 20px 25px;
   margin: 0;
-}
-
-.MFDashboardDelinkBtn {
-  display: block;
-  margin: 16px auto 0;
-  background: none;
-  border: 1px solid #E5E7EB;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #9CA3AF;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: inherit;
-}
-
-.MFDashboardDelinkBtn:hover {
-  border-color: #D1D5DB;
-  color: #6B7280;
-  background: #F9FAFB;
 }

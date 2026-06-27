@@ -6,7 +6,7 @@ import styles from './BottomBar.module.css';
 const navItems = [
   { label: 'Home', icon: LayoutDashboard, route: '/dashboard' },
   { label: 'MF', icon: TrendingUp, route: '/mf/' },
-  { label: 'FD', icon: Landmark, route: '/dashboard' },
+  { label: 'FD', icon: Landmark, route: '/fd' },
   { label: 'Profile', icon: User, route: '/profile' },
 ];
 

@@ -11,4 +11,7 @@ export const API_ROUTES = {
   USER_DETAILS: "/api/user/details",
   USER_DELETE: "/api/user/delete",
   CAS_DATA_DELETE: "/api/portfolio/cas-data-delete",
+  FD_LIST: "/api/fd",
+  FD_CREATE: "/api/fd",
+  FD_BY_ID: "/api/fd", // append /:id in service
 }
