@@ -1,0 +1,54 @@
+.AboutUsModalOverlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(6, 23, 21, 0.6); display: flex; align-items: flex-end; z-index: 1000;
+  animation: AboutUsModalFadeIn 0.2s ease-out;
+}
+.AboutUsModalSheet {
+  background-color: #ffffff; width: 100%; height: 80%;
+  border-top-left-radius: 28px; border-top-right-radius: 28px;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 -10px 30px rgba(12, 62, 56, 0.15);
+  animation: AboutUsModalSlideUp 0.3s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+}
+.AboutUsModalHeader {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px; border-bottom: 1px solid #f1f5f4; background-color: #ffffff;
+}
+.AboutUsModalTitle { font-size: 19px; font-weight: 700; color: #0c3e38; margin: 0; }
+.AboutUsModalCloseIconBtn {
+  background: none; border: none; color: #728481; cursor: pointer; padding: 4px;
+  display: flex; align-items: center; justify-content: center; border-radius: 50%;
+}
+.AboutUsModalCloseIconBtn:active { background-color: #f0f4f3; color: #0c3e38; }
+.AboutUsModalScrollBody { flex-grow: 1; overflow-y: auto; padding: 20px 24px; -webkit-overflow-scrolling: touch; }
+.AboutUsModalHeroText { font-size: 14px; line-height: 1.6; color: #334442; margin: 0 0 20px 0; font-weight: 500; }
+.AboutUsModalSectionTitle { font-size: 15px; font-weight: 700; color: #0c3e38; margin: 24px 0 12px 0; }
+.AboutUsModalText { font-size: 13.5px; line-height: 1.6; color: #4a5d5a; margin: 0 0 12px 0; }
+.AboutUsModalQuoteBlock {
+  background-color: #f4f8f7; border-left: 4px solid #39cc6e; margin: 12px 0;
+  padding: 14px; border-top-right-radius: 12px; border-bottom-right-radius: 12px;
+  font-size: 13.5px; font-style: italic; color: #0c3e38; line-height: 1.5;
+}
+.AboutUsModalFeaturesList { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.AboutUsModalFeatureCard { background-color: #ffffff; border: 1px solid #edf1f0; border-radius: 14px; padding: 14px; display: flex; gap: 12px; }
+.AboutUsModalIconBox { width: 36px; height: 36px; background-color: #e8f3f1; color: #0c3e38; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.AboutUsModalFeatureTitle { font-size: 14px; font-weight: 700; color: #112220; margin: 0 0 4px 0; }
+.AboutUsModalFeatureDesc { font-size: 12px; line-height: 1.45; color: #556664; margin: 0; }
+.AboutUsModalPrincipleRow { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f2f6f5; }
+.AboutUsModalPrincipleRow:last-child { border-bottom: none; margin-bottom: 0; }
+.AboutUsModalPrincipleHeader { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.AboutUsModalBulletDot { width: 6px; height: 6px; background-color: #39cc6e; border-radius: 50%; }
+.AboutUsModalPrincipleTitle { font-size: 13.5px; font-weight: 700; color: #112220; margin: 0; }
+.AboutUsModalPrincipleText { font-size: 12.5px; line-height: 1.5; color: #556664; margin: 0; padding-left: 14px; }
+.AboutUsModalClosingSection { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 24px 0; }
+.AboutUsModalShieldFrame { width: 44px; height: 44px; background-color: #e8fbf1; color: #39cc6e; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+.AboutUsModalFooterHeading { font-size: 14px; font-weight: 700; color: #0c3e38; margin: 0 0 4px 0; }
+.AboutUsModalFooterSubtext { font-size: 12px; color: #728481; margin: 0; max-width: 260px; line-height: 1.4; }
+.AboutUsModalFooter { padding: 16px 24px; border-top: 1px solid #f1f5f4; background-color: #ffffff; display: flex; flex-direction: column; }
+.AboutUsModalCloseActionBtn {
+  background-color: #0c3e38; color: #ffffff; border: none; border-radius: 14px;
+  padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; text-align: center;
+}
+.AboutUsModalCloseActionBtn:active { background-color: #062320; }
+@keyframes AboutUsModalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes AboutUsModalSlideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }

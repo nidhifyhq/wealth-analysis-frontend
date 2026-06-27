@@ -17,6 +17,12 @@ import { logout } from '../../store/auth/auth.slice'
 import { selectUserName, selectUserEmail } from '../../store/auth/auth.selectors'
 import { fetchUserDetails, deleteUserAccount } from '../../services/apis/user.service'
 import DeleteAccountModal from './DeleteAccountModal/DeleteAccountModal'
+import Terms from '../PolicyPages/Terms/Terms'
+import Privacy from '../PolicyPages/Privacy/Privacy'
+import Disclaimer from '../PolicyPages/Disclaimer/Disclaimer'
+import AboutUs from '../PolicyPages/AboutUs/AboutUs'
+import ContactUs from '../PolicyPages/ContactUs/ContactUs'
+import FAQs from '../PolicyPages/FAQs/FAQs'
 import styles from './UserProfile.module.css'
 
 const formatDate = (dateStr) => {
@@ -37,6 +43,12 @@ export default function UserProfile() {
   const [, setIsLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isTermsOpen, setIsTermsOpen] = useState(false)
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false)
+  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false)
+  const [isAboutUsOpen, setIsAboutUsOpen] = useState(false)
+  const [isContactUsOpen, setIsContactUsOpen] = useState(false)
+  const [isFaqsOpen, setIsFaqsOpen] = useState(false)
 
   useEffect(() => {
     const loadData = async () => {
@@ -169,7 +181,19 @@ export default function UserProfile() {
         {/* GROUP 3: Legal & Support */}
         <div className={styles.UserProfileSectionBlock}>
           <h3 className={styles.UserProfileSectionLabel}>LEGAL & SUPPORT</h3>
-          <div className={`${styles.UserProfileRowCard} ${styles.UserProfileHasBorderBottom}`}>
+          <div
+            className={`${styles.UserProfileRowCard} ${styles.UserProfileHasBorderBottom}`}
+            onClick={() => setIsPrivacyOpen(true)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                setIsPrivacyOpen(true)
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: 'pointer' }}
+          >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
                 <ShieldCheck size={18} />
@@ -180,13 +204,117 @@ export default function UserProfile() {
             </div>
             <ExternalLink size={18} className={styles.UserProfileChevronRight} />
           </div>
-          <div className={styles.UserProfileRowCard}>
+          <div
+            className={styles.UserProfileRowCard}
+            onClick={() => setIsTermsOpen(true)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                setIsTermsOpen(true)
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: 'pointer' }}
+          >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
                 <FileText size={18} />
               </div>
               <div>
                 <p className={styles.UserProfileStandaloneText}>Terms & Conditions</p>
+              </div>
+            </div>
+            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+          </div>
+          <div
+            className={styles.UserProfileRowCard}
+            onClick={() => setIsDisclaimerOpen(true)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                setIsDisclaimerOpen(true)
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className={styles.UserProfileRowLeading}>
+              <div className={styles.UserProfileIconFrame}>
+                <FileText size={18} />
+              </div>
+              <div>
+                <p className={styles.UserProfileStandaloneText}>Disclaimer</p>
+              </div>
+            </div>
+            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+          </div>
+          <div
+            className={styles.UserProfileRowCard}
+            onClick={() => setIsAboutUsOpen(true)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                setIsAboutUsOpen(true)
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className={styles.UserProfileRowLeading}>
+              <div className={styles.UserProfileIconFrame}>
+                <ShieldCheck size={18} />
+              </div>
+              <div>
+                <p className={styles.UserProfileStandaloneText}>About Us</p>
+              </div>
+            </div>
+            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+          </div>
+          <div
+            className={styles.UserProfileRowCard}
+            onClick={() => setIsContactUsOpen(true)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                setIsContactUsOpen(true)
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className={styles.UserProfileRowLeading}>
+              <div className={styles.UserProfileIconFrame}>
+                <FileText size={18} />
+              </div>
+              <div>
+                <p className={styles.UserProfileStandaloneText}>Contact Us</p>
+              </div>
+            </div>
+            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+          </div>
+          <div
+            className={styles.UserProfileRowCard}
+            onClick={() => setIsFaqsOpen(true)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                setIsFaqsOpen(true)
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className={styles.UserProfileRowLeading}>
+              <div className={styles.UserProfileIconFrame}>
+                <FileText size={18} />
+              </div>
+              <div>
+                <p className={styles.UserProfileStandaloneText}>FAQs</p>
               </div>
             </div>
             <ExternalLink size={18} className={styles.UserProfileChevronRight} />
@@ -218,6 +346,13 @@ export default function UserProfile() {
         onConfirm={handleDeleteAccount}
         isDeleting={isDeleting}
       />
+
+      <Terms isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
+      <Privacy isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
+      <Disclaimer isOpen={isDisclaimerOpen} onClose={() => setIsDisclaimerOpen(false)} />
+      <AboutUs isOpen={isAboutUsOpen} onClose={() => setIsAboutUsOpen(false)} />
+      <ContactUs isOpen={isContactUsOpen} onClose={() => setIsContactUsOpen(false)} />
+      <FAQs isOpen={isFaqsOpen} onClose={() => setIsFaqsOpen(false)} />
     </div>
   )
 }

@@ -1,0 +1,151 @@
+/* Dark semi-translucent mobile overlay backdrop mesh layout */
+.DisclaimerPageModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(6, 23, 21, 0.6); /* Brand matching dark-tint shadow overlay */
+  display: flex;
+  align-items: flex-end; /* Locks element position directly at screen bottom boundary */
+  z-index: 1000;
+  animation: DisclaimerPageFadeIn 0.2s ease-out;
+}
+
+/* Base Bottom-Sheet architecture with hard-coded 80% screen viewport height limits */
+.DisclaimerPageModalSheet {
+  background-color: #ffffff;
+  width: 100%;
+  height: 80%; /* Fixed constraint specified height metrics */
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 -10px 30px rgba(12, 62, 56, 0.15);
+  animation: DisclaimerPageSlideUp 0.3s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+}
+
+/* Sticky top header parameters layout boundaries */
+.DisclaimerPageModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f4;
+  background-color: #ffffff;
+}
+
+.DisclaimerPageModalTitle {
+  font-size: 19px;
+  font-weight: 700;
+  color: #0c3e38; /* Core dark premium teal branding palette */
+  margin: 0;
+}
+
+.DisclaimerPageCloseIconBtn {
+  background: none;
+  border: none;
+  color: #728481;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.15s;
+}
+
+.DisclaimerPageCloseIconBtn:active {
+  background-color: #f0f4f3;
+  color: #0c3e38;
+}
+
+/* Interior Scroll Box mechanics window */
+.DisclaimerPageModalScrollBody {
+  flex-grow: 1;
+  overflow-y: auto; /* Activates natural structural content scrolling loops */
+  padding: 20px 24px;
+  -webkit-overflow-scrolling: touch; /* Ensures fluid inertial scrolling actions on iOS native web containers */
+}
+
+.DisclaimerPageMetaDate {
+  font-size: 12px;
+  font-weight: 600;
+  color: #39cc6e; /* Brand vibrant accent light green highlight color block */
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.DisclaimerPageSectionHeading {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0c3e38;
+  margin: 24px 0 12px 0;
+  line-height: 1.4;
+}
+
+.DisclaimerPageParagraph {
+  font-size: 14px;
+  color: #334442;
+  line-height: 1.6;
+  margin: 0 0 14px 0;
+}
+
+.DisclaimerPageBulletList {
+  margin: 0 0 18px 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.DisclaimerPageListItem {
+  font-size: 13.5px;
+  color: #4a5d5a;
+  line-height: 1.55;
+}
+
+.DisclaimerPageListItem strong {
+  color: #112220;
+}
+
+/* Sticky Action Button layout strip on base footprint zone */
+.DisclaimerPageModalFooter {
+  padding: 16px 24px;
+  border-top: 1px solid #f1f5f4;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.DisclaimerPageCloseActionBtn {
+  background-color: #0c3e38;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 4px 12px rgba(12, 62, 56, 0.12);
+}
+
+.DisclaimerPageCloseActionBtn:active {
+  background-color: #062320;
+  transform: scale(0.99);
+}
+
+/* Fluid Native Keyframe Interpolations for pure App UX feels */
+@keyframes DisclaimerPageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes DisclaimerPageSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

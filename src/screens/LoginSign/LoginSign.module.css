@@ -78,6 +78,34 @@
   flex-direction: column;
 }
 
+.LoginSignFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 24px 0 8px;
+  margin-top: auto;
+}
+
+.LoginSignFooterLink {
+  font-size: 12px;
+  color: #8fa7a4;
+  text-decoration: none;
+  padding: 4px 6px;
+  transition: color 0.2s;
+}
+
+.LoginSignFooterLink:hover {
+  color: #0c3e38;
+  text-decoration: underline;
+}
+
+.LoginSignFooterDot {
+  font-size: 12px;
+  color: #c4d1cf;
+}
+
 .LoginSignFormLayout {
   display: flex;
   flex-direction: column;

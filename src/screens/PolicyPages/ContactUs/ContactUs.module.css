@@ -1,0 +1,51 @@
+.ContactUsModalOverlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(6, 23, 21, 0.6); display: flex; align-items: flex-end; z-index: 1000;
+  animation: ContactUsModalFadeIn 0.2s ease-out;
+}
+.ContactUsModalSheet {
+  background-color: #ffffff; width: 100%; height: 80%;
+  border-top-left-radius: 28px; border-top-right-radius: 28px;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 -10px 30px rgba(12, 62, 56, 0.15);
+  animation: ContactUsModalSlideUp 0.3s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+}
+.ContactUsModalHeader {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px; border-bottom: 1px solid #f1f5f4; background-color: #ffffff;
+}
+.ContactUsModalTitle { font-size: 19px; font-weight: 700; color: #0c3e38; margin: 0; }
+.ContactUsModalCloseIconBtn {
+  background: none; border: none; color: #728481; cursor: pointer; padding: 4px;
+  display: flex; align-items: center; justify-content: center; border-radius: 50%;
+}
+.ContactUsModalCloseIconBtn:active { background-color: #f0f4f3; color: #0c3e38; }
+.ContactUsModalScrollBody { flex-grow: 1; overflow-y: auto; padding: 20px 24px; -webkit-overflow-scrolling: touch; }
+.ContactUsModalHeroText { font-size: 13.5px; line-height: 1.55; color: #4a5d5a; margin: 0 0 20px 0; }
+.ContactUsModalCard { background-color: #ffffff; border: 1px solid #edf1f0; border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+.ContactUsModalCardHeader { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.ContactUsModalIconFrame { width: 34px; height: 34px; background-color: #e8f3f1; color: #0c3e38; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.ContactUsModalCardTitle { font-size: 14.5px; font-weight: 700; color: #112220; margin: 0; }
+.ContactUsModalCardDesc { font-size: 12.5px; color: #556664; line-height: 1.5; margin: 0 0 12px 0; }
+.ContactUsModalEmailHighlight { background-color: #f4f7f6; border-radius: 10px; padding: 10px 14px; display: flex; gap: 6px; margin-bottom: 12px; border: 1px dashed #cedbd9; }
+.ContactUsModalEmailLabel { font-size: 12.5px; font-weight: 600; color: #556664; }
+.ContactUsModalEmailLink { font-size: 13.5px; font-weight: 700; color: #39cc6e; text-decoration: none; }
+.ContactUsModalResponseTime { display: flex; gap: 6px; font-size: 11.5px; color: #728481; line-height: 1.4; }
+.ContactUsModalSecurityCard { background-color: #fff6f6; border-color: #ffe3e3; }
+.ContactUsModalSecurityIconFrame { background-color: #ffebeb; color: #d32f2f; }
+.ContactUsModalSecurityTitle { color: #c92a2a; }
+.ContactUsModalBulletList { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.ContactUsModalListItem { display: flex; gap: 6px; font-size: 12px; line-height: 1.45; color: #4a5554; }
+.ContactUsModalWarningIcon { color: #d32f2f; flex-shrink: 0; margin-top: 1px; }
+.ContactUsModalTroubleIconFrame { background-color: #eaf6ff; color: #1a73e8; }
+.ContactUsModalTroubleItem { border-top: 1px solid #f0f4f3; padding-top: 10px; margin-top: 10px; }
+.ContactUsModalTroubleHeading { font-size: 12.5px; font-weight: 700; color: #0c3e38; margin: 0 0 2px 0; }
+.ContactUsModalTroubleText { font-size: 11.5px; color: #556664; line-height: 1.45; margin: 0; }
+.ContactUsModalFooter { padding: 16px 24px; border-top: 1px solid #f1f5f4; background-color: #ffffff; display: flex; flex-direction: column; }
+.ContactUsModalCloseActionBtn {
+  background-color: #0c3e38; color: #ffffff; border: none; border-radius: 14px;
+  padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; text-align: center;
+}
+.ContactUsModalCloseActionBtn:active { background-color: #062320; }
+@keyframes ContactUsModalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ContactUsModalSlideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }

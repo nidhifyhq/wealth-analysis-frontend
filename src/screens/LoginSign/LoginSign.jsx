@@ -483,6 +483,21 @@ export default function LoginSign() {
             </button>
           </form>
         )}
+
+        {/* Footer Links */}
+        <footer className={styles.LoginSignFooter}>
+          <a href="/terms" className={styles.LoginSignFooterLink}>Terms</a>
+          <span className={styles.LoginSignFooterDot}>·</span>
+          <a href="/privacy" className={styles.LoginSignFooterLink}>Privacy</a>
+          <span className={styles.LoginSignFooterDot}>·</span>
+          <a href="/disclaimer" className={styles.LoginSignFooterLink}>Disclaimer</a>
+          <span className={styles.LoginSignFooterDot}>·</span>
+          <a href="/about" className={styles.LoginSignFooterLink}>About</a>
+          <span className={styles.LoginSignFooterDot}>·</span>
+          <a href="/contact" className={styles.LoginSignFooterLink}>Contact Us</a>
+          <span className={styles.LoginSignFooterDot}>·</span>
+          <a href="/faq" className={styles.LoginSignFooterLink}>FAQs</a>
+        </footer>
       </main>
 
       {showTermsModal && (
@@ -500,6 +515,7 @@ export default function LoginSign() {
           illustrationSrc={logoFull}
         />
       )}
+
     </div>
   );
 }
