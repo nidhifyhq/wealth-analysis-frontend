@@ -1,0 +1,83 @@
+.NotificationCenteContainer {
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.NotificationCenteHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 10;
+}
+
+.NotificationCenteBackBtn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.NotificationCenteBackBtn:hover {
+  background: #F3F4F6;
+}
+
+.NotificationCenteTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.NotificationCenteBody {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.NotificationCenteEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 280px;
+}
+
+.NotificationCenteIconWrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  color: #0c3e38;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.NotificationCenteEmptyTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.NotificationCenteEmptyDesc {
+  font-size: 13px;
+  color: #9CA3AF;
+  line-height: 1.6;
+  margin: 0;
+}

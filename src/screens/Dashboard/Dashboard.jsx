@@ -111,6 +111,7 @@ export default function Dashboard() {
           <button
             className={styles.mobileDashboardNotificationBtn}
             aria-label="Notifications"
+            onClick={() => navigate("/notifications")}
           >
             <Bell size={20} />
             <span className={styles.mobileDashboardNotificationDot} />
