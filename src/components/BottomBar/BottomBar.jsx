@@ -19,8 +19,6 @@ export default function BottomBar() {
     return pathname === item.route;
   });
 
-  const indicatorLeft = activeIndex >= 0 ? `calc(${activeIndex * 25}% + ${50 - 10}px)` : '0px';
-
   return (
     <div className={styles.BottomBarContainer}>
       {navItems.map((item, idx) => {

@@ -19,10 +19,6 @@ import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
 
 import {
-  PiggyBank,
-  ArrowUpDown,
-  RefreshCw,
-  ScanEye,
   Newspaper,
   Calculator,
 } from "lucide-react";
@@ -76,9 +72,9 @@ export default function Dashboard() {
   const isCasImported = mutualFund?.isCasImported;
 
   const totalAssets = summary?.totalAssets;
-  const investProduct = summary?.investProduct || [];
 
   const productTags = useMemo(() => {
+    const investProduct = summary?.investProduct || [];
     return investProduct.map((name) => {
       const known = productConfig[name];
       if (known) {
@@ -89,7 +85,7 @@ export default function Dashboard() {
         style: { backgroundColor: stringToColor(name), color: "#ffffff" },
       };
     });
-  }, [investProduct]);
+  }, [summary?.investProduct]);
 
   return (
     <>

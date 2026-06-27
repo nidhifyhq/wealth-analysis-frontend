@@ -34,7 +34,7 @@ export default function UserProfile() {
   const reduxEmail = useSelector(selectUserEmail)
 
   const [userData, setUserData] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [, setIsLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 

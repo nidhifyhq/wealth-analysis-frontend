@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { X, Upload, CheckCircle, FileText, XCircle, Eye, EyeOff } from 'lucide-react'
+import { X, Upload, CheckCircle, XCircle, Eye, EyeOff } from 'lucide-react'
 import { uploadCas } from '../../../services/apis/portfolio.service'
 import MFCasImportModal from '../MFCasImport/MFCasImportModal'
 import MFCasuploadConcent from './MFCasuploadConcent/MFCasuploadConcent'

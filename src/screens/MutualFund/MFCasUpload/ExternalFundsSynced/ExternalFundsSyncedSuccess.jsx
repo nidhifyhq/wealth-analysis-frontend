@@ -8,7 +8,7 @@ const ExternalFundsSyncedSuccess = ({
   onViewAnalytics,
   onClose,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   const formatCurrency = (value) => {
     if (!value || isNaN(value)) return "0";
