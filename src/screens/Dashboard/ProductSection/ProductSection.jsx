@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { RefreshCw } from "lucide-react";
 import styles from "./ProductSection.module.css";
 import { fetchDashboardProduct } from "../../../services/apis/dashboard.service";
 import othersImg from "../../../assets/images/others.png";
 import OtherProducts from "./OtherProducts/OtherProducts";
+import GoldAddModal from "../../Gold/GoldAddModal/GoldAddModal";
+import RDAddModal from "../../RecurringDeposit/RDAddModal/RDAddModal";
 
 const formatCurrency = (num) => {
   if (num == null) return "₹0";
@@ -17,17 +20,20 @@ const formatCurrency = (num) => {
   }).format(n);
 };
 
-const ProductSection = () => {
+const ProductSection = ({ onRefresh }) => {
   const [productData, setProductData] = useState(null);
   const [openOtherProductModal, setOpenOtherProductModal] = useState(false);
+  const [openGoldModal, setOpenGoldModal] = useState(false);
+  const [openRDModal, setOpenRDModal] = useState(false);
+
+  const loadData = useCallback(async () => {
+    const res = await fetchDashboardProduct();
+    if (res) setProductData(res);
+  }, []);
 
   useEffect(() => {
-    const load = async () => {
-      const res = await fetchDashboardProduct();
-      if (res) setProductData(res);
-    };
-    load();
-  }, []);
+    loadData();
+  }, [loadData]);
 
   const navigate = useNavigate();
 
@@ -41,7 +47,13 @@ const ProductSection = () => {
 
   return (
     <section className={styles.productSection_portfolio_section}>
-      <h3 className={styles.productSection_title}>Assets</h3>
+      <div className={styles.productSection_titleRow}>
+        <h3 className={styles.productSection_title}>Assets</h3>
+        <button className={styles.productSection_refreshBtn} onClick={() => { loadData(); onRefresh?.(); }}>
+          <RefreshCw size={14} />
+          <span>Refresh</span>
+        </button>
+      </div>
 
       <div className={styles.productSection_grid}>
         <div
@@ -66,6 +78,10 @@ const ProductSection = () => {
         <div className={styles.productSection_subLayout}>
           <div
             className={`${styles.productSection_card} ${styles.productSection_accentOrange}`}
+            onClick={() => {
+              if (data.rd === 0) setOpenRDModal(true);
+              else navigate("/rd");
+            }}
           >
             <span className={styles.productSection_label}>
               Recurring Deposit
@@ -76,6 +92,10 @@ const ProductSection = () => {
           </div>
           <div
             className={`${styles.productSection_card} ${styles.productSection_accentYellow}`}
+            onClick={() => {
+              if (data.gold === 0) setOpenGoldModal(true);
+              else navigate("/gold");
+            }}
           >
             <span className={styles.productSection_label}>GOLD</span>
             <span className={styles.productSection_value}>
@@ -101,6 +121,18 @@ const ProductSection = () => {
       <OtherProducts
         isOpen={openOtherProductModal}
         onClose={() => setOpenOtherProductModal(false)}
+      />
+
+      <GoldAddModal
+        isOpen={openGoldModal}
+        onClose={() => setOpenGoldModal(false)}
+        onSuccess={() => setOpenGoldModal(false)}
+      />
+
+      <RDAddModal
+        isOpen={openRDModal}
+        onClose={() => setOpenRDModal(false)}
+        onSuccess={() => setOpenRDModal(false)}
       />
     </section>
   );

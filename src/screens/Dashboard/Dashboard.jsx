@@ -294,7 +294,7 @@ export default function Dashboard() {
 
         {/* Main Content White Area */}
         <div className={styles.mobileDashboardContentSheet}>
-          <ProductSection />
+          <ProductSection onRefresh={loadData} />
 
           <div className={styles.mobileDashboardSectionHeader}>
             <h3 className={styles.mobileDashboardSectionTitle}>Explore</h3>

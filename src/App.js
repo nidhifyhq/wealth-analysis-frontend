@@ -8,6 +8,8 @@ import Dashboard from "./screens/Dashboard/Dashboard";
 import LoginSign from "./screens/LoginSign/LoginSign";
 import MutualFund from "./screens/MutualFund/MutualFundRoutes";
 import FixedDeposit from "./screens/FixedDeposit/FixedDepositRoutes";
+import Gold from "./screens/Gold/GoldRoutes";
+import RecurringDeposit from "./screens/RecurringDeposit/RecurringDepositRoutes";
 import UserProfile from "./screens/UserProfile/UserProfile";
 import SIPCalculator from "./screens/Calculators/SIPCalculator/SIPCalculator";
 import FDCalculator from "./screens/Calculators/FDCalculator/FDCalculator";
@@ -36,6 +38,8 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/mf/*" element={<MutualFund />} />
             <Route path="/fd/*" element={<FixedDeposit />} />
+            <Route path="/gold/*" element={<Gold />} />
+            <Route path="/rd/*" element={<RecurringDeposit />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/SIPCalculator" element={<SIPCalculator />} />
             <Route path="/FDCalculator" element={<FDCalculator />} />

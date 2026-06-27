@@ -17,4 +17,10 @@ export const API_ROUTES = {
   FD_BY_ID: "/api/fd", // append /:id in service
   DASHBOARD_PRODUCT: "/api/user/get-dashboard-product",
   OTHER_INVESTMENT_ASSETS: "/api/user/other-investment-assets",
+  GOLD_CREATE: "/api/gold",
+  GOLD_LIST: "/api/gold",
+  GOLD_DELETE: "/api/gold",
+  RD_CREATE: "/api/rd",
+  RD_LIST: "/api/rd",
+  RD_DELETE: "/api/rd",
 }

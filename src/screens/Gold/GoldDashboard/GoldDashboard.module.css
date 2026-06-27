@@ -1,0 +1,402 @@
+.GoldDashboardContainer {
+  background-color: #ffffff;
+  min-height: 100vh;
+  color: #111111;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding-bottom: 30px;
+}
+
+.GoldDashboardHeaderBanner {
+  background-color: #0c3e38;
+  padding: 20px 20px 56px 20px;
+  color: #ffffff;
+}
+
+.GoldDashboardTopActionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.GoldDashboardCircularBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.GoldDashboardCircularBtn:active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.GoldDashboardBalanceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.GoldDashboardBalanceTitle {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.GoldDashboardToggleEye {
+  background: none;
+  border: none;
+  color: #ffffff;
+  opacity: 0.7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.GoldDashboardBalanceRowGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.GoldDashboardPrimaryAmount {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.GoldDashboardMetricsRow {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 14px;
+  gap: 8px;
+}
+
+.GoldDashboardMetricItem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.GoldDashboardMetricLabel {
+  font-size: 11px;
+  color: #8fa7a4;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.GoldDashboardMetricValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.GoldDashboardNegativeReturn {
+  color: #ff6b7a;
+}
+
+.GoldDashboardPerformanceContainer {
+  padding: 0 20px;
+  margin-top: -46px;
+  position: relative;
+  z-index: 5;
+}
+
+.GoldDashboardPerformanceCardGroup {
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(12, 62, 56, 0.08);
+  border: 1px solid #edf1f0;
+  padding: 4px 0;
+}
+
+.GoldDashboardPerfRowItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f5f8f7;
+  color: #7e8a8c;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.GoldDashboardPerfRowItem:last-child {
+  border-bottom: none;
+}
+
+.GoldDashboardActiveBg {
+  background-color: #eafbf0;
+  color: #0b451f;
+}
+
+.GoldDashboardPerfLeading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.GoldDashboardIconBadgeWrapper {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.GoldDashboardGreenCircle { background-color: #a3f0ba; color: #0a3d1b; }
+.GoldDashboardGreyCircle { background-color: #f4f7f6; color: #9da3a1; }
+
+.GoldDashboardCounterBadge {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  background-color: #ffffff;
+  color: #111111;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+}
+
+.GoldDashboardPerfStatusText {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+  color: inherit;
+}
+
+.GoldDashboardMutedText {
+  color: #5d6769;
+}
+
+.GoldDashboardPerfSubText {
+  font-size: 11px;
+  opacity: 0.85;
+  margin: 1px 0 0 0;
+}
+
+.GoldDashboardFundsSection {
+  padding: 24px 20px 16px 20px;
+}
+
+.GoldDashboardSectionHeadingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.GoldDashboardSectionHeading {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.GoldDashboardFundsListStack {
+  display: flex;
+  flex-direction: column;
+}
+
+.GoldDashboardFundListItem {
+  border-bottom: 1px solid #eef2f1;
+  padding: 18px 0;
+  cursor: pointer;
+}
+
+.GoldDashboardFundListItem:last-child {
+  border-bottom: none;
+}
+
+.GoldDashboardFundMainMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.GoldDashboardFundTitleNameWrap {
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+
+.GoldDashboardFundTitleName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #33334e;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.GoldDashboardFundValueBlock {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.GoldDashboardFundSecondRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.GoldDashboardFundSecondRow .GoldDashboardCurrentPriceText {
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.GoldDashboardGainSub {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.GoldDashboardCurrentPriceText {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.GoldDashboardPriceNegativeColor {
+  color: #eb5757;
+}
+
+.GoldDashboardPricePositiveColor {
+  color: #27ae60;
+}
+
+.GoldDashboardStatusBadge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.GoldDashboardStatusActive {
+  background: #eafbf0;
+  color: #0b451f;
+}
+
+.GoldDashboardStatusInactive {
+  background: #F3F4F6;
+  color: #5d6769;
+}
+
+.GoldDashboardFundDateMeta {
+  margin-top: 6px;
+}
+
+.GoldDashboardFundChipRow {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.GoldDashboardChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #5d6769;
+  background: #F3F4F6;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.GoldDashboardDeleteBtn {
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.GoldDashboardDeleteBtn:hover {
+  color: #eb5757;
+  background: #fef2f2;
+}
+
+.GoldDashboardFundDateText {
+  font-size: 11px;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.GoldDashboardTrackBtn {
+  background: #0c3e38;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.GoldDashboardTrackBtn:hover {
+  background: #0a322d;
+}
+
+.GoldDashboardDisclaimer {
+  font-size: 10px;
+  color: #64748b;
+  line-height: 1.5;
+  text-align: center;
+  padding: 20px 25px;
+  margin: 0;
+}
+
+.GoldDashboardWeightSub {
+  font-size: 11px;
+  color: #9CA3AF;
+  font-weight: 400;
+}
+
+.GoldDashboardCaratBadge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #F3F4F6;
+  color: #6B7280;
+  margin-top: 4px;
+  margin-left: 6px;
+}

@@ -1,0 +1,265 @@
+.RecurringDepositContainer {
+  background-color: #ffffff;
+  min-height: 100vh;
+  color: #111111;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding-bottom: 30px;
+}
+
+.RecurringDepositHeaderBanner {
+  background-color: #0c3e38;
+  padding: 20px 20px 56px 20px;
+  color: #ffffff;
+}
+
+.RecurringDepositTopActionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.RecurringDepositCircularBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.RecurringDepositCircularBtn:active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.RecurringDepositBalanceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.RecurringDepositBalanceTitle {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.RecurringDepositToggleEye {
+  background: none;
+  border: none;
+  color: #ffffff;
+  opacity: 0.7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.RecurringDepositBalanceRowGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.RecurringDepositPrimaryAmount {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.RecurringDepositMetricsRow {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 14px;
+  gap: 8px;
+}
+
+.RecurringDepositMetricItem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.RecurringDepositMetricLabel {
+  font-size: 11px;
+  color: #8fa7a4;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.RecurringDepositMetricValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.RecurringDepositNegativeReturn {
+  color: #ff6b7a;
+}
+
+.RecurringDepositFundsSection {
+  padding: 24px 20px 16px 20px;
+}
+
+.RecurringDepositSectionHeadingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.RecurringDepositSectionHeading {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.RecurringDepositFundsListStack {
+  display: flex;
+  flex-direction: column;
+}
+
+.RecurringDepositLoadingText {
+  font-size: 14px;
+  color: #9CA3AF;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.RecurringDepositEmptyState {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.RecurringDepositFundListItem {
+  border-bottom: 1px solid #eef2f1;
+  padding: 18px 0;
+}
+
+.RecurringDepositFundListItem:last-child {
+  border-bottom: none;
+}
+
+.RecurringDepositFundMainMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.RecurringDepositFundTitleNameWrap {
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+
+.RecurringDepositFundTitleName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #33334e;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.RecurringDepositFundChipRow {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.RecurringDepositChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #5d6769;
+  background: #F3F4F6;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.RecurringDepositFundValueBlock {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.RecurringDepositCurrentPriceText {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.RecurringDepositFundSecondRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.RecurringDepositFundDateText {
+  font-size: 11px;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.RecurringDepositDeleteBtn {
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.RecurringDepositDeleteBtn:hover {
+  color: #eb5757;
+  background: #fef2f2;
+}
+
+.RecurringDepositTrackBtn {
+  background: #0c3e38;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.RecurringDepositTrackBtn:hover {
+  background: #0a322d;
+}
+
+.RecurringDepositDisclaimer {
+  font-size: 10px;
+  color: #64748b;
+  line-height: 1.5;
+  text-align: center;
+  padding: 20px 25px;
+  margin: 0;
+}

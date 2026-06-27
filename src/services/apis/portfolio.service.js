@@ -32,3 +32,27 @@ export const fetchFDById = (id) => {
 export const deleteFD = (id) => {
   return deleteRequest(`${API_ROUTES.FD_BY_ID}/${id}`)
 }
+
+export const createGold = (payload) => {
+  return postRequest(API_ROUTES.GOLD_CREATE, payload)
+}
+
+export const fetchGoldList = () => {
+  return getRequest(API_ROUTES.GOLD_LIST)
+}
+
+export const deleteGold = (id) => {
+  return deleteRequest(`${API_ROUTES.GOLD_DELETE}/${id}`)
+}
+
+export const createRD = (payload) => {
+  return postRequest(API_ROUTES.RD_CREATE, payload)
+}
+
+export const fetchRDList = () => {
+  return getRequest(API_ROUTES.RD_LIST)
+}
+
+export const deleteRD = (id) => {
+  return deleteRequest(`${API_ROUTES.RD_DELETE}/${id}`)
+}

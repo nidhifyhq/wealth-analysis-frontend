@@ -18,6 +18,8 @@ import {
 import styles from "./OtherProducts.module.css";
 import { fetchOtherInvestmentAssets } from "../../../../services/apis/dashboard.service";
 import LoadingDots from "../../../../components/LoadingDots/LoadingDots";
+import GoldAddModal from "../../../Gold/GoldAddModal/GoldAddModal";
+import RDAddModal from "../../../RecurringDeposit/RDAddModal/RDAddModal";
 
 const formatCurrency = (num) => {
   if (num == null) return "₹0";
@@ -45,6 +47,8 @@ const OtherProducts = ({ isOpen, onClose }) => {
   const [animateIn, setAnimateIn] = useState(false);
   const [apiData, setApiData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [openGoldModal, setOpenGoldModal] = useState(false);
+  const [openRDModal, setOpenRDModal] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -69,6 +73,7 @@ const OtherProducts = ({ isOpen, onClose }) => {
   const itemRoutes = {
     mf: "/mf",
     fd: "/fd",
+    rd: "/rd",
   };
 
   const handleClose = () => {
@@ -118,7 +123,6 @@ const OtherProducts = ({ isOpen, onClose }) => {
       amount: getAmount("RD"),
       isLoading,
       type: "portfolio",
-      isComingSoon: true,
     },
     {
       id: "gold",
@@ -128,7 +132,6 @@ const OtherProducts = ({ isOpen, onClose }) => {
       amount: getAmount("Gold"),
       isLoading,
       type: "portfolio",
-      isComingSoon: true,
     },
   ];
 
@@ -206,6 +209,16 @@ const OtherProducts = ({ isOpen, onClose }) => {
                   className={`${styles.OtherProductsRow} ${item.isComingSoon ? styles.OtherProductsRowDisabled : ""}`}
                   role={item.isComingSoon ? "presentation" : "button"}
                   onClick={() => {
+                    if (item.id === "gold") {
+                      if (apiData?.Gold) navigate("/gold");
+                      else setOpenGoldModal(true);
+                      return;
+                    }
+                    if (item.id === "rd") {
+                      if (apiData?.RD) navigate("/rd");
+                      else setOpenRDModal(true);
+                      return;
+                    }
                     const route = itemRoutes[item.id];
                     if (route) navigate(route);
                   }}
@@ -273,6 +286,16 @@ const OtherProducts = ({ isOpen, onClose }) => {
           </div>
         </div>
       </div>
+      <GoldAddModal
+        isOpen={openGoldModal}
+        onClose={() => setOpenGoldModal(false)}
+        onSuccess={() => setOpenGoldModal(false)}
+      />
+      <RDAddModal
+        isOpen={openRDModal}
+        onClose={() => setOpenRDModal(false)}
+        onSuccess={() => setOpenRDModal(false)}
+      />
     </div>
   );
 };

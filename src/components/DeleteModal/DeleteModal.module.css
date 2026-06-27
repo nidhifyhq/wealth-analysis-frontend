@@ -1,0 +1,122 @@
+.DeleteModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: DeleteModalFadeIn 0.25s ease-out;
+}
+
+.DeleteModalSheet {
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 40px;
+  animation: DeleteModalSlideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.DeleteModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.DeleteModalIconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fef2f2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.DeleteModalCloseBtn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.DeleteModalCloseBtn:hover {
+  background: #F3F4F6;
+}
+
+.DeleteModalTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.DeleteModalDesc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+.DeleteModalActions {
+  display: flex;
+  gap: 12px;
+}
+
+.DeleteModalCancelBtn {
+  flex: 1;
+  background: #F3F4F6;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.DeleteModalCancelBtn:hover {
+  background: #e5e7eb;
+}
+
+.DeleteModalConfirmBtn {
+  flex: 1;
+  background: #dc2626;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.DeleteModalConfirmBtn:hover {
+  background: #b91c1c;
+}
+
+@keyframes DeleteModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes DeleteModalSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
