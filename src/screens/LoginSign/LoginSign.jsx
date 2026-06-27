@@ -8,6 +8,12 @@ import { setAuthFromLogin } from '../../store/auth/auth.slice';
 import logoFull from '../../assets/images/nidhifylogofull.png';
 import RegisterConcentModal from './RegisterConcentModal/RegisterConcentModal';
 import MFCasImportModal from '../MutualFund/MFCasImport/MFCasImportModal';
+import TermsModal from '../PolicyPages/Terms/Terms';
+import PrivacyModal from '../PolicyPages/Privacy/Privacy';
+import DisclaimerModal from '../PolicyPages/Disclaimer/Disclaimer';
+import AboutModal from '../PolicyPages/AboutUs/AboutUs';
+import ContactModal from '../PolicyPages/ContactUs/ContactUs';
+import FaqsModal from '../PolicyPages/FAQs/FAQs';
 
 export default function LoginSign() {
   const dispatch = useDispatch();
@@ -36,6 +42,12 @@ export default function LoginSign() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPolicyTermsModal, setShowPolicyTermsModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [showDisclaimerModal, setShowDisclaimerModal] = useState(false);
+  const [showAboutModal, setShowAboutModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showFaqsModal, setShowFaqsModal] = useState(false);
   const [showCasModal, setShowCasModal] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -484,20 +496,27 @@ export default function LoginSign() {
           </form>
         )}
 
-        {/* Footer Links */}
+        {/* Footer Links----------- */}
         <footer className={styles.LoginSignFooter}>
-          <a href="/terms" className={styles.LoginSignFooterLink}>Terms</a>
+          <button type="button" className={styles.LoginSignFooterLink} onClick={() => setShowPolicyTermsModal(true)}>Terms</button>
           <span className={styles.LoginSignFooterDot}>·</span>
-          <a href="/privacy" className={styles.LoginSignFooterLink}>Privacy</a>
+          <button type="button" className={styles.LoginSignFooterLink} onClick={() => setShowPrivacyModal(true)}>Privacy</button>
           <span className={styles.LoginSignFooterDot}>·</span>
-          <a href="/disclaimer" className={styles.LoginSignFooterLink}>Disclaimer</a>
+          <button type="button" className={styles.LoginSignFooterLink} onClick={() => setShowDisclaimerModal(true)}>Disclaimer</button>
           <span className={styles.LoginSignFooterDot}>·</span>
-          <a href="/about" className={styles.LoginSignFooterLink}>About</a>
+          <button type="button" className={styles.LoginSignFooterLink} onClick={() => setShowAboutModal(true)}>About</button>
           <span className={styles.LoginSignFooterDot}>·</span>
-          <a href="/contact" className={styles.LoginSignFooterLink}>Contact Us</a>
+          <button type="button" className={styles.LoginSignFooterLink} onClick={() => setShowContactModal(true)}>Contact Us</button>
           <span className={styles.LoginSignFooterDot}>·</span>
-          <a href="/faq" className={styles.LoginSignFooterLink}>FAQs</a>
+          <button type="button" className={styles.LoginSignFooterLink} onClick={() => setShowFaqsModal(true)}>FAQs</button>
         </footer>
+
+        <TermsModal isOpen={showPolicyTermsModal} onClose={() => setShowPolicyTermsModal(false)} />
+        <PrivacyModal isOpen={showPrivacyModal} onClose={() => setShowPrivacyModal(false)} />
+        <DisclaimerModal isOpen={showDisclaimerModal} onClose={() => setShowDisclaimerModal(false)} />
+        <AboutModal isOpen={showAboutModal} onClose={() => setShowAboutModal(false)} />
+        <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
+        <FaqsModal isOpen={showFaqsModal} onClose={() => setShowFaqsModal(false)} />
       </main>
 
       {showTermsModal && (
