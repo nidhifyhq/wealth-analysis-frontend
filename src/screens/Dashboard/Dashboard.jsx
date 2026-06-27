@@ -350,7 +350,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className={styles.mobileDashboardRowCard}>
+            <div className={styles.mobileDashboardRowCard} onClick={() => navigate("/ReadNews")}>
               <div className={styles.mobileDashboardRowLeading}>
                 <div
                   className={`${styles.mobileDashboardBrandIcon} ${styles.mobileDashboardNewsLetterIconBg}`}

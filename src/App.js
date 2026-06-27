@@ -11,6 +11,7 @@ import FixedDeposit from "./screens/FixedDeposit/FixedDepositRoutes";
 import UserProfile from "./screens/UserProfile/UserProfile";
 import SIPCalculator from "./screens/Calculators/SIPCalculator/SIPCalculator";
 import FDCalculator from "./screens/Calculators/FDCalculator/FDCalculator";
+import ReadNews from "./screens/ReadNews/ReadNews"
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/SIPCalculator" element={<SIPCalculator />} />
             <Route path="/FDCalculator" element={<FDCalculator />} />
+            <Route path="/ReadNews" element={<ReadNews />} />
           </Route>
         </Route>
 

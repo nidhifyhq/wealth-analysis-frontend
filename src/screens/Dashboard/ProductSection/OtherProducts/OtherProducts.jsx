@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   X,
   TrendingUp,
@@ -62,6 +63,13 @@ const OtherProducts = ({ isOpen, onClose }) => {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
+
+  const navigate = useNavigate();
+
+  const itemRoutes = {
+    mf: "/mf",
+    fd: "/fd",
+  };
 
   const handleClose = () => {
     setAnimateIn(false);
@@ -197,6 +205,10 @@ const OtherProducts = ({ isOpen, onClose }) => {
                 <div
                   className={`${styles.OtherProductsRow} ${item.isComingSoon ? styles.OtherProductsRowDisabled : ""}`}
                   role={item.isComingSoon ? "presentation" : "button"}
+                  onClick={() => {
+                    const route = itemRoutes[item.id];
+                    if (route) navigate(route);
+                  }}
                 >
                   <div className={styles.OtherProductsLeftCell}>
                     <div

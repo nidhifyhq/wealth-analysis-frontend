@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./ProductSection.module.css";
 import { fetchDashboardProduct } from "../../../services/apis/dashboard.service";
 import othersImg from "../../../assets/images/others.png";
@@ -28,6 +29,8 @@ const ProductSection = () => {
     load();
   }, []);
 
+  const navigate = useNavigate();
+
   const data = {
     mutualFunds: productData?.MutualFunds ?? 0,
     rd: productData?.RD ?? 0,
@@ -43,6 +46,7 @@ const ProductSection = () => {
       <div className={styles.productSection_grid}>
         <div
           className={`${styles.productSection_card} ${styles.productSection_accentBlue}`}
+          onClick={() => navigate("/mf")}
         >
           <span className={styles.productSection_label}>MUTUAL FUNDS</span>
           <span className={styles.productSection_value}>
@@ -51,6 +55,7 @@ const ProductSection = () => {
         </div>
         <div
           className={`${styles.productSection_card} ${styles.productSection_accentIndigo}`}
+          onClick={() => navigate("/fd")}
         >
           <span className={styles.productSection_label}>Fixed Deposit</span>
           <span className={styles.productSection_value}>
