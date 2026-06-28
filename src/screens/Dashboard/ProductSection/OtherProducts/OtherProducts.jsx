@@ -20,6 +20,7 @@ import { fetchOtherInvestmentAssets } from "../../../../services/apis/dashboard.
 import LoadingDots from "../../../../components/LoadingDots/LoadingDots";
 import GoldAddModal from "../../../Gold/GoldAddModal/GoldAddModal";
 import RDAddModal from "../../../RecurringDeposit/RDAddModal/RDAddModal";
+import FDAddModal from "../../../FixedDeposit/FDAddModal/FDAddModal";
 import OtherInvestmentAddModal from "../../../OtherInvestment/OtherInvestmentAddModal/OtherInvestmentAddModal";
 
 const formatCurrency = (num) => {
@@ -45,11 +46,12 @@ const defaultSubtitles = {
   Others: "Track other investments",
 };
 
-const OtherProducts = ({ isOpen, onClose }) => {
+const OtherProducts = ({ isOpen, onClose, onDataChange }) => {
   const [animateIn, setAnimateIn] = useState(false);
   const [apiData, setApiData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [openGoldModal, setOpenGoldModal] = useState(false);
+  const [openFDModal, setOpenFDModal] = useState(false);
   const [openRDModal, setOpenRDModal] = useState(false);
   const [openOtherModal, setOpenOtherModal] = useState(false);
 
@@ -78,6 +80,15 @@ const OtherProducts = ({ isOpen, onClose }) => {
     fd: "/fd",
     rd: "/rd",
     other: "/other",
+  };
+
+  const reloadData = () => {
+    setIsLoading(true);
+    fetchOtherInvestmentAssets().then((res) => {
+      if (res) setApiData(res);
+      setIsLoading(false);
+      if (onDataChange) onDataChange();
+    });
   };
 
   const handleClose = () => {
@@ -231,6 +242,11 @@ const OtherProducts = ({ isOpen, onClose }) => {
                       else setOpenRDModal(true);
                       return;
                     }
+                    if (item.id === "fd") {
+                      if (apiData?.FD) navigate("/fd");
+                      else setOpenFDModal(true);
+                      return;
+                    }
                     if (item.id === "other") {
                       if (apiData?.Others) navigate("/other");
                       else setOpenOtherModal(true);
@@ -306,17 +322,22 @@ const OtherProducts = ({ isOpen, onClose }) => {
       <GoldAddModal
         isOpen={openGoldModal}
         onClose={() => setOpenGoldModal(false)}
-        onSuccess={() => setOpenGoldModal(false)}
+        onSuccess={() => { setOpenGoldModal(false); reloadData(); }}
+      />
+      <FDAddModal
+        isOpen={openFDModal}
+        onClose={() => setOpenFDModal(false)}
+        onSuccess={() => { setOpenFDModal(false); reloadData(); }}
       />
       <RDAddModal
         isOpen={openRDModal}
         onClose={() => setOpenRDModal(false)}
-        onSuccess={() => setOpenRDModal(false)}
+        onSuccess={() => { setOpenRDModal(false); reloadData(); }}
       />
       <OtherInvestmentAddModal
         isOpen={openOtherModal}
         onClose={() => setOpenOtherModal(false)}
-        onSuccess={() => setOpenOtherModal(false)}
+        onSuccess={() => { setOpenOtherModal(false); reloadData(); }}
       />
     </div>
   );

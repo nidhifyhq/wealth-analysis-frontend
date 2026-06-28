@@ -121,18 +121,19 @@ const ProductSection = ({ onRefresh }) => {
       <OtherProducts
         isOpen={openOtherProductModal}
         onClose={() => setOpenOtherProductModal(false)}
+        onDataChange={() => { loadData(); onRefresh?.(); }}
       />
 
       <GoldAddModal
         isOpen={openGoldModal}
         onClose={() => setOpenGoldModal(false)}
-        onSuccess={() => setOpenGoldModal(false)}
+        onSuccess={() => { setOpenGoldModal(false); loadData(); onRefresh?.(); }}
       />
 
       <RDAddModal
         isOpen={openRDModal}
         onClose={() => setOpenRDModal(false)}
-        onSuccess={() => setOpenRDModal(false)}
+        onSuccess={() => { setOpenRDModal(false); loadData(); onRefresh?.(); }}
       />
     </section>
   );
