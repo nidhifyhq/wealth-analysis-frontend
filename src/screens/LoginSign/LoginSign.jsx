@@ -14,6 +14,8 @@ import DisclaimerModal from '../PolicyPages/Disclaimer/Disclaimer';
 import AboutModal from '../PolicyPages/AboutUs/AboutUs';
 import ContactModal from '../PolicyPages/ContactUs/ContactUs';
 import FaqsModal from '../PolicyPages/FAQs/FAQs';
+import InstallAppBanner from '../../components/InstallAppBanner/InstallAppBanner';
+import { APP_VERSION } from '../../config/appVersion';
 
 export default function LoginSign() {
   const dispatch = useDispatch();
@@ -61,7 +63,39 @@ export default function LoginSign() {
   const [showCasModal, setShowCasModal] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-  
+
+  const resetFormFields = () => {
+    setEmail('');
+    setPassword('');
+    setName('');
+    setMobile('');
+    setConfirmPassword('');
+    setAgreeTerms(false);
+    setOtp(['', '', '', '']);
+    setTimer(60);
+    setShowPassword(false);
+    setShowConfirmPassword(false);
+    setForgotFlow(false);
+    setForgotLoading(false);
+    setInitialLoading(false);
+    setLoginLoading(false);
+    setSignupLoading(false);
+    setVerifyLoading(false);
+    setResetLoading(false);
+    setResendLoading(false);
+    setNewPassword('');
+    setForgotOtp(['', '', '', '']);
+    setErrorMsg('');
+    setSuccessMsg('');
+  };
+
+  // Reset all form fields when returning to INITIAL step
+  useEffect(() => {
+    if (step === 'INITIAL') {
+      resetFormFields();
+    }
+  }, [step]);
+
   const otpRefs = [useRef(), useRef(), useRef(), useRef()];
   const forgotOtpRefs = [useRef(), useRef(), useRef(), useRef()];
 
@@ -78,7 +112,7 @@ export default function LoginSign() {
   // Simulate an active countdown timer for OTP screen
   useEffect(() => {
     let interval = null;
-    if (step === 'OTP' && timer > 0) {
+    if ((step === 'OTP' || (step === 'PASSWORD' && forgotFlow)) && timer > 0) {
       interval = setInterval(() => {
         setTimer((prev) => prev - 1);
       }, 1000);
@@ -86,7 +120,7 @@ export default function LoginSign() {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [step, timer]);
+  }, [step, timer, forgotFlow]);
 
   // Back Button Navigation Rules
   const handleBackNavigation = () => {
@@ -267,7 +301,24 @@ export default function LoginSign() {
       setErrorMsg(res.message || 'Failed to send OTP');
       return;
     }
+    setTimer(60);
     setForgotFlow(true);
+  };
+
+  const handleForgotResendOtp = async () => {
+    if (timer === 0) {
+      setResendLoading(true);
+      const res = await forgotPasswordSendOtp({ email });
+      setResendLoading(false);
+      if (!res || !res.success) {
+        setErrorMsg(res?.message || 'Failed to resend OTP. Try again.');
+        return;
+      }
+      setForgotOtp(['', '', '', '']);
+      setTimer(60);
+      setErrorMsg('');
+      setSuccessMsg(res?.message || 'OTP sent successfully');
+    }
   };
 
   const handleForgotOtpChange = (value, index) => {
@@ -481,6 +532,22 @@ export default function LoginSign() {
                 ))}
               </div>
             </div>
+
+            <div className={styles.LoginSignTimerBlock}>
+              {timer > 0 ? (
+                <p className={styles.LoginSignTimerActive}>Resend OTP code available in: <strong>{timer}s</strong></p>
+              ) : (
+                <button 
+                  type="button" 
+                  className={styles.LoginSignResendBtn} 
+                  onClick={handleForgotResendOtp}
+                  disabled={resendLoading}
+                >
+                  {resendLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Resend OTP Code'}
+                </button>
+              )}
+            </div>
+
             <div className={styles.LoginSignInputBlock}>
               <label className={styles.LoginSignLabel}>New Password</label>
               <div className={styles.LoginSignPasswordWrapper}>
@@ -662,6 +729,8 @@ export default function LoginSign() {
           <button type="button" className={styles.LoginSignFooterLink} onClick={() => setShowFaqsModal(true)}>FAQs</button>
         </footer>
 
+        <p className={styles.LoginSignVersion}>v{APP_VERSION}</p>
+
         <TermsModal isOpen={showPolicyTermsModal} onClose={() => setShowPolicyTermsModal(false)} />
         <PrivacyModal isOpen={showPrivacyModal} onClose={() => setShowPrivacyModal(false)} />
         <DisclaimerModal isOpen={showDisclaimerModal} onClose={() => setShowDisclaimerModal(false)} />
@@ -686,6 +755,7 @@ export default function LoginSign() {
         />
       )}
 
+      <InstallAppBanner />
     </div>
   );
 }

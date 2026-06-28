@@ -3,6 +3,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import { Toaster } from "react-hot-toast";
 import ProtectedLayout from "./routes/ProtectedLayout";
+import MobileOnlyLayout from "./components/MobileOnlyLayout/MobileOnlyLayout";
 
 import Dashboard from "./screens/Dashboard/Dashboard";
 import LoginSign from "./screens/LoginSign/LoginSign";
@@ -20,6 +21,7 @@ import NotificationCenter from "./components/NotificationCenter/NotificationCent
 const App = () => {
   return (
     <BrowserRouter>
+      <MobileOnlyLayout>
       <Toaster
         position="bottom-center"
         reverseOrder={false}
@@ -53,6 +55,7 @@ const App = () => {
 
         <Route path="*" element={<LoginSign />} />
       </Routes>
+      </MobileOnlyLayout>
     </BrowserRouter>
   );
 };

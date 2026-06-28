@@ -110,6 +110,14 @@
   color: #c4d1cf;
 }
 
+.LoginSignVersion {
+  font-size: 11px;
+  color: #8fa7a4;
+  text-align: center;
+  margin: 4px 0 0;
+  padding-bottom: 8px;
+}
+
 .LoginSignFormLayout {
   display: flex;
   flex-direction: column;
