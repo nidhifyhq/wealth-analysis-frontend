@@ -129,6 +129,16 @@ export default function OtherInvestmentDashboard() {
         </div> */}
       </header>
 
+<div
+  style={{
+    height: '10px',
+    backgroundColor: '#fff',
+    borderTopLeftRadius: '20px',
+    borderTopRightRadius: '20px',
+    marginTop: '-10px'
+  }}
+/>
+
       <section className={styles.OtherInvestmentDashboardFundsSection}>
         <div className={styles.OtherInvestmentDashboardSectionHeadingRow}>
           <h3 className={styles.OtherInvestmentDashboardSectionHeading}>

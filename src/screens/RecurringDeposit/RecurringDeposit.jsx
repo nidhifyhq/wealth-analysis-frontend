@@ -147,6 +147,16 @@ export default function RecurringDeposit() {
         </div>
       </header>
 
+      <div
+  style={{
+    height: '10px',
+    backgroundColor: '#fff',
+    borderTopLeftRadius: '20px',
+    borderTopRightRadius: '20px',
+    marginTop: '-10px'
+  }}
+/>
+
       <section className={styles.RecurringDepositFundsSection}>
         <div className={styles.RecurringDepositSectionHeadingRow}>
           <h3 className={styles.RecurringDepositSectionHeading}>
