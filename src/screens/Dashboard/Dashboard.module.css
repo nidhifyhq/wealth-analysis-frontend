@@ -75,13 +75,20 @@
 
 /* Card Color Themes */
 .mobileDashboardTotalAssetBg {
-  background-color: #39cc6e;
-  color: #0f4c43;
+  /* background-color: #39cc6e;
+  color: #0f4c43; */
+
+  background: linear-gradient(135deg, #4ed9be 0%, #2aab95 100%);
+  color: #063438;
 }
 
 .mobileDashboardMutualFundsBg {
-  background: linear-gradient(135deg, #4ed9be 0%, #2aab95 100%);
-  color: #063438;
+  /* background: linear-gradient(135deg, #4ed9be 0%, #2aab95 100%);
+  color: #063438; */
+
+  background-color: #39cc6e;
+  color: #0f4c43;
+
 }
 
 .mobileDashboardFdBg {

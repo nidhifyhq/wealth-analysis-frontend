@@ -65,21 +65,31 @@ const ReadNews = () => {
   const observerRef = useRef(null);
   const sentinelRef = useRef(null);
   const isFetchingRef = useRef(false);
+  const abortRef = useRef(null);
+  const abortRelatedRef = useRef(null);
 
   const fetchRelatedArticles = useCallback(async (articleUrl) => {
     if (!articleUrl) return;
+    if (abortRelatedRef.current) abortRelatedRef.current.abort();
+    const controller = new AbortController();
+    abortRelatedRef.current = controller;
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
     setRelatedLoading(true);
     setShowRelated(false);
 
     try {
       const url = `${BASE_URL}/api/news/related?url=${encodeURIComponent(articleUrl)}&limit=5`;
-      const response = await fetch(url, { headers: getAuthHeaders() });
+      const response = await fetch(url, { headers: getAuthHeaders(), signal: controller.signal });
       const data = await response.json();
       if (data.success && data.data.articles.length > 0) {
         setRelatedArticles(data.data.articles);
         setShowRelated(true);
       }
+    } catch (err) {
+      if (err.name === 'AbortError') return;
     } finally {
+      clearTimeout(timeout);
       setRelatedLoading(false);
     }
   }, []);
@@ -87,6 +97,11 @@ const ReadNews = () => {
   const fetchNews = useCallback(async (pageNum, category, reset) => {
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
+
+    if (abortRef.current) abortRef.current.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
     if (reset) setInitialLoading(true);
     else setLoading(true);
@@ -97,7 +112,7 @@ const ReadNews = () => {
         ? `&category=${encodeURIComponent(category)}`
         : '';
       const url = `${BASE_URL}/api/news/feed?page=${pageNum}&limit=${LIMIT}${categoryParam}`;
-      const response = await fetch(url, { headers: getAuthHeaders() });
+      const response = await fetch(url, { headers: getAuthHeaders(), signal: controller.signal });
       const data = await response.json();
 
       if (data.success) {
@@ -123,9 +138,11 @@ const ReadNews = () => {
       } else {
         setError('Failed to load news. Please try again.');
       }
-    } catch {
+    } catch (err) {
+      if (err.name === 'AbortError') return;
       setError('Failed to load news. Please try again.');
     } finally {
+      clearTimeout(timeout);
       setLoading(false);
       setInitialLoading(false);
       isFetchingRef.current = false;
@@ -134,6 +151,8 @@ const ReadNews = () => {
 
   const handleCategoryChange = useCallback((category) => {
     if (category === selectedCategory) return;
+    if (abortRef.current) abortRef.current.abort();
+    if (abortRelatedRef.current) abortRelatedRef.current.abort();
     setSelectedCategory(category);
     setArticles([]);
     setPage(1);

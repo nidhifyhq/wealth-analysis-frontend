@@ -12,6 +12,7 @@
 .UserProfileTopNav {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 16px;
   background-color: #f7f9fa;
 }
@@ -37,7 +38,27 @@
   font-size: 18px;
   font-weight: 700;
   margin: 0;
-  color: #0c3e38; /* Your application brand core dark teal */
+  color: #0c3e38;
+}
+
+.UserProfileTopNavLogout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #0c3e38;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-bottom: 1.5px dotted #0c3e38;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.UserProfileTopNavLogout:hover {
+  opacity: 0.7;
 }
 
 /* Avatar profile block layout rules */
@@ -95,6 +116,12 @@
   font-size: 13px;
   color: #728481;
   margin: 4px 0 0 0;
+}
+
+.UserProfileVersion {
+  font-size: 11px;
+  color: #9bb0ac;
+  margin: 6px 0 0 0;
 }
 
 /* Form Settings Blocks Sheet Grouping */

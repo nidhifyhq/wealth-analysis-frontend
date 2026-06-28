@@ -14,6 +14,7 @@ import {
   ChevronRight
 } from 'lucide-react'
 import { logout } from '../../store/auth/auth.slice'
+import { APP_VERSION } from '../../config/appVersion'
 import { selectUserName, selectUserEmail } from '../../store/auth/auth.selectors'
 import { fetchUserDetails, deleteUserAccount } from '../../services/apis/user.service'
 import DeleteAccountModal from './DeleteAccountModal/DeleteAccountModal'
@@ -99,6 +100,10 @@ export default function UserProfile() {
           </button>
           <h1 className={styles.UserProfileMainTitle}>Profile</h1>
         </div>
+        <button className={styles.UserProfileTopNavLogout} onClick={handleLogout}>
+          <LogOut size={16} />
+          <span>Logout</span>
+        </button>
       </header>
 
       {/* Hero Profile Header Segment */}
@@ -111,6 +116,7 @@ export default function UserProfile() {
         </div>
         <h2 className={styles.UserProfileUserName}>{name}</h2>
         <p className={styles.UserProfileUserEmail}>{email}</p>
+        <p className={styles.UserProfileVersion}>v{APP_VERSION}</p>
       </section>
 
       {/* Main Form Fields / Settings Sheet */}

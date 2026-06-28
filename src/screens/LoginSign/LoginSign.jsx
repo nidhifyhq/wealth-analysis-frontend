@@ -580,7 +580,7 @@ export default function LoginSign() {
               <label className={styles.LoginSignLabel}>Full Name</label>
               <input 
                 type="text" 
-                placeholder="Wade Warren" 
+                placeholder="Enter you name" 
                 className={styles.LoginSignInput}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
