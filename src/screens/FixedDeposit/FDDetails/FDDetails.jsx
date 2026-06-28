@@ -37,6 +37,7 @@ export default function FDDetails({ isOpen, onClose, fdId, onDelete }) {
     if (isOpen && fdId) {
       loadDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, fdId]);
 
   useEffect(() => {

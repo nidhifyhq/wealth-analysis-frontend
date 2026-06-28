@@ -10,7 +10,6 @@ import {
   ChevronsUp,
   ChevronDown,
   ChevronsDown,
-  Info,
 } from "lucide-react";
 import {
   fetchMyFundSummary,

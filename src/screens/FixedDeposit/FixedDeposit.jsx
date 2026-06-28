@@ -7,7 +7,6 @@ import {
   ChevronRight,
   ChevronUp,
   ChevronDown,
-  Info,
   Calendar,
 } from "lucide-react";
 import { fetchFDList } from "../../services/apis/portfolio.service";

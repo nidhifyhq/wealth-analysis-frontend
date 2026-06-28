@@ -7,8 +7,6 @@ import {
   Eye,
   ArrowUp,
   ArrowDown,
-  Plus,
-  Download,
   ChevronRight,
   Upload,
   Landmark,

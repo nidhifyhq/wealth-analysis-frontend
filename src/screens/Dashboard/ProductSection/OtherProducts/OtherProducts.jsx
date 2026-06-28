@@ -3,11 +3,9 @@ import { useNavigate } from "react-router-dom";
 import {
   X,
   TrendingUp,
-  Briefcase,
   Grid,
   PlusCircle,
   ChevronRight,
-  Globe,
   RockingChair,
   ListCollapse,
   Activity,

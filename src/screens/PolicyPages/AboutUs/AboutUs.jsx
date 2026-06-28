@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, ShieldCheck, Layers, Eye, Zap, Flame } from 'lucide-react';
+import { X, ShieldCheck, Layers, Eye, Zap } from 'lucide-react';
 import styles from './AboutUs.module.css';
 
 export default function AboutUsModal({ isOpen, onClose }) {

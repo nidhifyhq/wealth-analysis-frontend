@@ -5,7 +5,6 @@ import {
   ChevronDown,
   ChevronUp,
   Trash2,
-  ShieldCheck,
   Calendar,
   User,
   FileText,

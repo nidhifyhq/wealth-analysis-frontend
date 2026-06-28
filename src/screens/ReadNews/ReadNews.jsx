@@ -151,6 +151,7 @@ const ReadNews = () => {
 
   useEffect(() => {
     fetchNews(1, 'All', true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
