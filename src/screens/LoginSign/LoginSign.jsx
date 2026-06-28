@@ -586,7 +586,6 @@ export default function LoginSign() {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
-              
             </div>
 
             <div className={styles.LoginSignInputBlock}>
