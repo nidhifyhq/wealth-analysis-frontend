@@ -56,3 +56,27 @@ export const fetchRDList = () => {
 export const deleteRD = (id) => {
   return deleteRequest(`${API_ROUTES.RD_DELETE}/${id}`)
 }
+
+export const fetchOtherInvestments = () => {
+  return getRequest(API_ROUTES.OTHER_LIST)
+}
+
+export const createOtherInvestment = (payload) => {
+  return postRequest(API_ROUTES.OTHER_CREATE, payload)
+}
+
+export const deleteOtherInvestment = (id) => {
+  return deleteRequest(`${API_ROUTES.OTHER_DELETE}/${id}`)
+}
+
+export const createInsurance = (payload) => {
+  return postRequest(API_ROUTES.INSURANCE_CREATE, payload)
+}
+
+export const fetchInsuranceList = () => {
+  return getRequest(API_ROUTES.INSURANCE_LIST)
+}
+
+export const deleteInsurance = (id) => {
+  return deleteRequest(`${API_ROUTES.INSURANCE_DELETE}/${id}`)
+}

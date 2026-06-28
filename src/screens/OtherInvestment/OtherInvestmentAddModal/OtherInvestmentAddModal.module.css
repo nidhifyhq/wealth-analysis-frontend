@@ -1,4 +1,4 @@
-.RDAddModalOverlay {
+.OtherInvestmentAddModalOverlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
@@ -6,10 +6,10 @@
   align-items: flex-end;
   justify-content: center;
   z-index: 1000;
-  animation: RDAddModalFadeIn 0.3s ease-out;
+  animation: OtherInvestmentAddModalFadeIn 0.3s ease-out;
 }
 
-.RDAddModalSheet {
+.OtherInvestmentAddModalSheet {
   background: #ffffff;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
@@ -20,10 +20,10 @@
   padding: 24px 24px 40px;
   max-height: 90vh;
   overflow-y: auto;
-  animation: RDAddModalSlideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  animation: OtherInvestmentAddModalSlideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.RDAddModalHeader {
+.OtherInvestmentAddModalHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -31,7 +31,7 @@
   gap: 12px;
 }
 
-.RDAddModalTitle {
+.OtherInvestmentAddModalTitle {
   font-size: 15px;
   font-weight: 700;
   color: #111827;
@@ -39,7 +39,7 @@
   line-height: 1.3;
 }
 
-.RDAddModalCloseBtn {
+.OtherInvestmentAddModalCloseBtn {
   background: none;
   border: none;
   padding: 4px;
@@ -52,31 +52,31 @@
   flex-shrink: 0;
 }
 
-.RDAddModalCloseBtn:hover {
+.OtherInvestmentAddModalCloseBtn:hover {
   background: #F3F4F6;
 }
 
-.RDAddModalForm {
+.OtherInvestmentAddModalForm {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.RDAddModalField {
+.OtherInvestmentAddModalField {
   display: flex;
   flex-direction: column;
   gap: 4px;
   flex: 1;
 }
 
-.RDAddModalFieldLabel {
+.OtherInvestmentAddModalFieldLabel {
   font-size: 13px;
   font-weight: 600;
   color: #374151;
   margin-left: 2px;
 }
 
-.RDAddModalInput {
+.OtherInvestmentAddModalInput {
   width: 100%;
   border: 1.5px solid #d1d5db;
   border-radius: 12px;
@@ -90,56 +90,37 @@
   font-family: inherit;
 }
 
-.RDAddModalInput:focus {
+.OtherInvestmentAddModalInput:focus {
   border-color: #0c3e38;
   background: #ffffff;
 }
 
-.RDAddModalInput::placeholder {
+.OtherInvestmentAddModalInput::placeholder {
   color: #9ca3af;
   font-weight: 400;
 }
 
-.RDAddModalInputError {
+.OtherInvestmentAddModalInputError {
   border-color: #ef4444;
 }
 
-.RDAddModalInputError:focus {
+.OtherInvestmentAddModalInputError:focus {
   border-color: #ef4444;
 }
 
-.RDAddModalErrorText {
+.OtherInvestmentAddModalErrorText {
   font-size: 11px;
   color: #ef4444;
   font-weight: 500;
   margin-left: 4px;
 }
 
-.RDAddModalRow {
+.OtherInvestmentAddModalRow {
   display: flex;
   gap: 12px;
 }
 
-.RDAddModalTenureRow {
-  display: flex;
-  gap: 10px;
-}
-
-.RDAddModalTenureField {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.RDAddModalTenureLabel {
-  font-size: 11px;
-  color: #9ca3af;
-  font-weight: 500;
-  margin-left: 4px;
-}
-
-.RDAddModalSubmitBtn {
+.OtherInvestmentAddModalSubmitBtn {
   width: 100%;
   background: #0c3e38;
   border: none;
@@ -154,16 +135,16 @@
   transition: background 0.2s;
 }
 
-.RDAddModalSubmitBtn:hover {
+.OtherInvestmentAddModalSubmitBtn:hover {
   background: #0a322d;
 }
 
-.RDAddModalSubmitBtn:disabled {
+.OtherInvestmentAddModalSubmitBtn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.RDAddModalResult {
+.OtherInvestmentAddModalResult {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -172,34 +153,34 @@
   gap: 12px;
 }
 
-.RDAddModalSuccessIcon {
+.OtherInvestmentAddModalSuccessIcon {
   color: #16a34a;
 }
 
-.RDAddModalFailIcon {
+.OtherInvestmentAddModalFailIcon {
   color: #ef4444;
 }
 
-.RDAddModalResultTitle {
+.OtherInvestmentAddModalResultTitle {
   font-size: 18px;
   font-weight: 700;
   color: #111827;
   margin: 0;
 }
 
-.RDAddModalResultText {
+.OtherInvestmentAddModalResultText {
   font-size: 14px;
   color: #6b7280;
   margin: 0;
   text-align: center;
 }
 
-@keyframes RDAddModalFadeIn {
+@keyframes OtherInvestmentAddModalFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes RDAddModalSlideUp {
+@keyframes OtherInvestmentAddModalSlideUp {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }

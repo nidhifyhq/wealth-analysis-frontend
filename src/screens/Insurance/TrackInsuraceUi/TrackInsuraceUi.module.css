@@ -1,0 +1,171 @@
+
+.TrackInsuraceUi_container {
+  padding: 16px;
+  /* background-color: #f8fafc; */
+  background-color: #EFF3F6;
+  margin: 0 auto;
+}
+
+.TrackInsuraceUi_header, 
+.TrackInsuraceUi_listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  margin-top: 24px;
+}
+
+.TrackInsuraceUi_title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.TrackInsuraceUi_viewAll {
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Track CTA Card */
+.TrackInsuraceUi_trackCard {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  gap: 16px;
+}
+
+.TrackInsuraceUi_iconWrapper {
+  background-color: #f0fdf4;
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TrackInsuraceUi_shieldIcon {
+  width: 20px;
+  height: 20px;
+  color: #22c55e;
+}
+
+.TrackInsuraceUi_textGroup {
+  flex: 1;
+}
+
+.TrackInsuraceUi_cardHeading {
+  font-size: 13px;
+  font-weight: 600;
+  color: #092042;
+  margin: 0 0 4px 0;
+}
+
+.TrackInsuraceUi_cardSubheading {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+.TrackInsuraceUi_arrowButton {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #22c55e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.TrackInsuraceUi_arrowButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Policy Cards */
+.TrackInsuraceUi_policyList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.TrackInsuraceUi_policyCard {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.TrackInsuraceUi_policyIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.TrackInsuraceUi_policyIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.TrackInsuraceUi_life {
+  background-color: #fff1f2;
+  color: #f43f5e;
+}
+
+.TrackInsuraceUi_health {
+  background-color: #f0fdf4;
+  color: #22c55e;
+}
+
+.TrackInsuraceUi_policyInfo {
+  flex: 1;
+}
+
+.TrackInsuraceUi_policyName {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 2px 0;
+}
+
+.TrackInsuraceUi_policyId {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.TrackInsuraceUi_policyValue {
+  text-align: right;
+}
+
+.TrackInsuraceUi_label {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+
+.TrackInsuraceUi_amount {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}

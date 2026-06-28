@@ -20,6 +20,7 @@ import { fetchOtherInvestmentAssets } from "../../../../services/apis/dashboard.
 import LoadingDots from "../../../../components/LoadingDots/LoadingDots";
 import GoldAddModal from "../../../Gold/GoldAddModal/GoldAddModal";
 import RDAddModal from "../../../RecurringDeposit/RDAddModal/RDAddModal";
+import OtherInvestmentAddModal from "../../../OtherInvestment/OtherInvestmentAddModal/OtherInvestmentAddModal";
 
 const formatCurrency = (num) => {
   if (num == null) return "₹0";
@@ -41,6 +42,7 @@ const defaultSubtitles = {
   FD: "Track your FD",
   RD: "Track your RD",
   Gold: "Track your Gold",
+  Others: "Track other investments",
 };
 
 const OtherProducts = ({ isOpen, onClose }) => {
@@ -49,6 +51,7 @@ const OtherProducts = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [openGoldModal, setOpenGoldModal] = useState(false);
   const [openRDModal, setOpenRDModal] = useState(false);
+  const [openOtherModal, setOpenOtherModal] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -74,6 +77,7 @@ const OtherProducts = ({ isOpen, onClose }) => {
     mf: "/mf",
     fd: "/fd",
     rd: "/rd",
+    other: "/other",
   };
 
   const handleClose = () => {
@@ -133,6 +137,15 @@ const OtherProducts = ({ isOpen, onClose }) => {
       isLoading,
       type: "portfolio",
     },
+    {
+      id: "other",
+      title: "Other",
+      subtitle: getSubtitle("Others"),
+      icon: <ListCollapse className={styles.OtherProductsIconAsset} />,
+      amount: getAmount("Others"),
+      isLoading,
+      type: "portfolio",
+    },
   ];
 
   const comingSoonItems = [
@@ -166,14 +179,13 @@ const OtherProducts = ({ isOpen, onClose }) => {
       type: "discover",
     },
     {
-      id: "others",
-      title: "Other",
-      subtitle: "Track others",
-      icon: <ListCollapse className={styles.OtherProductsIconAsset} />,
-      isCircleIcon: true,
+      id: "epf",
+      title: "EPF",
+      subtitle: "Track your EPF",
+      icon: <Grid className={styles.OtherProductsIconAsset} />,
+      amount: "₹90,500",
       isComingSoon: true,
-      actionText: "Add",
-      type: "discover",
+      type: "portfolio",
     },
   ];
 
@@ -217,6 +229,11 @@ const OtherProducts = ({ isOpen, onClose }) => {
                     if (item.id === "rd") {
                       if (apiData?.RD) navigate("/rd");
                       else setOpenRDModal(true);
+                      return;
+                    }
+                    if (item.id === "other") {
+                      if (apiData?.Others) navigate("/other");
+                      else setOpenOtherModal(true);
                       return;
                     }
                     const route = itemRoutes[item.id];
@@ -295,6 +312,11 @@ const OtherProducts = ({ isOpen, onClose }) => {
         isOpen={openRDModal}
         onClose={() => setOpenRDModal(false)}
         onSuccess={() => setOpenRDModal(false)}
+      />
+      <OtherInvestmentAddModal
+        isOpen={openOtherModal}
+        onClose={() => setOpenOtherModal(false)}
+        onSuccess={() => setOpenOtherModal(false)}
       />
     </div>
   );

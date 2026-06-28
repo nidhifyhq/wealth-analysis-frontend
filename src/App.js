@@ -10,6 +10,7 @@ import MutualFund from "./screens/MutualFund/MutualFundRoutes";
 import FixedDeposit from "./screens/FixedDeposit/FixedDepositRoutes";
 import Gold from "./screens/Gold/GoldRoutes";
 import RecurringDeposit from "./screens/RecurringDeposit/RecurringDepositRoutes";
+import OtherInvestment from "./screens/OtherInvestment/OtherInvestmentRoutes";
 import UserProfile from "./screens/UserProfile/UserProfile";
 import SIPCalculator from "./screens/Calculators/SIPCalculator/SIPCalculator";
 import FDCalculator from "./screens/Calculators/FDCalculator/FDCalculator";
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/fd/*" element={<FixedDeposit />} />
             <Route path="/gold/*" element={<Gold />} />
             <Route path="/rd/*" element={<RecurringDeposit />} />
+            <Route path="/other/*" element={<OtherInvestment />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/SIPCalculator" element={<SIPCalculator />} />
             <Route path="/FDCalculator" element={<FDCalculator />} />

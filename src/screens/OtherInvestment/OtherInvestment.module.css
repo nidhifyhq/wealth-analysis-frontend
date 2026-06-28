@@ -1,0 +1,267 @@
+.OtherInvestmentDashboardContainer {
+  background-color: #ffffff;
+  min-height: 100vh;
+  color: #111111;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding-bottom: 30px;
+}
+
+.OtherInvestmentDashboardHeaderBanner {
+  background-color: #0c3e38;
+  padding: 20px 20px 56px 20px;
+  color: #ffffff;
+}
+
+.OtherInvestmentDashboardTopActionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.OtherInvestmentDashboardCircularBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.OtherInvestmentDashboardCircularBtn:active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.OtherInvestmentDashboardBalanceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.OtherInvestmentDashboardBalanceTitle {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.OtherInvestmentDashboardToggleEye {
+  background: none;
+  border: none;
+  color: #ffffff;
+  opacity: 0.7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.OtherInvestmentDashboardBalanceRowGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.OtherInvestmentDashboardPrimaryAmount {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.OtherInvestmentDashboardMetricsRow {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 14px;
+  gap: 8px;
+}
+
+.OtherInvestmentDashboardMetricItem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.OtherInvestmentDashboardMetricLabel {
+  font-size: 11px;
+  color: #8fa7a4;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.OtherInvestmentDashboardMetricValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.OtherInvestmentDashboardNegativeReturn {
+  color: #ff6b7a;
+}
+
+.OtherInvestmentDashboardFundsSection {
+  padding: 24px 20px 16px 20px;
+}
+
+.OtherInvestmentDashboardSectionHeadingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.OtherInvestmentDashboardSectionHeading {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.OtherInvestmentDashboardFundsListStack {
+  display: flex;
+  flex-direction: column;
+}
+
+.OtherInvestmentDashboardFundListItem {
+  border-bottom: 1px solid #eef2f1;
+  padding: 18px 0;
+  cursor: pointer;
+}
+
+.OtherInvestmentDashboardFundListItem:last-child {
+  border-bottom: none;
+}
+
+.OtherInvestmentDashboardFundMainMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.OtherInvestmentDashboardFundTitleNameWrap {
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+
+.OtherInvestmentDashboardFundTitleName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #33334e;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.OtherInvestmentDashboardFundValueBlock {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.OtherInvestmentDashboardFundSecondRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.OtherInvestmentDashboardFundSecondRow .OtherInvestmentDashboardCurrentPriceText {
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.OtherInvestmentDashboardCurrentPriceText {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.OtherInvestmentDashboardPriceNegativeColor {
+  color: #eb5757;
+}
+
+.OtherInvestmentDashboardPricePositiveColor {
+  color: #27ae60;
+}
+
+.OtherInvestmentDashboardFundChipRow {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.OtherInvestmentDashboardChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #5d6769;
+  background: #F3F4F6;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.OtherInvestmentDashboardDeleteBtn {
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.OtherInvestmentDashboardDeleteBtn:hover {
+  color: #eb5757;
+  background: #fef2f2;
+}
+
+.OtherInvestmentDashboardFundDateText {
+  font-size: 11px;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.OtherInvestmentDashboardTrackBtn {
+  background: #0c3e38;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.OtherInvestmentDashboardTrackBtn:hover {
+  background: #0a322d;
+}
+
+.OtherInvestmentDashboardDisclaimer {
+  font-size: 10px;
+  color: #64748b;
+  line-height: 1.5;
+  text-align: center;
+  padding: 20px 25px;
+  margin: 0;
+}

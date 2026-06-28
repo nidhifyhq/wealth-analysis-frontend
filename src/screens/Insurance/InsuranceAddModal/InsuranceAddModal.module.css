@@ -1,4 +1,4 @@
-.RDAddModalOverlay {
+.InsuranceAddModalOverlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
@@ -6,10 +6,10 @@
   align-items: flex-end;
   justify-content: center;
   z-index: 1000;
-  animation: RDAddModalFadeIn 0.3s ease-out;
+  animation: InsuranceAddModalFadeIn 0.3s ease-out;
 }
 
-.RDAddModalSheet {
+.InsuranceAddModalSheet {
   background: #ffffff;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
@@ -20,10 +20,10 @@
   padding: 24px 24px 40px;
   max-height: 90vh;
   overflow-y: auto;
-  animation: RDAddModalSlideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  animation: InsuranceAddModalSlideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.RDAddModalHeader {
+.InsuranceAddModalHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -31,7 +31,7 @@
   gap: 12px;
 }
 
-.RDAddModalTitle {
+.InsuranceAddModalTitle {
   font-size: 15px;
   font-weight: 700;
   color: #111827;
@@ -39,7 +39,7 @@
   line-height: 1.3;
 }
 
-.RDAddModalCloseBtn {
+.InsuranceAddModalCloseBtn {
   background: none;
   border: none;
   padding: 4px;
@@ -52,31 +52,31 @@
   flex-shrink: 0;
 }
 
-.RDAddModalCloseBtn:hover {
+.InsuranceAddModalCloseBtn:hover {
   background: #F3F4F6;
 }
 
-.RDAddModalForm {
+.InsuranceAddModalForm {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.RDAddModalField {
+.InsuranceAddModalField {
   display: flex;
   flex-direction: column;
   gap: 4px;
   flex: 1;
 }
 
-.RDAddModalFieldLabel {
+.InsuranceAddModalFieldLabel {
   font-size: 13px;
   font-weight: 600;
   color: #374151;
   margin-left: 2px;
 }
 
-.RDAddModalInput {
+.InsuranceAddModalInput {
   width: 100%;
   border: 1.5px solid #d1d5db;
   border-radius: 12px;
@@ -90,63 +90,44 @@
   font-family: inherit;
 }
 
-.RDAddModalInput:focus {
+.InsuranceAddModalInput:focus {
   border-color: #0c3e38;
   background: #ffffff;
 }
 
-.RDAddModalInput::placeholder {
+.InsuranceAddModalInput::placeholder {
   color: #9ca3af;
   font-weight: 400;
 }
 
-.RDAddModalInputError {
+.InsuranceAddModalInputError {
   border-color: #ef4444;
 }
 
-.RDAddModalInputError:focus {
+.InsuranceAddModalInputError:focus {
   border-color: #ef4444;
 }
 
-.RDAddModalErrorText {
+.InsuranceAddModalErrorText {
   font-size: 11px;
   color: #ef4444;
   font-weight: 500;
   margin-left: 4px;
 }
 
-.RDAddModalRow {
+.InsuranceAddModalRow {
   display: flex;
   gap: 12px;
 }
 
-.RDAddModalTenureRow {
-  display: flex;
-  gap: 10px;
-}
-
-.RDAddModalTenureField {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.RDAddModalTenureLabel {
-  font-size: 11px;
-  color: #9ca3af;
-  font-weight: 500;
-  margin-left: 4px;
-}
-
-.RDAddModalSubmitBtn {
+.InsuranceAddModalSubmitBtn {
   width: 100%;
   background: #0c3e38;
   border: none;
   border-radius: 14px;
   padding: 16px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: #ffffff;
   cursor: pointer;
   font-family: inherit;
@@ -154,16 +135,16 @@
   transition: background 0.2s;
 }
 
-.RDAddModalSubmitBtn:hover {
+.InsuranceAddModalSubmitBtn:hover {
   background: #0a322d;
 }
 
-.RDAddModalSubmitBtn:disabled {
+.InsuranceAddModalSubmitBtn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.RDAddModalResult {
+.InsuranceAddModalResult {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -172,34 +153,84 @@
   gap: 12px;
 }
 
-.RDAddModalSuccessIcon {
+.InsuranceAddModalSuccessIcon {
   color: #16a34a;
 }
 
-.RDAddModalFailIcon {
+.InsuranceAddModalFailIcon {
   color: #ef4444;
 }
 
-.RDAddModalResultTitle {
+.InsuranceAddModalResultTitle {
   font-size: 18px;
   font-weight: 700;
   color: #111827;
   margin: 0;
 }
 
-.RDAddModalResultText {
+.InsuranceAddModalResultText {
   font-size: 14px;
   color: #6b7280;
   margin: 0;
   text-align: center;
 }
 
-@keyframes RDAddModalFadeIn {
+.InsuranceAddModalPolicyTypeTabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.InsuranceAddModalPolicyTypeTab {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  background: #fafafa;
+  font-size: 11px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.InsuranceAddModalPolicyTypeTab:hover {
+  border-color: #0c3e38;
+  color: #0c3e38;
+}
+
+.InsuranceAddModalPolicyTypeTabActive {
+  background: #0c3e38;
+  border-color: #0c3e38;
+  color: #ffffff;
+}
+
+.InsuranceAddModalPolicyTypeTabActive:hover {
+  background: #0c3e38;
+  border-color: #0c3e38;
+  color: #ffffff;
+}
+
+.InsuranceAddModalInsuranceTypeBadge {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #0c3e38;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+@keyframes InsuranceAddModalFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes RDAddModalSlideUp {
+@keyframes InsuranceAddModalSlideUp {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }

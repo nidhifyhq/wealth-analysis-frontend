@@ -103,7 +103,7 @@ export default function PortfolioVsMarket() {
   );
 
   return (
-    <div style={{ background: '#fff', padding: 16, fontFamily: 'system-ui, -apple-system, Inter, sans-serif', maxWidth: 480 }}>
+    <div style={{ background: '#fff', padding: 16 }}>
       <style>{shimmerStyle}</style>
 
       {/* Header */}

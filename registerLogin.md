@@ -1,45 +1,94 @@
+### Create Insurance Policy
+
+**Life Insurance**
+```bash
+curl -X POST http://localhost:5000/api/insurance \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "insuranceType": "Life",
+    "insuranceCompany": "LIC",
+    "policyHolderName": "John Doe",
+    "coverageAmount": 10000000,
+    "startDate": "2023-04-01",
+    "expiryDate": "2043-04-01"
+  }'
+```
+**Response:**
+```json
 {
-  "success": true,
-  "data": {
-    "summary": {
-      "count": 2,
-      "totalDeposited": 120000,
-      "totalCurrentValue": 128456.75,
-      "totalInterestEarned": 8456.75,
-      "totalReturnPercent": 7.05
-    },
-    "items": [
-      {
-        "_id": "665a2c3d4e5f6a7b8c9d0e1f",
-        "institutionName": "SBI",
-        "monthlyDeposit": 10000,
-        "interestRate": 7.2,
-        "depositDayOfMonth": 10,
-        "compoundingFrequency": "Quarterly",
-        "startDate": "2025-01-01T00:00:00.000Z",
-        "maturityDate": "2028-01-01T00:00:00.000Z",
-        "tenure": "3Y 0M",
-    
-        "totalDeposited": 180000,
-        "currentValue": 185432.50,
- 
-        "interestEarned": 5432.50,
-        
-      }
-    ]
-  }
+  "success": true
 }
-
-### Get All RDs
-```bash
-curl http://localhost:5000/api/rd \
-  -H "Authorization: Bearer <token>"
 ```
 
-### Delete RD
+---
+
+**Term Insurance**
 ```bash
-curl -X DELETE http://localhost:5000/api/rd/<id> \
-  -H "Authorization: Bearer <token>"
+curl -X POST http://localhost:5000/api/insurance \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "insuranceType": "Term",
+    "insuranceCompany": "HDFC Life",
+    "policyHolderName": "John Doe",
+    "coverageAmount": 5000000,
+    "startDate": "2024-01-15"
+    "expiryDate": "2026-06-01"
+  }'
+```
+**Response:**
+```json
+{
+  "success": true
+}
 ```
 
-  Make RecurringDeposit page and show details in RecurringDeposit.jsx. you can take refrense from GoldDashboard.jsx Page for UI and design. in every className use RecurringDeposit as prefix
+---
+
+**Health Insurance** (with optional `policyType`)
+```bash
+curl -X POST http://localhost:5000/api/insurance \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "insuranceType": "Health",
+    "insuranceCompany": "Star Health",
+    "policyHolderName": "John Doe",
+    "policyType": "Family Floater",
+    "coverageAmount": 500000,
+    "startDate": "2025-06-01",
+    "expiryDate": "2026-06-01"
+  }'
+```
+**Response:**
+```json
+{
+  "success": true
+}
+```
+
+---
+
+**Motor Insurance**
+```bash
+curl -X POST http://localhost:5000/api/insurance \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "insuranceType": "Motor",
+    "insuranceCompany": "ICICI Lombard",
+    "policyHolderName": "John Doe",
+    "coverageAmount": 2000000,
+    "startDate": "2025-03-10"
+    "expiryDate": "2026-06-01"
+  }'
+```
+**Response:**
+```json
+{
+  "success": true
+}
+```
+
+---

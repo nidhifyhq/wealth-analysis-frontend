@@ -22,6 +22,7 @@ import { selectUserName } from "../../store/auth/auth.selectors";
 import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
 import ProductSection from "./ProductSection/ProductSection";
+import TrackInsuraceUi from "../Insurance/TrackInsuraceUi/TrackInsuraceUi";
 
 import { Newspaper, Calculator } from "lucide-react";
 
@@ -296,6 +297,7 @@ export default function Dashboard() {
         {/* Main Content White Area */}
         <div className={styles.mobileDashboardContentSheet}>
           <ProductSection onRefresh={loadData} />
+          <TrackInsuraceUi />
 
           <div className={styles.mobileDashboardSectionHeader}>
             <h3 className={styles.mobileDashboardSectionTitle}>Explore</h3>

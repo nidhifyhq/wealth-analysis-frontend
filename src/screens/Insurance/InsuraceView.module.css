@@ -1,0 +1,365 @@
+.InsuraceViewModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1100;
+  animation: InsuraceViewModalFade 0.2s ease-out;
+}
+
+.InsuraceViewModalSheet {
+  background-color: #ffffff;
+  width: 100%;
+  max-height: 80%;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: env(safe-area-inset-bottom, 24px);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.15);
+  animation: InsuraceViewModalSlide 0.28s cubic-bezier(0.15, 0.85, 0.45, 1);
+}
+
+.InsuraceViewModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px 20px 20px;
+}
+
+.InsuraceViewModalTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #092042;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.InsuraceViewModalCloseCircle {
+  background-color: #eef1f0;
+  border: none;
+  color: #555555;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.InsuraceViewModalCloseCircle:active {
+  background-color: #e0e5e4;
+}
+
+.InsuraceViewModalScrollBody {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.InsuraceViewModalMainRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 16px;
+  border-top: 1px solid #edf1f0;
+}
+
+.InsuraceViewModalCategoryName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #092042;
+}
+
+.InsuraceViewModalActionLink {
+  background: none;
+  border: none;
+  color: #0c3e38;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.InsuraceViewModalSubItemsContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.InsuraceViewModalSubRowCard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 14px 16px;
+  border-top: 1px solid #edf1f0;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.InsuraceViewModalSubRowCard:active {
+  background: #fafbfb;
+}
+
+.InsuraceViewModalSubRowCardExpanded {
+  background: #f8fafa;
+}
+
+.InsuraceViewModalCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.InsuraceViewModalCardRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.InsuraceViewModalExpandBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid #d1d5db;
+  background: #ffffff;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.InsuraceViewModalExpandBtn:hover {
+  border-color: #0c3e38;
+  color: #0c3e38;
+  background: #f0fdf4;
+}
+
+.InsuraceViewModalExpandBtnActive {
+  border-color: #0c3e38;
+  color: #0c3e38;
+  background: #e8f5e9;
+  transform: rotate(0deg);
+}
+
+.InsuraceViewModalBrandMeta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.InsuraceViewModalPolicyDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.InsuraceViewModalProviderName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #092042;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.InsuraceViewModalPolicyTypeLabel {
+  font-size: 11px;
+  color: #728481;
+  margin: 0;
+  font-weight: 500;
+}
+
+.InsuraceViewModalPolicyMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.InsuraceViewModalExpiryText {
+  font-size: 11px;
+  color: #728481;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.InsuraceViewModalExpiryBadge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.InsuraceViewModalBadgeActive {
+  background: #eafbf0;
+  color: #0b451f;
+}
+
+.InsuraceViewModalBadgeExpired {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.InsuraceViewModalBadgeExpiring {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.InsuraceViewModalCoverValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #222222;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.InsuraceViewModalDeleteBtn {
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.InsuraceViewModalDeleteBtn:hover {
+  color: #eb5757;
+  background: #fef2f2;
+}
+
+.InsuraceViewModalExpandedDetails {
+  width: 100%;
+  margin-top: 12px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e9e8;
+  animation: InsuraceViewModalExpandIn 0.25s ease-out;
+}
+
+.InsuraceViewModalDeleteBtnExpanded {
+  margin-top: 16px;
+  width: 100%;
+  background: none;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #dc2626;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.InsuraceViewModalDeleteBtnExpanded:hover {
+  background: #fef2f2;
+}
+
+.InsuraceViewModalDetailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.InsuraceViewModalDetailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.InsuraceViewModalDetailIcon {
+  color: #0c3e38;
+  margin-bottom: 2px;
+}
+
+.InsuraceViewModalDetailLabel {
+  font-size: 10px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.InsuraceViewModalDetailValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.InsuraceViewModalLoadingState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 0;
+  color: #9CA3AF;
+  font-size: 14px;
+}
+
+.InsuraceViewModalEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+  gap: 12px;
+}
+
+.InsuraceViewModalEmptyIcon {
+  color: #d1d5db;
+}
+
+.InsuraceViewModalEmptyText {
+  font-size: 14px;
+  color: #9CA3AF;
+  margin: 0;
+}
+
+@keyframes InsuraceViewModalFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes InsuraceViewModalSlide {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes InsuraceViewModalExpandIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

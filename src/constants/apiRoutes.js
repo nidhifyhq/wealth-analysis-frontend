@@ -23,4 +23,10 @@ export const API_ROUTES = {
   RD_CREATE: "/api/rd",
   RD_LIST: "/api/rd",
   RD_DELETE: "/api/rd",
+  OTHER_CREATE: "/api/other",
+  OTHER_LIST: "/api/other",
+  OTHER_DELETE: "/api/other",
+  INSURANCE_CREATE: "/api/insurance",
+  INSURANCE_LIST: "/api/insurance",
+  INSURANCE_DELETE: "/api/insurance",
 }

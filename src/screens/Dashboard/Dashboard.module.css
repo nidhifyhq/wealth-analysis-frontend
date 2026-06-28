@@ -65,7 +65,8 @@
   padding: 20px;
   position: relative;
   overflow: hidden;
-  height: 145px;
+  /* height: 145px; */
+  height: 118px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -218,9 +219,9 @@
   background-color: #ffffff;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  padding: 24px 20px;
+  /* padding: 24px 20px; */
   flex-grow: 1;
-  color: #111111;
+  color: #092042;
 }
 
 .mobileDashboardSectionHeader {
@@ -228,6 +229,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  margin: 20px;
 }
 
 .mobileDashboardSectionTitle {
@@ -250,6 +252,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin: 20px;
 }
 
 .mobileDashboardRowCard {
