@@ -8,9 +8,9 @@ export const postRequest = async (url, data) => {
   }
 }
 
-export const getRequest = async (url, params) => {
+export const getRequest = async (url, params, options = {}) => {
   try {
-    return await api.get(url, { params })
+    return await api.get(url, { params, ...options })
   } catch (error) {
     return error.response?.data || false
   }

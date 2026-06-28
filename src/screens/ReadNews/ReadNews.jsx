@@ -2,17 +2,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, ExternalLink, AlertTriangle, Newspaper, CheckCircle2, TrendingUp, Briefcase, Building2, Wallet } from 'lucide-react';
 import styles from './ReadNews.module.css';
+import { fetchNewsFeed, fetchNewsRelated } from '../../services/apis/news.service';
 
-const BASE_URL = 'http://localhost:5000';
 const LIMIT = 10;
 const CATEGORIES = ['All', 'Markets', 'Mutual Funds', 'Business', 'Personal Finance'];
-
-const getToken = () => localStorage.getItem('token');
-
-const getAuthHeaders = () => ({
-  Authorization: `Bearer ${getToken()}`,
-  'Content-Type': 'application/json',
-});
 
 const formatTimeAgo = (publishedAt) => {
   const diff = Date.now() - new Date(publishedAt).getTime();
@@ -65,94 +58,80 @@ const ReadNews = () => {
   const observerRef = useRef(null);
   const sentinelRef = useRef(null);
   const isFetchingRef = useRef(false);
-  const abortRef = useRef(null);
-  const abortRelatedRef = useRef(null);
+  const fetchVersionRef = useRef(0);
 
-  const fetchRelatedArticles = useCallback(async (articleUrl) => {
+  const fetchRelatedArticles = useCallback(async (articleUrl, version) => {
     if (!articleUrl) return;
-    if (abortRelatedRef.current) abortRelatedRef.current.abort();
-    const controller = new AbortController();
-    abortRelatedRef.current = controller;
-    const timeout = setTimeout(() => controller.abort(), 15000);
 
     setRelatedLoading(true);
     setShowRelated(false);
 
-    try {
-      const url = `${BASE_URL}/api/news/related?url=${encodeURIComponent(articleUrl)}&limit=5`;
-      const response = await fetch(url, { headers: getAuthHeaders(), signal: controller.signal });
-      const data = await response.json();
-      if (data.success && data.data.articles.length > 0) {
-        setRelatedArticles(data.data.articles);
-        setShowRelated(true);
-      }
-    } catch (err) {
-      if (err.name === 'AbortError') return;
-    } finally {
-      clearTimeout(timeout);
+    const data = await fetchNewsRelated({ url: articleUrl, limit: 5 });
+    if (!data || !data.success || version !== fetchVersionRef.current) {
       setRelatedLoading(false);
+      return;
     }
+    if (data.data.articles.length > 0) {
+      setRelatedArticles(data.data.articles);
+      setShowRelated(true);
+    }
+    setRelatedLoading(false);
   }, []);
 
   const fetchNews = useCallback(async (pageNum, category, reset) => {
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
 
-    if (abortRef.current) abortRef.current.abort();
-    const controller = new AbortController();
-    abortRef.current = controller;
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    const version = ++fetchVersionRef.current;
 
     if (reset) setInitialLoading(true);
     else setLoading(true);
     setError(null);
 
-    try {
-      const categoryParam = category !== 'All'
-        ? `&category=${encodeURIComponent(category)}`
-        : '';
-      const url = `${BASE_URL}/api/news/feed?page=${pageNum}&limit=${LIMIT}${categoryParam}`;
-      const response = await fetch(url, { headers: getAuthHeaders(), signal: controller.signal });
-      const data = await response.json();
+    const params = { page: pageNum, limit: LIMIT };
+    if (category !== 'All') params.category = category;
 
-      if (data.success) {
-        const { articles: newArticles, pagination, endMessage: msg } = data.data;
+    const data = await fetchNewsFeed(params);
 
-        if (reset) {
-          setArticles(newArticles);
-        } else {
-          setArticles(prev => {
-            const existingIds = new Set(prev.map(a => a.id));
-            const unique = newArticles.filter(a => !existingIds.has(a.id));
-            return [...prev, ...unique];
-          });
-        }
-
-        setHasMore(pagination.hasMore);
-        setPage(pagination.nextPage || pageNum);
-
-        if (!pagination.hasMore) {
-          setEndMessage(msg);
-          fetchRelatedArticles(newArticles[newArticles.length - 1]?.url);
-        }
-      } else {
-        setError('Failed to load news. Please try again.');
-      }
-    } catch (err) {
-      if (err.name === 'AbortError') return;
-      setError('Failed to load news. Please try again.');
-    } finally {
-      clearTimeout(timeout);
+    if (!data || version !== fetchVersionRef.current) {
       setLoading(false);
       setInitialLoading(false);
       isFetchingRef.current = false;
+      return;
     }
+
+    if (data.success) {
+      const { articles: newArticles, pagination, endMessage: msg } = data.data;
+
+      if (reset) {
+        setArticles(newArticles);
+      } else {
+        setArticles(prev => {
+          const existingIds = new Set(prev.map(a => a.id));
+          const unique = newArticles.filter(a => !existingIds.has(a.id));
+          return [...prev, ...unique];
+        });
+      }
+
+      setHasMore(pagination.hasMore);
+      setPage(pagination.nextPage || pageNum);
+
+      if (!pagination.hasMore) {
+        setEndMessage(msg);
+        fetchRelatedArticles(newArticles[newArticles.length - 1]?.url, fetchVersionRef.current);
+      }
+    } else {
+      setError('Failed to load news. Please try again.');
+    }
+
+    setLoading(false);
+    setInitialLoading(false);
+    isFetchingRef.current = false;
   }, [fetchRelatedArticles]);
 
   const handleCategoryChange = useCallback((category) => {
     if (category === selectedCategory) return;
-    if (abortRef.current) abortRef.current.abort();
-    if (abortRelatedRef.current) abortRelatedRef.current.abort();
+    fetchVersionRef.current++;
     setSelectedCategory(category);
     setArticles([]);
     setPage(1);
