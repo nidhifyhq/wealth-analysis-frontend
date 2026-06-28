@@ -246,7 +246,7 @@ export default function Dashboard() {
                     {isLoading ? (
                       <LoadingDots speed={300} />
                     ) : showBalance ? (
-                      formatCurrency(fixedDeposit?.investedVal)
+                      formatCurrency(fixedDeposit?.currentValue)
                     ) : (
                       "••••••"
                     )}
