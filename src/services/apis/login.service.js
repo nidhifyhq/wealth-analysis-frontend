@@ -16,3 +16,11 @@ export const registerVerifyOtp = (payload) => {
 export const userLogin = (payload) => {
   return postRequest(API_ROUTES.LOGIN, payload)
 }
+
+export const forgotPasswordSendOtp = (payload) => {
+  return postRequest(API_ROUTES.FORGOT_PASSWORD_SEND_OTP, payload)
+}
+
+export const forgotPasswordReset = (payload) => {
+  return postRequest(API_ROUTES.FORGOT_PASSWORD_RESET, payload)
+}

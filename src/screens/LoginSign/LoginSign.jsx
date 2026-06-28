@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import styles from './LoginSign.module.css';
-import { checkEmail, userLogin, registerSendOtp, registerVerifyOtp } from '../../services/apis/login.service';
+import { checkEmail, userLogin, registerSendOtp, registerVerifyOtp, forgotPasswordSendOtp, forgotPasswordReset } from '../../services/apis/login.service';
 import { setAuthFromLogin } from '../../store/auth/auth.slice';
 import logoFull from '../../assets/images/nidhifylogofull.png';
 import RegisterConcentModal from './RegisterConcentModal/RegisterConcentModal';
@@ -41,6 +41,16 @@ export default function LoginSign() {
   const [timer, setTimer] = useState(60);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [forgotFlow, setForgotFlow] = useState(false);
+  const [forgotLoading, setForgotLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [signupLoading, setSignupLoading] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [forgotOtp, setForgotOtp] = useState(['', '', '', '']);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showPolicyTermsModal, setShowPolicyTermsModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
@@ -53,6 +63,7 @@ export default function LoginSign() {
   const [successMsg, setSuccessMsg] = useState('');
   
   const otpRefs = [useRef(), useRef(), useRef(), useRef()];
+  const forgotOtpRefs = [useRef(), useRef(), useRef(), useRef()];
 
   // Lock body scroll when terms modal is open
   useEffect(() => {
@@ -81,6 +92,12 @@ export default function LoginSign() {
   const handleBackNavigation = () => {
     setErrorMsg('');
     setSuccessMsg('');
+    if (forgotFlow) {
+      setForgotFlow(false);
+      setForgotOtp(['', '', '', '']);
+      setNewPassword('');
+      return;
+    }
     if (step === 'PASSWORD' || step === 'SIGNUP') {
       setStep('INITIAL');
     } else if (step === 'OTP') {
@@ -99,7 +116,9 @@ export default function LoginSign() {
       return;
     }
 
+    setInitialLoading(true);
     const res = await checkEmail({ email });
+    setInitialLoading(false);
     if (!res) {
       setErrorMsg('Network error. Please try again.');
       return;
@@ -123,7 +142,9 @@ export default function LoginSign() {
       return;
     }
 
+    setLoginLoading(true);
     const res = await userLogin({ email, password });
+    setLoginLoading(false);
     if (!res) {
       setErrorMsg('Network error. Please try again.');
       return;
@@ -156,6 +177,7 @@ export default function LoginSign() {
 
     const titleCaseName = name.replace(/\b\w/g, (c) => c.toUpperCase());
 
+    setSignupLoading(true);
     const res = await registerSendOtp({
       name: titleCaseName,
       mobile,
@@ -163,6 +185,7 @@ export default function LoginSign() {
       password,
       isRegisterConsent: agreeTerms,
     });
+    setSignupLoading(false);
     if (!res) {
       setErrorMsg('Network error. Please try again.');
       return;
@@ -209,7 +232,9 @@ export default function LoginSign() {
       return;
     }
 
+    setVerifyLoading(true);
     const res = await registerVerifyOtp({ email, otp: fullOtp });
+    setVerifyLoading(false);
     if (!res) {
       setErrorMsg('Network error. Please try again.');
       return;
@@ -228,9 +253,77 @@ export default function LoginSign() {
     setShowCasModal(true);
   };
 
+  const handleForgotSendOtp = async () => {
+    setErrorMsg('');
+    setSuccessMsg('');
+    setForgotLoading(true);
+    const res = await forgotPasswordSendOtp({ email });
+    setForgotLoading(false);
+    if (!res) {
+      setErrorMsg('Network error. Please try again.');
+      return;
+    }
+    if (!res.success) {
+      setErrorMsg(res.message || 'Failed to send OTP');
+      return;
+    }
+    setForgotFlow(true);
+  };
+
+  const handleForgotOtpChange = (value, index) => {
+    if (isNaN(value)) return;
+    const cleanValue = value.substring(value.length - 1);
+    const updatedOtp = [...forgotOtp];
+    updatedOtp[index] = cleanValue;
+    setForgotOtp(updatedOtp);
+    if (cleanValue !== '' && index < 3) {
+      forgotOtpRefs[index + 1].current.focus();
+    }
+  };
+
+  const handleForgotOtpKeyDown = (e, index) => {
+    if (e.key === 'Backspace' && forgotOtp[index] === '' && index > 0) {
+      forgotOtpRefs[index - 1].current.focus();
+    }
+  };
+
+  const handleForgotReset = async (e) => {
+    e.preventDefault();
+    setErrorMsg('');
+    setSuccessMsg('');
+    const fullOtp = forgotOtp.join('');
+    if (fullOtp.length < 4) {
+      setErrorMsg('Please fill in the entire 4-digit code.');
+      return;
+    }
+    if (!newPassword || newPassword.length < 6) {
+      setErrorMsg('New password must be at least 6 characters.');
+      return;
+    }
+    setResetLoading(true);
+    const res = await forgotPasswordReset({ email, otp: fullOtp, newPassword });
+    setResetLoading(false);
+    if (!res) {
+      setErrorMsg('Network error. Please try again.');
+      return;
+    }
+    if (!res.success) {
+      setErrorMsg(res.message || 'Reset failed. Try again.');
+      return;
+    }
+    dispatch(setAuthFromLogin({
+      authToken: res.token,
+      userId: res.userId,
+      name: res.Name,
+      email,
+    }));
+    navigate('/dashboard');
+  };
+
   const handleResendOtp = async () => {
     if (timer === 0) {
       const titleCaseName = name.replace(/\b\w/g, (c) => c.toUpperCase());
+      setResendLoading(true);
       const res = await registerSendOtp({
         name: titleCaseName,
         mobile,
@@ -238,6 +331,7 @@ export default function LoginSign() {
         password,
         isRegisterConsent: agreeTerms,
       });
+      setResendLoading(false);
       if (!res || !res.success) {
         setErrorMsg(res?.message || 'Failed to resend OTP. Try again.');
         return;
@@ -272,10 +366,16 @@ export default function LoginSign() {
               <p className={styles.LoginSignSubtitle}>Keep track of your investments and watch your wealth grow over time.</p>
             </>
           )}
-          {step === 'PASSWORD' && (
+          {step === 'PASSWORD' && !forgotFlow && (
             <>
               <h2 className={styles.LoginSignTitle}>Welcome back{name ? `, ${formatFirstName(name)}` : ''}!</h2>
               <p className={styles.LoginSignSubtitle}>Please provide authorization credentials linked to {email}.</p>
+            </>
+          )}
+          {step === 'PASSWORD' && forgotFlow && (
+            <>
+              <h2 className={styles.LoginSignTitle}>Set New Password</h2>
+              <p className={styles.LoginSignSubtitle}>Enter the OTP sent to {email} and your new password.</p>
             </>
           )}
           {step === 'SIGNUP' && (
@@ -324,14 +424,14 @@ export default function LoginSign() {
                 required
               />
             </div>
-            <button type="submit" className={styles.LoginSignActionBtn}>
-              Proceed
+            <button type="submit" className={styles.LoginSignActionBtn} disabled={initialLoading}>
+              {initialLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Proceed'}
             </button>
           </form>
         )}
 
         {/* RETURNING USER SIGN IN FLOW */}
-        {step === 'PASSWORD' && (
+        {step === 'PASSWORD' && !forgotFlow && (
           <form onSubmit={handlePasswordSubmit} className={styles.LoginSignFormLayout}>
             <div className={styles.LoginSignInputBlock}>
               <label className={styles.LoginSignLabel}>Enter Password</label>
@@ -350,8 +450,58 @@ export default function LoginSign() {
                 </button>
               </div>
             </div>
-            <button type="submit" className={styles.LoginSignActionBtn}>
-              Sign In
+            <button type="submit" className={styles.LoginSignActionBtn} disabled={loginLoading}>
+              {loginLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Sign In'}
+            </button>
+            <button type="button" className={styles.LoginSignForgotBtn} onClick={handleForgotSendOtp} disabled={forgotLoading}>
+              {forgotLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Forgot Password?'}
+            </button>
+          </form>
+        )}
+
+        {/* FORGOT PASSWORD — RESET FORM */}
+        {step === 'PASSWORD' && forgotFlow && (
+          <form onSubmit={handleForgotReset} className={styles.LoginSignFormLayout}>
+            <div className={styles.LoginSignInputBlock} style={{ alignItems: 'center' }}>
+              <label className={styles.LoginSignLabel} style={{ alignSelf: 'flex-start' }}>Enter 4-Digit OTP</label>
+              <div className={styles.LoginSignOtpRow}>
+                {forgotOtp.map((digit, idx) => (
+                  <input
+                    key={idx}
+                    type="text"
+                    maxLength={1}
+                    value={digit}
+                    ref={forgotOtpRefs[idx]}
+                    className={styles.LoginSignOtpBox}
+                    onChange={(e) => handleForgotOtpChange(e.target.value, idx)}
+                    onKeyDown={(e) => handleForgotOtpKeyDown(e, idx)}
+                    pattern="\d*"
+                    autoFocus={idx === 0}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className={styles.LoginSignInputBlock}>
+              <label className={styles.LoginSignLabel}>New Password</label>
+              <div className={styles.LoginSignPasswordWrapper}>
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="••••••••" 
+                  className={styles.LoginSignInput}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+                <button type="button" className={styles.LoginSignPasswordToggle} onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+            </div>
+            <button type="submit" className={styles.LoginSignActionBtn} disabled={resetLoading}>
+              {resetLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Reset Password'}
+            </button>
+            <button type="button" className={styles.LoginSignForgotBtn} onClick={() => { setForgotFlow(false); setForgotOtp(['', '', '', '']); setNewPassword(''); setErrorMsg(''); }}>
+              Back to Sign In
             </button>
           </form>
         )}
@@ -446,8 +596,8 @@ export default function LoginSign() {
               </label>
             </div>
 
-            <button type="submit" className={styles.LoginSignActionBtn}>
-              Create Account
+            <button type="submit" className={styles.LoginSignActionBtn} disabled={signupLoading}>
+              {signupLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Create Account'}
             </button>
           </form>
         )}
@@ -484,14 +634,15 @@ export default function LoginSign() {
                   type="button" 
                   className={styles.LoginSignResendBtn} 
                   onClick={handleResendOtp}
+                  disabled={resendLoading}
                 >
-                  Resend OTP Code
+                  {resendLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Resend OTP Code'}
                 </button>
               )}
             </div>
 
-            <button type="submit" className={styles.LoginSignActionBtn}>
-              Verify OTP
+            <button type="submit" className={styles.LoginSignActionBtn} disabled={verifyLoading}>
+              {verifyLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Verify OTP'}
             </button>
           </form>
         )}

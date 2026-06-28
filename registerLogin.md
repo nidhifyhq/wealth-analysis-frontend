@@ -1,94 +1,39 @@
-### Create Insurance Policy
-
-**Life Insurance**
-```bash
-curl -X POST http://localhost:5000/api/insurance \
+Step 1 — Send OTP
+Request:
+curl -X POST http://localhost:5000/api/auth/forgot-password-send-otp \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
   -d '{
-    "insuranceType": "Life",
-    "insuranceCompany": "LIC",
-    "policyHolderName": "John Doe",
-    "coverageAmount": 10000000,
-    "startDate": "2023-04-01",
-    "expiryDate": "2043-04-01"
+    "email": "user@example.com"
   }'
-```
-**Response:**
-```json
+Success Response (200):
 {
-  "success": true
+  "success": true,
+  "message": "OTP sent to email"
 }
-```
-
----
-
-**Term Insurance**
-```bash
-curl -X POST http://localhost:5000/api/insurance \
+Error Responses:
+{ "success": false, "message": "Email is required" }
+{ "success": false, "message": "User not found with this email" }
+{ "success": false, "message": "Email not verified. Please register first." }
+Step 2 — Verify OTP & Reset Password
+Request:
+curl -X POST http://localhost:5000/api/auth/forgot-password-reset \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
   -d '{
-    "insuranceType": "Term",
-    "insuranceCompany": "HDFC Life",
-    "policyHolderName": "John Doe",
-    "coverageAmount": 5000000,
-    "startDate": "2024-01-15"
-    "expiryDate": "2026-06-01"
+    "email": "user@example.com",
+    "otp": "1234",
+    "newPassword": "NewSecurePass123"
   }'
-```
-**Response:**
-```json
+Success Response (200) — same as /api/auth/login:
 {
-  "success": true
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "userId": 10,
+  "Name": "John Doe"
 }
-```
+Error Responses:
+{ "success": false, "message": "Email, OTP, and new password are required" }
+{ "success": false, "message": "User not found" }
+{ "success": false, "message": "Invalid OTP" }
+{ "success": false, "message": "OTP expired. Please request a new OTP." }
 
----
-
-**Health Insurance** (with optional `policyType`)
-```bash
-curl -X POST http://localhost:5000/api/insurance \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -d '{
-    "insuranceType": "Health",
-    "insuranceCompany": "Star Health",
-    "policyHolderName": "John Doe",
-    "policyType": "Family Floater",
-    "coverageAmount": 500000,
-    "startDate": "2025-06-01",
-    "expiryDate": "2026-06-01"
-  }'
-```
-**Response:**
-```json
-{
-  "success": true
-}
-```
-
----
-
-**Motor Insurance**
-```bash
-curl -X POST http://localhost:5000/api/insurance \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -d '{
-    "insuranceType": "Motor",
-    "insuranceCompany": "ICICI Lombard",
-    "policyHolderName": "John Doe",
-    "coverageAmount": 2000000,
-    "startDate": "2025-03-10"
-    "expiryDate": "2026-06-01"
-  }'
-```
-**Response:**
-```json
-{
-  "success": true
-}
-```
-
----
+Now, in step === 'PASSWORD' below I want to give reset password in better ui when click then call /api/auth/forgot-password-send-otp with email and if status false then show error message in step === 'PASSWORD'. IF true then show four digit OTP box, NEw Password, Confirm Password and Reset Button and when clicked then getting same response as userLogin so dispatch and navigate to navigate('/dashboard');

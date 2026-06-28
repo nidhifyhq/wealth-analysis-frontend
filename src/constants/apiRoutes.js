@@ -29,4 +29,6 @@ export const API_ROUTES = {
   INSURANCE_CREATE: "/api/insurance",
   INSURANCE_LIST: "/api/insurance",
   INSURANCE_DELETE: "/api/insurance",
+  FORGOT_PASSWORD_SEND_OTP: "/api/auth/forgot-password-send-otp",
+  FORGOT_PASSWORD_RESET: "/api/auth/forgot-password-reset",
 }

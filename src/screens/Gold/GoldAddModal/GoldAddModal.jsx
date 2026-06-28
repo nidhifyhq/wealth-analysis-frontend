@@ -262,7 +262,7 @@ export default function GoldAddModal({ isOpen, onClose, onSuccess }) {
               onClick={handleSubmit}
               disabled={submitting}
             >
-              {submitting ? 'Adding...' : 'Add Gold Investment'}
+              {submitting ? 'Adding...' : 'Add Investment'}
             </button>
           </>
         )}

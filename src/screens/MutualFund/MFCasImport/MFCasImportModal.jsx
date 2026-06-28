@@ -106,7 +106,7 @@ export default function MFCasImportModal({ isOpen, onSkip, onProceed, illustrati
 
         <div className={styles.MFCasImportModalActions}>
           <button type="button" className={styles.MFCasImportModalSkipBtn} onClick={handleSkip}>
-            {skipUrl ? 'Skip & Enter Manually' : 'Close'}
+            {skipUrl ? 'Skip' : 'Close'}
           </button>
           <button type="button" className={styles.MFCasImportModalProceedBtn} onClick={handleProceed}>
             Proceed to CAMS

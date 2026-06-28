@@ -255,8 +255,8 @@
   border: none;
   border-radius: 16px;
   padding: 16px;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
   text-align: center;
   margin-top: 10px;
@@ -267,6 +267,11 @@
 .LoginSignActionBtn:active {
   background-color: #062320;
   transform: scale(0.99);
+}
+
+.LoginSignActionBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 /* OTP Specific 4-Box Entry Structures */
@@ -328,6 +333,69 @@
 
 .LoginSignResendBtn:hover {
   color: #279e52;
+}
+
+.LoginSignResendBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  text-decoration: none;
+}
+
+.LoginSignInputDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.LoginSignForgotBtn {
+  background: none;
+  border: none;
+  color: #0c3e38;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 2px;
+  text-align: center;
+  text-decoration: underline;
+  font-family: inherit;
+  transition: color 0.2s;
+}
+
+.LoginSignForgotBtn:hover {
+  color: #39cc6e;
+}
+
+.LoginSignForgotBtn:disabled {
+  color: #8fa7a4;
+  cursor: default;
+  text-decoration: none;
+}
+
+.LoginSignLoadingDots span {
+  animation: dotPulse 1.4s infinite;
+  opacity: 0;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.LoginSignLoadingDots span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.LoginSignLoadingDots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.LoginSignLoadingDots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+  0%, 60%, 100% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
 }
 
 @keyframes slideDown {
