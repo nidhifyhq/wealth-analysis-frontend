@@ -5,7 +5,8 @@ import {
 import { Info, ArrowDownUp  } from 'lucide-react';
 import { fetchPortfolioComparison } from '../../services/apis/dashboard.service';
 
-const PERIODS = ['1D', '1W', '1M', '6M', '1Y', 'ALL'];
+// const PERIODS = ['1D', '1W', '1M', '6M', '1Y', 'ALL'];
+const PERIODS = ['1M', '3M', '6M', '1Y', 'ALL'];
 const BENCHMARKS = [
   { value: 'nifty50', label: 'NIFTY 50' },
   { value: 'sensex', label: 'SENSEX' },
@@ -44,7 +45,7 @@ const SkeletonBlock = ({ height, width }) => (
 const shimmerStyle = `@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }`;
 
 export default function PortfolioVsMarket() {
-  const [period, setPeriod] = useState('1W');
+  const [period, setPeriod] = useState('6M');
   const [mode, setMode] = useState('return');
   const [benchmark, setBenchmark] = useState('nifty50');
   const [data, setData] = useState(null);
