@@ -27,7 +27,7 @@ const formatCurrency = (num) => {
     style: "currency",
     currency: "INR",
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(num);
 };
 
