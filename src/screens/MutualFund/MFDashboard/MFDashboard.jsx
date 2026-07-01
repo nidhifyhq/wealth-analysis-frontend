@@ -83,6 +83,7 @@ export default function MFDashboard() {
 
   const s = fundSummary?.summary;
   const r = fundSummary?.ratings;
+  const asOnDate = fundSummary?.asOnDate;
   const statementDate = fundSummary?.statementDate;
   const importedAt = fundSummary?.importedAt;
 
@@ -175,6 +176,9 @@ export default function MFDashboard() {
             >
               <Eye size={16} />
             </button>
+            <span className={styles.MFDashboardAsOnDate}>
+              as on {formatDate(asOnDate)}
+            </span>
           </div>
 
           <div className={styles.MFDashboardBalanceRowGroup}>

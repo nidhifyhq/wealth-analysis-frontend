@@ -51,6 +51,14 @@
   opacity: 0.75;
 }
 
+.MFDashboardAsOnDate {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.6;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
 .MFDashboardToggleEye {
   background: none;
   border: none;
