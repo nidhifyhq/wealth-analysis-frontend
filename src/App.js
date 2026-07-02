@@ -18,6 +18,7 @@ import FDCalculator from "./screens/Calculators/FDCalculator/FDCalculator";
 import ReadNews from "./screens/ReadNews/ReadNews"
 import NotificationCenter from "./components/NotificationCenter/NotificationCenter"
 import Assistant from "./screens/AiAssistant/Assistant";
+import PinLock from "./screens/LoginSign/PinLock/PinLock";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         }}
       />
       <Routes>
+        <Route path="/PinLock" element={<PinLock />} />
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<LoginSign />} />
            <Route path="*" element={<LoginSign />} />

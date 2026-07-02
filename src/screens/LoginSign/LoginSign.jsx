@@ -7,7 +7,7 @@ import { checkEmail, userLogin, registerSendOtp, registerVerifyOtp, forgotPasswo
 import { setAuthFromLogin } from '../../store/auth/auth.slice';
 import logoFull from '../../assets/images/nidhifylogofull.png';
 import RegisterConcentModal from './RegisterConcentModal/RegisterConcentModal';
-import MFCasImportModal from '../MutualFund/MFCasImport/MFCasImportModal';
+
 import TermsModal from '../PolicyPages/Terms/Terms';
 import PrivacyModal from '../PolicyPages/Privacy/Privacy';
 import DisclaimerModal from '../PolicyPages/Disclaimer/Disclaimer';
@@ -60,7 +60,6 @@ export default function LoginSign() {
   const [showAboutModal, setShowAboutModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showFaqsModal, setShowFaqsModal] = useState(false);
-  const [showCasModal, setShowCasModal] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
@@ -284,7 +283,8 @@ export default function LoginSign() {
       name: res.Name,
       email,
     }));
-    setShowCasModal(true);
+    sessionStorage.setItem('isFirstTimeSetup', '1');
+    navigate('/PinLock?mode=set');
   };
 
   const handleForgotSendOtp = async () => {
@@ -744,15 +744,6 @@ export default function LoginSign() {
         <RegisterConcentModal
           onClose={() => { setAgreeTerms(false); setShowTermsModal(false); }}
           onConsent={() => { setAgreeTerms(true); setShowTermsModal(false); }}
-        />
-      )}
-
-      {showCasModal && (
-        <MFCasImportModal
-          isOpen={showCasModal}
-          skipUrl="/dashboard"
-          onProceed={() => setShowCasModal(false)}
-          illustrationSrc={logoFull}
         />
       )}
 

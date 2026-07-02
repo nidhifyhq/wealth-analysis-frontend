@@ -28,6 +28,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import styles from "./Dashboard.module.css";
 import { useNavigate } from "react-router-dom";
+import MFCasImportModal from "../MutualFund/MFCasImport/MFCasImportModal";
+import logoFull from "../../assets/images/nidhifylogofull.png";
 
 const productConfig = {
   "Mutual Funds": { className: "mobileDashboardProductMf", label: "MFs" },
@@ -55,7 +57,15 @@ export default function Dashboard() {
   const [totalAssetsData, setTotalAssetsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCasUpload, setShowCasUpload] = useState(false);
+  const [showCasModal, setShowCasModal] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem('showCas') === '1') {
+      sessionStorage.removeItem('showCas');
+      setShowCasModal(true);
+    }
+  }, []);
 
   useEffect(() => {
     loadData();
@@ -418,6 +428,15 @@ export default function Dashboard() {
         onClose={() => setShowCasUpload(false)}
         onUploadSuccess={loadData}
       />
+
+      {showCasModal && (
+        <MFCasImportModal
+          isOpen={showCasModal}
+          onSkip={() => setShowCasModal(false)}
+          onProceed={() => setShowCasModal(false)}
+          illustrationSrc={logoFull}
+        />
+      )}
     </>
   );
 }

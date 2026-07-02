@@ -11,7 +11,8 @@ import {
   ExternalLink,
   LogOut,
   Trash2,
-  ChevronRight
+  ChevronRight,
+  Lock
 } from 'lucide-react'
 import { logout } from '../../store/auth/auth.slice'
 import { APP_VERSION } from '../../config/appVersion'
@@ -151,7 +152,35 @@ export default function UserProfile() {
           </div>
         </div>
 
-        {/* GROUP 2: Investment Details */}
+        {/* GROUP 2: Security */}
+        <div className={styles.UserProfileSectionBlock}>
+          <h3 className={styles.UserProfileSectionLabel}>SECURITY</h3>
+          <div
+            className={styles.UserProfileRowCard}
+            onClick={() => navigate('/PinLock?mode=change')}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                navigate('/PinLock?mode=change')
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className={styles.UserProfileRowLeading}>
+              <div className={styles.UserProfileIconFrame}>
+                <Lock size={18} />
+              </div>
+              <div>
+                <p className={styles.UserProfileStandaloneText}>Change PIN</p>
+              </div>
+            </div>
+            <ChevronRight size={18} className={styles.UserProfileChevronRight} />
+          </div>
+        </div>
+
+        {/* GROUP 3: Investment Details */}
         {userData?.isCasImported && (
           <div className={styles.UserProfileSectionBlock}>
             <h3 className={styles.UserProfileSectionLabel}>INVESTMENT DETAILS</h3>
