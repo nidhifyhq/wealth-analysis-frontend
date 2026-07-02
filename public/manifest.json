@@ -3,17 +3,17 @@
   "name": "Smart Personal Finance App",
   "icons": [
     {
-      "src": "whitebg128px.png",
+      "src": "whitebgnew128.png",
       "sizes": "16x16 24x24 32x32 48x48 64x64",
       "type": "image/x-icon"
     },
     {
-      "src": "whitebg128px.png",
+      "src": "wwhitebgnew128.png",
       "sizes": "192x192",
       "type": "image/jpeg"
     },
     {
-      "src": "whitebg512px.png",
+      "src": "whitebgnew512.png",
       "sizes": "512x512",
       "type": "image/jpeg"
     }
