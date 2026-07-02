@@ -79,7 +79,12 @@ const PinLock = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pin, confirmPin, newPin, step, changeStep]);
 
+  const vibrate = () => {
+    try { navigator.vibrate(10); } catch (_) {}
+  };
+
   const handleKeyPress = (num) => {
+    vibrate();
     setError('');
     if (mode === 'change') {
       if (changeStep === 'verify' && pin.length < pinLength) {

@@ -4,7 +4,7 @@
   justify-content: space-between;
   width: 100%;
   max-width: 440px;
-  height: 100vh;
+  height: 100dvh;
   min-height: 600px;
   margin: 0 auto;
   background-color: #ffffff;
@@ -83,14 +83,14 @@
 }
 
 .PinLock_greeting {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   color: #2d3142;
   margin: 0 0 8px 0;
 }
 
 .PinLock_instruction {
-  font-size: 15px;
+  font-size: 14px;
   color: #7c808c;
   margin: 0 0 40px 0;
 }
