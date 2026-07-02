@@ -476,7 +476,7 @@ export default function LoginSign() {
               />
             </div>
             <button type="submit" className={styles.LoginSignActionBtn} disabled={initialLoading}>
-              {initialLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Proceed'}
+              {initialLoading ? <>Please wait <span className={styles.LoginSignLoadingDots}><span>.</span><span>.</span><span>.</span></span></> : 'Login/SignUp'}
             </button>
           </form>
         )}

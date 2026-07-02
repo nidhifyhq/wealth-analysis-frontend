@@ -1,13 +1,20 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, TrendingUp, Landmark, User } from 'lucide-react';
-import styles from './BottomBar.module.css';
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  TrendingUp,
+  Landmark,
+  User,
+  Sparkles,
+} from "lucide-react";
+import styles from "./BottomBar.module.css";
 
 const navItems = [
-  { label: 'Home', icon: LayoutDashboard, route: '/dashboard' },
-  { label: 'MF', icon: TrendingUp, route: '/mf/' },
-  { label: 'FD', icon: Landmark, route: '/fd' },
-  { label: 'Profile', icon: User, route: '/profile' },
+  { label: "Home", icon: LayoutDashboard, route: "/dashboard" },
+  { label: "MF", icon: TrendingUp, route: "/mf/" },
+  { label: "FD", icon: Landmark, route: "/fd" },
+  { label: "Ask", icon: Sparkles, route: "/assistant" },
+  { label: "Profile", icon: User, route: "/profile" },
 ];
 
 export default function BottomBar() {
@@ -15,7 +22,7 @@ export default function BottomBar() {
   const navigate = useNavigate();
 
   const activeIndex = navItems.findIndex((item) => {
-    if (item.route === '/mf/') return pathname.startsWith('/mf');
+    if (item.route === "/mf/") return pathname.startsWith("/mf");
     return pathname === item.route;
   });
 
@@ -28,19 +35,21 @@ export default function BottomBar() {
         return (
           <button
             key={idx}
-            className={`${styles.BottomBarItem} ${isActive ? styles.BottomBarItemActive : ''}`}
+            className={`${styles.BottomBarItem} ${isActive ? styles.BottomBarItemActive : ""}`}
             onClick={() => navigate(item.route)}
           >
             <div className={styles.BottomBarIconWrapper}>
               <Icon
                 size={22}
                 strokeWidth={isActive ? 2.5 : 2}
-                color={isActive ? '#0c3e38' : '#9ca3af'}
+                color={isActive ? "#0c3e38" : "#9ca3af"}
               />
             </div>
             <span
               className={`${styles.BottomBarLabel} ${
-                isActive ? styles.BottomBarLabelActive : styles.BottomBarLabelInactive
+                isActive
+                  ? styles.BottomBarLabelActive
+                  : styles.BottomBarLabelInactive
               }`}
             >
               {item.label}

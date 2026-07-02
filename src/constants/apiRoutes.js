@@ -33,4 +33,5 @@ export const API_ROUTES = {
   FORGOT_PASSWORD_RESET: "/api/auth/forgot-password-reset",
   NEWS_FEED: "/api/news/feed",
   NEWS_RELATED: "/api/news/related",
+  AI_CHAT: "/api/ai/chat",
 }
