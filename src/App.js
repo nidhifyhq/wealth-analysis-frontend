@@ -36,6 +36,7 @@ const App = () => {
       <Routes>
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<LoginSign />} />
+           <Route path="*" element={<LoginSign />} />
         </Route>
 
         <Route element={<ProtectedRoute />}>
@@ -55,7 +56,7 @@ const App = () => {
           </Route>
         </Route>
 
-        <Route path="*" element={<LoginSign />} />
+        {/* <Route path="*" element={<LoginSign />} /> */}
       </Routes>
       </MobileOnlyLayout>
     </BrowserRouter>
