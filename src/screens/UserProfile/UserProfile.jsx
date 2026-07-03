@@ -12,12 +12,15 @@ import {
   LogOut,
   Trash2,
   ChevronRight,
-  Lock
+  Lock,
+  Bell
 } from 'lucide-react'
 import { logout } from '../../store/auth/auth.slice'
 import { APP_VERSION } from '../../config/appVersion'
-import { selectUserName, selectUserEmail } from '../../store/auth/auth.selectors'
+import { selectUserName, selectUserEmail, selectUserId } from '../../store/auth/auth.selectors'
 import { fetchUserDetails, deleteUserAccount } from '../../services/apis/user.service'
+import useOneSignal from '../../hooks/useOneSignal'
+import PushNotificationModal from '../../components/PushNotificationModal/PushNotificationModal'
 import DeleteAccountModal from './DeleteAccountModal/DeleteAccountModal'
 import Terms from '../PolicyPages/Terms/Terms'
 import Privacy from '../PolicyPages/Privacy/Privacy'
@@ -40,11 +43,16 @@ export default function UserProfile() {
 
   const reduxName = useSelector(selectUserName)
   const reduxEmail = useSelector(selectUserEmail)
+  const userId = useSelector(selectUserId)
+
+  const { subscribed, loading: notifLoading, subscribe, unsubscribe } = useOneSignal(userId)
 
   const [userData, setUserData] = useState(null)
   const [, setIsLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [showNotifModal, setShowNotifModal] = useState(false)
+  const [notifSubscribing, setNotifSubscribing] = useState(false)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false)
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false)
@@ -87,6 +95,26 @@ export default function UserProfile() {
     } else {
       setIsDeleting(false)
       setShowDeleteModal(false)
+    }
+  }
+
+  const handleNotifToggle = () => {
+    if (subscribed) {
+      unsubscribe().catch(console.error)
+    } else {
+      setShowNotifModal(true)
+    }
+  }
+
+  const handleNotifSubscribe = async () => {
+    setNotifSubscribing(true)
+    try {
+      await subscribe()
+      setShowNotifModal(false)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setNotifSubscribing(false)
     }
   }
 
@@ -180,7 +208,32 @@ export default function UserProfile() {
           </div>
         </div>
 
-        {/* GROUP 3: Investment Details */}
+        {/* GROUP 3: Settings */}
+        <div className={styles.UserProfileSectionBlock}>
+          <h3 className={styles.UserProfileSectionLabel}>SETTINGS</h3>
+          <div className={styles.UserProfileToggleRow}>
+            <div className={styles.UserProfileRowLeading}>
+              <div className={styles.UserProfileIconFrame}>
+                <Bell size={18} />
+              </div>
+              <div>
+                <p className={styles.UserProfileStandaloneText}>Notifications</p>
+              </div>
+            </div>
+            <button
+              className={styles.UserProfileToggleSwitch}
+              role="switch"
+              aria-checked={!!subscribed}
+              onClick={handleNotifToggle}
+              disabled={notifLoading}
+              type="button"
+            >
+              <span className={styles.UserProfileToggleKnob} />
+            </button>
+          </div>
+        </div>
+
+        {/* GROUP 4: Investment Details */}
         {userData?.isCasImported && (
           <div className={styles.UserProfileSectionBlock}>
             <h3 className={styles.UserProfileSectionLabel}>INVESTMENT DETAILS</h3>
@@ -374,6 +427,13 @@ export default function UserProfile() {
         </div>
 
       </main>
+
+      <PushNotificationModal
+        open={showNotifModal}
+        onClose={() => setShowNotifModal(false)}
+        onSubscribe={handleNotifSubscribe}
+        loading={notifSubscribing}
+      />
 
       <DeleteAccountModal
         isOpen={showDeleteModal}

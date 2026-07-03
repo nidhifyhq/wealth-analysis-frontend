@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+import { useEffect, useState } from "react";
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+const useOneSignal = (userId) => {
+  const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-## Available Scripts
+  useEffect(() => {
+    if (window.__ONESIGNAL_INITIALIZED__) {
+      setLoading(false);
+      return;
+    }
 
-In the project directory, you can rn:
+    window.__ONESIGNAL_INITIALIZED__ = true;
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
 
-### `npm start`
+    window.OneSignalDeferred.push(async (OneSignal) => {
+      try {
+        await OneSignal.init({
+          appId: "175d666a-7dbe-4c49-9546-18c8c5fc720e",
+          safari_web_id:
+            "web.onesignal.auto.2a0b8f88-f61f-4cbf-954f-aff96911a546",
+          notifyButton: {
+            enable: false,
+          },
+          allowLocalhostAsSecureOrigin: true,
+        });
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+        const optedIn =
+          await OneSignal.User.PushSubscription.optedIn;
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+        setSubscribed(optedIn);
+      } catch (err) {
+        console.error("OneSignal init failed:", err);
+      } finally {
+        setLoading(false);
+      }
+    });
+  }, []);
 
-### `npm test`
+  useEffect(() => {
+    if (!userId) return;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    window.OneSignalDeferred =
+      window.OneSignalDeferred || [];
 
-### `npm run build`
+    window.OneSignalDeferred.push(async (OneSignal) => {
+      try {
+        await OneSignal.login(userId.toString());
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        console.log(
+          "OneSignal External ID:",
+          userId
+        );
+      } catch (err) {
+        console.error("OneSignal login failed:", err);
+      }
+    });
+  }, [userId]);
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  const subscribe = async () => {
+    return new Promise((resolve, reject) => {
+      window.OneSignalDeferred.push(async (OneSignal) => {
+        try {
+          await OneSignal.Notifications.requestPermission();
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+          if (
+            !(await OneSignal.User.PushSubscription.optedIn)
+          ) {
+            await OneSignal.User.PushSubscription.optIn();
+          }
 
-### `npm run eject`
+          const subscriptionId =
+            await OneSignal.User.PushSubscription.id;
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+          setSubscribed(true);
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+          resolve(subscriptionId);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    });
+  };
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  return {
+    subscribed,
+    loading,
+    subscribe,
+  };
+};
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default useOneSignal;

@@ -218,6 +218,54 @@
   color: #b0c2bf;
 }
 
+.UserProfileToggleRow {
+  background-color: #ffffff;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.UserProfileToggleSwitch {
+  position: relative;
+  width: 48px;
+  height: 28px;
+  background: #d1d5db;
+  border-radius: 14px;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.25s;
+}
+
+.UserProfileToggleSwitch[aria-checked="true"] {
+  background: #0c3e38;
+}
+
+.UserProfileToggleSwitch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.UserProfileToggleKnob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.UserProfileToggleSwitch[aria-checked="true"] .UserProfileToggleKnob {
+  transform: translateX(20px);
+}
+
 .UserProfileRowActionBtn {
   background: none;
   border: none;

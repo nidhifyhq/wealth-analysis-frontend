@@ -1,0 +1,172 @@
+
+.PushNotificationModal_backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 999999;
+  animation: PushNotificationModal_fadeIn 0.25s ease-out;
+}
+
+.PushNotificationModal_sheet {
+  width: 100%;
+  max-width: 500px;
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 24px 24px calc(24px + env(safe-area-inset-bottom, 0px));
+  animation: PushNotificationModal_slideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.PushNotificationModal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.PushNotificationModal_bellWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0c3e38, #16a34a);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(12, 62, 56, 0.3);
+  flex-shrink: 0;
+}
+
+.PushNotificationModal_closeBtn {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.PushNotificationModal_closeBtn:hover {
+  background: #F3F4F6;
+  color: #374151;
+}
+
+.PushNotificationModal_title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #092042;
+  margin: 0 0 4px 0;
+}
+
+.PushNotificationModal_permissionLabel {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.PushNotificationModal_description {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+}
+
+.PushNotificationModal_features {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.PushNotificationModal_feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border-radius: 12px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 400;
+  transition: background 0.2s;
+}
+
+.PushNotificationModal_feature svg {
+  color: #0c3e38;
+  flex-shrink: 0;
+}
+
+.PushNotificationModal_actions {
+  display: flex;
+  gap: 12px;
+}
+
+.PushNotificationModal_laterBtn {
+  flex: 1;
+  background: #F3F4F6;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.PushNotificationModal_laterBtn:hover {
+  background: #e5e7eb;
+}
+
+.PushNotificationModal_laterBtn:active {
+  transform: scale(0.97);
+}
+
+.PushNotificationModal_allowBtn {
+  flex: 1.4;
+  background: #0c3e38;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.PushNotificationModal_allowBtn:hover {
+  background: #0a322d;
+}
+
+.PushNotificationModal_allowBtn:active {
+  transform: scale(0.97);
+}
+
+.PushNotificationModal_allowBtn:disabled,
+.PushNotificationModal_laterBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@keyframes PushNotificationModal_fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes PushNotificationModal_slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

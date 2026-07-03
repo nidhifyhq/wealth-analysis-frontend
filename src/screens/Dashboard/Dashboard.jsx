@@ -16,11 +16,13 @@ import {
   fetchTotalAssets,
 } from "../../services/apis/dashboard.service";
 import LoadingDots from "../../components/LoadingDots/LoadingDots";
-import { selectUserName } from "../../store/auth/auth.selectors";
+import { selectUserName, selectUserId } from "../../store/auth/auth.selectors";
 import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
 import ProductSection from "./ProductSection/ProductSection";
 import TrackInsuraceUi from "../Insurance/TrackInsuraceUi/TrackInsuraceUi";
+import PushNotificationModal from "../../components/PushNotificationModal/PushNotificationModal";
+import useOneSignal from "../../hooks/useOneSignal";
 
 import { Newspaper, Calculator } from "lucide-react";
 
@@ -60,9 +62,32 @@ export default function Dashboard() {
   const [showCasModal, setShowCasModal] = useState(false);
   const navigate = useNavigate();
 
+  // ----------------FOr OneSignal Use Start--------------------------------
+
+  const userId = useSelector(selectUserId);
+
+  const { subscribed, loading, subscribe } = useOneSignal(userId);
+
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+
+  const [subscribing, setSubscribing] = useState(false);
+
   useEffect(() => {
-    if (sessionStorage.getItem('showCas') === '1') {
-      sessionStorage.removeItem('showCas');
+    if (loading) return;
+
+    const dismissed = localStorage.getItem("notification_popup_dismissed");
+
+    if (!subscribed && !dismissed) {
+      setShowNotificationModal(true);
+    }
+  }, [loading, subscribed]);
+
+
+   // ----------------FOr OneSignal Use End--------------------------------
+
+  useEffect(() => {
+    if (sessionStorage.getItem("showCas") === "1") {
+      sessionStorage.removeItem("showCas");
       setShowCasModal(true);
     }
   }, []);
@@ -105,6 +130,28 @@ export default function Dashboard() {
       };
     });
   }, [totalAssetsData?.investProduct]);
+
+  const handleSubscribe = async () => {
+    try {
+      setSubscribing(true);
+
+      const subscriptionId = await subscribe();
+
+      console.log("Subscription ID:", subscriptionId);
+
+      setShowNotificationModal(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSubscribing(false);
+    }
+  };
+
+  const handleClose = () => {
+    localStorage.setItem("notification_popup_dismissed", "true");
+
+    setShowNotificationModal(false);
+  };
 
   return (
     <>
@@ -361,7 +408,10 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className={styles.mobileDashboardRowCard} onClick={() => navigate("/ReadNews")}>
+            <div
+              className={styles.mobileDashboardRowCard}
+              onClick={() => navigate("/ReadNews")}
+            >
               <div className={styles.mobileDashboardRowLeading}>
                 <div
                   className={`${styles.mobileDashboardBrandIcon} ${styles.mobileDashboardNewsLetterIconBg}`}
@@ -437,6 +487,13 @@ export default function Dashboard() {
           illustrationSrc={logoFull}
         />
       )}
+
+      <PushNotificationModal
+        open={showNotificationModal}
+        onClose={handleClose}
+        onSubscribe={handleSubscribe}
+        loading={subscribing}
+      />
     </>
   );
 }
