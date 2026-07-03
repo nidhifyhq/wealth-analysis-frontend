@@ -20,7 +20,7 @@ const DailyNAVUpdat = () => {
     const res = await syncNav()
     setNavLoading(false)
     if (res?.success) {
-      const { updated, failed } = res.data || {}
+      // const { updated, failed } = res.data || {}
       let msg = res.message || 'NAV sync started'
       if (res.estimatedTime) msg += ` (est. ${res.estimatedTime})`
       setNavResult({ type: 'success', message: msg })

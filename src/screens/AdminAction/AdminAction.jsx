@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Bell, BarChart3, RefreshCw, Users } from 'lucide-react'
+import { ArrowLeft, Bell, BarChart3, Users } from 'lucide-react'
 import styles from './AdminAction.module.css'
 
 const features = [
