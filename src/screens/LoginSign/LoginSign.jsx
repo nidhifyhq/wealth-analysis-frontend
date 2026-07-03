@@ -192,6 +192,7 @@ export default function LoginSign() {
       userId: res.userId,
       name: res.Name,
       email,
+      isAdmin: res.isAdmin,
     }));
     navigate('/dashboard');
   };
@@ -282,6 +283,7 @@ export default function LoginSign() {
       userId: res.userId,
       name: res.Name,
       email,
+      // isAdmin: res.isAdmin,
     }));
     sessionStorage.setItem('isFirstTimeSetup', '1');
     navigate('/PinLock?mode=set');
@@ -367,6 +369,7 @@ export default function LoginSign() {
       userId: res.userId,
       name: res.Name,
       email,
+      isAdmin: res.isAdmin,
     }));
     navigate('/dashboard');
   };

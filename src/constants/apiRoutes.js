@@ -34,4 +34,7 @@ export const API_ROUTES = {
   NEWS_FEED: "/api/news/feed",
   NEWS_RELATED: "/api/news/related",
   AI_CHAT: "/api/ai/chat",
+  NOTIFICATION_USERS: "/api/notifications/users",
+  NOTIFICATION_SEND: "/api/notifications/send",
+  NOTIFICATION_SEND_RANDOM: "/api/notifications/send-random",
 }

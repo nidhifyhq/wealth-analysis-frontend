@@ -1,5 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
 
+const _isLocal = window.location.hostname === 'localhost'
+const _ONESIGNAL_APP_ID = _isLocal
+  ? "175d666a-7dbe-4c49-9546-18c8c5fc720e"
+  : "504110e3-175d-4df3-8abd-d45e01c7a99b"
+const _ONESIGNAL_SAFARI_ID = _isLocal
+  ? "web.onesignal.auto.2a0b8f88-f61f-4cbf-954f-aff96911a546"
+  : "web.onesignal.auto.24b53800-ef1e-45ab-8e2c-057ebbb06239"
+
 // --------------------------------------------------------------------------
 // Module-level shared store — all hook instances stay in sync.
 // Without this, a component that subscribes on one route would leave
@@ -82,9 +90,8 @@ const useOneSignal = (userId) => {
       window.OneSignalDeferred.push(async (OneSignal) => {
         try {
           await OneSignal.init({
-            appId: "175d666a-7dbe-4c49-9546-18c8c5fc720e",
-            safari_web_id:
-              "web.onesignal.auto.2a0b8f88-f61f-4cbf-954f-aff96911a546",
+            appId: _ONESIGNAL_APP_ID,
+            safari_web_id: _ONESIGNAL_SAFARI_ID,
             notifyButton: { enable: false },
             allowLocalhostAsSecureOrigin: true,
           });

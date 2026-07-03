@@ -9,6 +9,7 @@ const initialState = {
   pinHash: "",
   isPinSet: false,
   isPinVerifiedThisSession: false,
+  isAdmin: false,
 };
 
 const authSlice = createSlice({
@@ -23,6 +24,7 @@ const authSlice = createSlice({
       if (data.userId) state.userId = data.userId;
       if (data.name) state.name = data.name;
       if (data.email) state.email = data.email;
+      if (data.isAdmin !== undefined) state.isAdmin = data.isAdmin;
     },
 
     setPin: (state, action) => {

@@ -19,6 +19,8 @@ import ReadNews from "./screens/ReadNews/ReadNews"
 import NotificationCenter from "./components/NotificationCenter/NotificationCenter"
 import Assistant from "./screens/AiAssistant/Assistant";
 import PinLock from "./screens/LoginSign/PinLock/PinLock";
+import AdminAction from "./screens/AdminAction/AdminAction";
+import AdminNotification from "./screens/AdminAction/AdminNotification/AdminNotification";
 
 const App = () => {
   return (
@@ -55,6 +57,8 @@ const App = () => {
             <Route path="/ReadNews" element={<ReadNews />} />
             <Route path="/notifications" element={<NotificationCenter />} />
             <Route path="/assistant" element={<Assistant />} />
+            <Route path="/admin" element={<AdminAction />} />
+            <Route path="/admin/notifications" element={<AdminNotification />} />
           </Route>
         </Route>
 

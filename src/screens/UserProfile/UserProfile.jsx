@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowLeft,
   Pencil,
@@ -8,128 +8,190 @@ import {
   Calendar,
   FileText,
   ShieldCheck,
+  Shield,
   ExternalLink,
   LogOut,
   Trash2,
   ChevronRight,
   Lock,
-  Bell
-} from 'lucide-react'
-import { logout } from '../../store/auth/auth.slice'
-import { APP_VERSION } from '../../config/appVersion'
-import { selectUserName, selectUserEmail, selectUserId } from '../../store/auth/auth.selectors'
-import { fetchUserDetails, deleteUserAccount } from '../../services/apis/user.service'
-import useOneSignal from '../../hooks/useOneSignal'
-import PushNotificationModal from '../../components/PushNotificationModal/PushNotificationModal'
-import DeleteAccountModal from './DeleteAccountModal/DeleteAccountModal'
-import Terms from '../PolicyPages/Terms/Terms'
-import Privacy from '../PolicyPages/Privacy/Privacy'
-import Disclaimer from '../PolicyPages/Disclaimer/Disclaimer'
-import AboutUs from '../PolicyPages/AboutUs/AboutUs'
-import ContactUs from '../PolicyPages/ContactUs/ContactUs'
-import FAQs from '../PolicyPages/FAQs/FAQs'
-import styles from './UserProfile.module.css'
+  Bell,
+} from "lucide-react";
+import { logout } from "../../store/auth/auth.slice";
+import { APP_VERSION } from "../../config/appVersion";
+import {
+  selectUserName,
+  selectUserEmail,
+  selectUserId,
+  selectIsAdmin,
+} from "../../store/auth/auth.selectors";
+import {
+  fetchUserDetails,
+  deleteUserAccount,
+} from "../../services/apis/user.service";
+import useOneSignal from "../../hooks/useOneSignal";
+import PushNotificationModal from "../../components/PushNotificationModal/PushNotificationModal";
+import DeleteAccountModal from "./DeleteAccountModal/DeleteAccountModal";
+import Terms from "../PolicyPages/Terms/Terms";
+import Privacy from "../PolicyPages/Privacy/Privacy";
+import Disclaimer from "../PolicyPages/Disclaimer/Disclaimer";
+import AboutUs from "../PolicyPages/AboutUs/AboutUs";
+import ContactUs from "../PolicyPages/ContactUs/ContactUs";
+import FAQs from "../PolicyPages/FAQs/FAQs";
+import styles from "./UserProfile.module.css";
 
 const formatDate = (dateStr) => {
-  if (!dateStr) return '—'
-  const d = new Date(dateStr)
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
-}
+  if (!dateStr) return "—";
+  const d = new Date(dateStr);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+};
 
 export default function UserProfile() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const reduxName = useSelector(selectUserName)
-  const reduxEmail = useSelector(selectUserEmail)
-  const userId = useSelector(selectUserId)
+  const reduxName = useSelector(selectUserName);
+  const reduxEmail = useSelector(selectUserEmail);
+  const userId = useSelector(selectUserId);
+  const isAdmin = useSelector(selectIsAdmin);
 
-  const { subscribed, loading: notifLoading, subscribe, unsubscribe } = useOneSignal(userId)
+  const {
+    subscribed,
+    loading: notifLoading,
+    subscribe,
+    unsubscribe,
+  } = useOneSignal(userId);
 
-  const [userData, setUserData] = useState(null)
-  const [, setIsLoading] = useState(true)
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [showNotifModal, setShowNotifModal] = useState(false)
-  const [notifSubscribing, setNotifSubscribing] = useState(false)
-  const [isTermsOpen, setIsTermsOpen] = useState(false)
-  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false)
-  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false)
-  const [isAboutUsOpen, setIsAboutUsOpen] = useState(false)
-  const [isContactUsOpen, setIsContactUsOpen] = useState(false)
-  const [isFaqsOpen, setIsFaqsOpen] = useState(false)
+  const [userData, setUserData] = useState(null);
+  const [, setIsLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showNotifModal, setShowNotifModal] = useState(false);
+  const [notifSubscribing, setNotifSubscribing] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
+  const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
+  const [isContactUsOpen, setIsContactUsOpen] = useState(false);
+  const [isFaqsOpen, setIsFaqsOpen] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
-      const res = await fetchUserDetails()
+      const res = await fetchUserDetails();
       if (res) {
-        const data = res.data || res
-        setUserData(data)
+        const data = res.data || res;
+        setUserData(data);
       }
-      setIsLoading(false)
-    }
-    loadData()
-  }, [])
+      setIsLoading(false);
+    };
+    loadData();
+  }, []);
 
-  const name = reduxName || userData?.name || 'User'
-  const email = reduxEmail || userData?.email || ''
-  const initials = name
-    .split(' ')
-    .map((w) => w[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2) || 'U'
+  const name = reduxName || userData?.name || "User";
+  const email = reduxEmail || userData?.email || "";
+  const initials =
+    name
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2) || "U";
 
   const handleLogout = () => {
-    dispatch(logout())
-    navigate('/login')
-  }
+    dispatch(logout());
+    navigate("/login");
+  };
+
+  // const handleDeleteAccount = async () => {
+  //   setIsDeleting(true)
+  //   const res = await deleteUserAccount()
+  //   if (res?.success) {
+  //     dispatch(logout())
+  //     localStorage.clear();
+  //     navigate('/login')
+  //   } else {
+  //     setIsDeleting(false)
+  //     setShowDeleteModal(false)
+  //   }
+  // }
 
   const handleDeleteAccount = async () => {
-    setIsDeleting(true)
-    const res = await deleteUserAccount()
+    setIsDeleting(true);
+
+    const res = await deleteUserAccount();
+
     if (res?.success) {
-      dispatch(logout())
-      navigate('/login')
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+
+      window.OneSignalDeferred.push(async (OneSignal) => {
+        try {
+          await OneSignal.User.PushSubscription.optOut();
+          await OneSignal.logout();
+        } catch (err) {
+          console.error(err);
+        } finally {
+          dispatch(logout());
+          localStorage.clear();
+          navigate("/login");
+        }
+      });
     } else {
-      setIsDeleting(false)
-      setShowDeleteModal(false)
+      setIsDeleting(false);
+      setShowDeleteModal(false);
     }
-  }
+  };
 
   const handleNotifToggle = () => {
     if (subscribed) {
-      unsubscribe().catch(console.error)
+      unsubscribe().catch(console.error);
     } else {
-      setShowNotifModal(true)
+      setShowNotifModal(true);
     }
-  }
+  };
 
   const handleNotifSubscribe = async () => {
-    setNotifSubscribing(true)
+    setNotifSubscribing(true);
     try {
-      await subscribe()
-      setShowNotifModal(false)
+      await subscribe();
+      setShowNotifModal(false);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     } finally {
-      setNotifSubscribing(false)
+      setNotifSubscribing(false);
     }
-  }
+  };
 
   return (
     <div className={styles.UserProfileContainer}>
-
       {/* Top Header Navigation Bar */}
       <header className={styles.UserProfileTopNav}>
         <div className={styles.UserProfileTopNavLeft}>
-          <button className={styles.UserProfileIconButton} aria-label="Go back" onClick={() => navigate('/dashboard')}>
+          <button
+            className={styles.UserProfileIconButton}
+            aria-label="Go back"
+            onClick={() => navigate("/dashboard")}
+          >
             <ArrowLeft size={22} />
           </button>
           <h1 className={styles.UserProfileMainTitle}>Profile</h1>
         </div>
-        <button className={styles.UserProfileTopNavLogout} onClick={handleLogout}>
+        <button
+          className={styles.UserProfileTopNavLogout}
+          onClick={handleLogout}
+        >
           <LogOut size={16} />
           <span>Logout</span>
         </button>
@@ -139,7 +201,10 @@ export default function UserProfile() {
       <section className={styles.UserProfileAvatarSection}>
         <div className={styles.UserProfileAvatarWrapper}>
           <div className={styles.UserProfileAvatarBadge}>{initials}</div>
-          <button className={styles.UserProfileEditAvatarBtn} aria-label="Edit avatar image">
+          <button
+            className={styles.UserProfileEditAvatarBtn}
+            aria-label="Edit avatar image"
+          >
             <Pencil size={12} fill="currentColor" />
           </button>
         </div>
@@ -150,10 +215,11 @@ export default function UserProfile() {
 
       {/* Main Form Fields / Settings Sheet */}
       <main className={styles.UserProfileDetailsSheet}>
-
         {/* GROUP 1: Personal Information */}
         <div className={styles.UserProfileSectionBlock}>
-          <h3 className={styles.UserProfileSectionLabel}>PERSONAL INFORMATION</h3>
+          <h3 className={styles.UserProfileSectionLabel}>
+            PERSONAL INFORMATION
+          </h3>
           <div className={styles.UserProfileRowCard}>
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
@@ -161,22 +227,64 @@ export default function UserProfile() {
               </div>
               <div>
                 <span className={styles.UserProfileItemTitle}>Mobile No.</span>
-                <p className={styles.UserProfileItemValue}>{userData?.mobile || '—'}</p>
+                <p className={styles.UserProfileItemValue}>
+                  {userData?.mobile || "—"}
+                </p>
               </div>
             </div>
-            <ChevronRight size={18} className={styles.UserProfileChevronRight} />
+            <ChevronRight
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
+          {isAdmin && (
+            <div
+              className={styles.UserProfileRowCard}
+              onClick={() => navigate("/admin")}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  navigate("/admin");
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              style={{ cursor: "pointer" }}
+            >
+              <div className={styles.UserProfileRowLeading}>
+                <div className={styles.UserProfileIconFrame}>
+                  <Shield size={18} />
+                </div>
+                <div>
+                  <span className={styles.UserProfileItemTitle}>
+                    Admin Access
+                  </span>
+                </div>
+              </div>
+              <ChevronRight
+                size={18}
+                className={styles.UserProfileChevronRight}
+              />
+            </div>
+          )}
           <div className={styles.UserProfileRowCard}>
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
                 <Calendar size={18} />
               </div>
               <div>
-                <span className={styles.UserProfileItemTitle}>Account Created</span>
-                <p className={styles.UserProfileItemValue}>{formatDate(userData?.createdAt)}</p>
+                <span className={styles.UserProfileItemTitle}>
+                  Account Created
+                </span>
+                <p className={styles.UserProfileItemValue}>
+                  {formatDate(userData?.createdAt)}
+                </p>
               </div>
             </div>
-            <ChevronRight size={18} className={styles.UserProfileChevronRight} />
+            <ChevronRight
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
         </div>
 
@@ -185,16 +293,16 @@ export default function UserProfile() {
           <h3 className={styles.UserProfileSectionLabel}>SECURITY</h3>
           <div
             className={styles.UserProfileRowCard}
-            onClick={() => navigate('/PinLock?mode=change')}
+            onClick={() => navigate("/PinLock?mode=change")}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                navigate('/PinLock?mode=change')
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                navigate("/PinLock?mode=change");
               }
             }}
             role="button"
             tabIndex={0}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
@@ -204,7 +312,10 @@ export default function UserProfile() {
                 <p className={styles.UserProfileStandaloneText}>Change PIN</p>
               </div>
             </div>
-            <ChevronRight size={18} className={styles.UserProfileChevronRight} />
+            <ChevronRight
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
         </div>
 
@@ -217,7 +328,9 @@ export default function UserProfile() {
                 <Bell size={18} />
               </div>
               <div>
-                <p className={styles.UserProfileStandaloneText}>Notifications</p>
+                <p className={styles.UserProfileStandaloneText}>
+                  Notifications
+                </p>
               </div>
             </div>
             <button
@@ -236,18 +349,29 @@ export default function UserProfile() {
         {/* GROUP 4: Investment Details */}
         {userData?.isCasImported && (
           <div className={styles.UserProfileSectionBlock}>
-            <h3 className={styles.UserProfileSectionLabel}>INVESTMENT DETAILS</h3>
-            <div className={`${styles.UserProfileRowCard} ${styles.UserProfileHasBorderBottom}`}>
+            <h3 className={styles.UserProfileSectionLabel}>
+              INVESTMENT DETAILS
+            </h3>
+            <div
+              className={`${styles.UserProfileRowCard} ${styles.UserProfileHasBorderBottom}`}
+            >
               <div className={styles.UserProfileRowLeading}>
                 <div className={styles.UserProfileIconFrame}>
                   <Calendar size={18} />
                 </div>
                 <div>
-                  <span className={styles.UserProfileItemTitle}>CAS Import Date</span>
-                  <p className={styles.UserProfileItemValue}>{formatDate(userData?.casImportedDate)}</p>
+                  <span className={styles.UserProfileItemTitle}>
+                    CAS Import Date
+                  </span>
+                  <p className={styles.UserProfileItemValue}>
+                    {formatDate(userData?.casImportedDate)}
+                  </p>
                 </div>
               </div>
-              <button className={styles.UserProfileRowActionBtn} aria-label="Refresh data">
+              <button
+                className={styles.UserProfileRowActionBtn}
+                aria-label="Refresh data"
+              >
                 <FileText size={16} />
               </button>
             </div>
@@ -257,11 +381,18 @@ export default function UserProfile() {
                   <FileText size={18} />
                 </div>
                 <div>
-                  <span className={styles.UserProfileItemTitle}>Statement Date</span>
-                  <p className={styles.UserProfileItemValue}>{formatDate(userData?.statementDate)}</p>
+                  <span className={styles.UserProfileItemTitle}>
+                    Statement Date
+                  </span>
+                  <p className={styles.UserProfileItemValue}>
+                    {formatDate(userData?.statementDate)}
+                  </p>
                 </div>
               </div>
-              <ChevronRight size={18} className={styles.UserProfileChevronRight} />
+              <ChevronRight
+                size={18}
+                className={styles.UserProfileChevronRight}
+              />
             </div>
           </div>
         )}
@@ -273,60 +404,70 @@ export default function UserProfile() {
             className={`${styles.UserProfileRowCard} ${styles.UserProfileHasBorderBottom}`}
             onClick={() => setIsPrivacyOpen(true)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                setIsPrivacyOpen(true)
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setIsPrivacyOpen(true);
               }
             }}
             role="button"
             tabIndex={0}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
                 <ShieldCheck size={18} />
               </div>
               <div>
-                <p className={styles.UserProfileStandaloneText}>Privacy Policy</p>
+                <p className={styles.UserProfileStandaloneText}>
+                  Privacy Policy
+                </p>
               </div>
             </div>
-            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+            <ExternalLink
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
           <div
             className={styles.UserProfileRowCard}
             onClick={() => setIsTermsOpen(true)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                setIsTermsOpen(true)
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setIsTermsOpen(true);
               }
             }}
             role="button"
             tabIndex={0}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
                 <FileText size={18} />
               </div>
               <div>
-                <p className={styles.UserProfileStandaloneText}>Terms & Conditions</p>
+                <p className={styles.UserProfileStandaloneText}>
+                  Terms & Conditions
+                </p>
               </div>
             </div>
-            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+            <ExternalLink
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
           <div
             className={styles.UserProfileRowCard}
             onClick={() => setIsDisclaimerOpen(true)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                setIsDisclaimerOpen(true)
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setIsDisclaimerOpen(true);
               }
             }}
             role="button"
             tabIndex={0}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
@@ -336,20 +477,23 @@ export default function UserProfile() {
                 <p className={styles.UserProfileStandaloneText}>Disclaimer</p>
               </div>
             </div>
-            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+            <ExternalLink
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
           <div
             className={styles.UserProfileRowCard}
             onClick={() => setIsAboutUsOpen(true)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                setIsAboutUsOpen(true)
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setIsAboutUsOpen(true);
               }
             }}
             role="button"
             tabIndex={0}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
@@ -359,20 +503,23 @@ export default function UserProfile() {
                 <p className={styles.UserProfileStandaloneText}>About Us</p>
               </div>
             </div>
-            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+            <ExternalLink
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
           <div
             className={styles.UserProfileRowCard}
             onClick={() => setIsContactUsOpen(true)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                setIsContactUsOpen(true)
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setIsContactUsOpen(true);
               }
             }}
             role="button"
             tabIndex={0}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
@@ -382,20 +529,23 @@ export default function UserProfile() {
                 <p className={styles.UserProfileStandaloneText}>Contact Us</p>
               </div>
             </div>
-            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+            <ExternalLink
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
           <div
             className={styles.UserProfileRowCard}
             onClick={() => setIsFaqsOpen(true)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                setIsFaqsOpen(true)
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setIsFaqsOpen(true);
               }
             }}
             role="button"
             tabIndex={0}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
@@ -405,27 +555,36 @@ export default function UserProfile() {
                 <p className={styles.UserProfileStandaloneText}>FAQs</p>
               </div>
             </div>
-            <ExternalLink size={18} className={styles.UserProfileChevronRight} />
+            <ExternalLink
+              size={18}
+              className={styles.UserProfileChevronRight}
+            />
           </div>
         </div>
 
         {/* Action Button Stack */}
         <div className={styles.UserProfileActionsContainer}>
-          <button className={styles.UserProfileLogoutButton} onClick={handleLogout}>
+          <button
+            className={styles.UserProfileLogoutButton}
+            onClick={handleLogout}
+          >
             <LogOut size={18} />
             <span>Logout</span>
           </button>
 
-          <button className={styles.UserProfileDeleteButton} onClick={() => setShowDeleteModal(true)}>
+          <button
+            className={styles.UserProfileDeleteButton}
+            onClick={() => setShowDeleteModal(true)}
+          >
             <Trash2 size={18} />
             <span>Delete Account</span>
           </button>
 
           <p className={styles.UserProfileWarningFooter}>
-            This action is permanent and will close all your associated investment portfolios.
+            This action is permanent and will close all your associated
+            investment portfolios.
           </p>
         </div>
-
       </main>
 
       <PushNotificationModal
@@ -444,10 +603,16 @@ export default function UserProfile() {
 
       <Terms isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
       <Privacy isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
-      <Disclaimer isOpen={isDisclaimerOpen} onClose={() => setIsDisclaimerOpen(false)} />
+      <Disclaimer
+        isOpen={isDisclaimerOpen}
+        onClose={() => setIsDisclaimerOpen(false)}
+      />
       <AboutUs isOpen={isAboutUsOpen} onClose={() => setIsAboutUsOpen(false)} />
-      <ContactUs isOpen={isContactUsOpen} onClose={() => setIsContactUsOpen(false)} />
+      <ContactUs
+        isOpen={isContactUsOpen}
+        onClose={() => setIsContactUsOpen(false)}
+      />
       <FAQs isOpen={isFaqsOpen} onClose={() => setIsFaqsOpen(false)} />
     </div>
-  )
+  );
 }
