@@ -29,6 +29,7 @@ const PinLock = () => {
   const isPinVerifiedThisSession = useSelector(selectIsPinVerifiedThisSession);
   const storedPinHash = useSelector(selectPinHash);
   const userName = useSelector(selectUserName);
+  const redirectTo = searchParams.get('redirect');
 
   const [pin, setPinState] = useState([]);
   const [confirmPin, setConfirmPin] = useState([]);
@@ -174,7 +175,8 @@ const PinLock = () => {
         setLoading(false);
         if (enteredHash === storedPinHash) {
           dispatch(setPinVerified());
-          navigate('/dashboard', { replace: true });
+          // navigate('/dashboard', { replace: true });
+          navigate(redirectTo || '/dashboard', { replace: true });
         } else {
           setError('Incorrect PIN. Try again.');
           setPinState([]);
@@ -200,7 +202,8 @@ const PinLock = () => {
         sessionStorage.removeItem('isFirstTimeSetup');
         sessionStorage.setItem('showCas', '1');
       }
-      navigate('/dashboard', { replace: true });
+      // navigate('/dashboard', { replace: true });
+      navigate(redirectTo || '/dashboard', { replace: true });
     }
   };
 

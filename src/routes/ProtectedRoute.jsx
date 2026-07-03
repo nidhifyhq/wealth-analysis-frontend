@@ -20,7 +20,8 @@ const ProtectedRoute = () => {
   }
 
   if (!isPinVerifiedThisSession) {
-    return <Navigate to="/PinLock?mode=verify" replace />;
+    // return <Navigate to="/PinLock?mode=verify" replace />;
+    return <Navigate to={`/PinLock?mode=verify&redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`} replace />;
   }
 
   return <Outlet />;
