@@ -1,16 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  ArrowLeft,
-  Bell,
-  Send,
-  Globe,
-  Users,
-  X,
-  Check,
-  Loader2,
-  ChevronDown,
-} from 'lucide-react'
+import { ArrowLeft, Bell, Send, Globe, Users, Loader2 } from 'lucide-react'
+import Select from 'react-select'
 import toast from 'react-hot-toast'
 import {
   fetchUsers,
@@ -19,9 +10,42 @@ import {
 } from '../../../services/apis/admin.service'
 import styles from './AdminNotification.module.css'
 
+const selectStyles = {
+  control: (base, state) => ({
+    ...base,
+    borderColor: state.isFocused ? '#0c3e38' : '#e5e7eb',
+    boxShadow: state.isFocused ? '0 0 0 2px rgba(12,62,56,0.15)' : 'none',
+    borderRadius: 12,
+    minHeight: 46,
+    padding: '0 4px',
+    '&:hover': { borderColor: '#0c3e38' },
+  }),
+  placeholder: (base) => ({ ...base, color: '#9ca3af', fontSize: 14 }),
+  multiValue: (base) => ({
+    ...base,
+    background: '#f0fdf4',
+    borderRadius: 8,
+  }),
+  multiValueLabel: (base) => ({ ...base, color: '#166534', fontSize: 13, fontWeight: 500 }),
+  multiValueRemove: (base) => ({
+    ...base,
+    color: '#166534',
+    borderRadius: '0 8px 8px 0',
+    '&:hover': { background: '#dcfce7', color: '#14532d' },
+  }),
+  menu: (base) => ({ ...base, borderRadius: 12, boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isSelected ? '#0c3e38' : state.isFocused ? '#f0fdf4' : 'white',
+    color: state.isSelected ? 'white' : '#111827',
+    fontSize: 14,
+  }),
+  noOptionsMessage: (base) => ({ ...base, fontSize: 14, color: '#9ca3af' }),
+  loadingMessage: (base) => ({ ...base, fontSize: 14, color: '#9ca3af' }),
+}
+
 const AdminNotification = () => {
   const navigate = useNavigate()
-  const dropdownRef = useRef(null)
 
   const [activeTab, setActiveTab] = useState('custom')
 
@@ -31,7 +55,6 @@ const AdminNotification = () => {
   const [sendToAll, setSendToAll] = useState(true)
   const [users, setUsers] = useState([])
   const [selectedUserIds, setSelectedUserIds] = useState([])
-  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const [scheduleAt, setScheduleAt] = useState('')
 
@@ -40,16 +63,6 @@ const AdminNotification = () => {
 
   useEffect(() => {
     loadUsers()
-  }, [])
-
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setDropdownOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
   const loadUsers = async () => {
@@ -97,11 +110,8 @@ const AdminNotification = () => {
     }
   }
 
-  const toggleUser = (userId) => {
-    setSelectedUserIds((prev) =>
-      prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId]
-    )
-  }
+  const userOptions = users.map((u) => ({ value: u.userId, label: u.name }))
+  const selectedValues = userOptions.filter((o) => selectedUserIds.includes(o.value))
 
   return (
     <div className={styles.AdminNotification_container}>
@@ -195,80 +205,21 @@ const AdminNotification = () => {
             </div>
 
             {!sendToAll && (
-              <div className={styles.AdminNotification_field} ref={dropdownRef}>
+              <div className={styles.AdminNotification_field}>
                 <label className={styles.AdminNotification_label}>Select Users</label>
-                <div
-                  className={styles.AdminNotification_dropdownTrigger}
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault()
-                      setDropdownOpen(!dropdownOpen)
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <span>
-                    {selectedUserIds.length > 0
-                      ? `${selectedUserIds.length} user${selectedUserIds.length > 1 ? 's' : ''} selected`
-                      : 'Choose users...'}
-                  </span>
-                  <ChevronDown
-                    size={18}
-                    className={`${styles.AdminNotification_chevron} ${dropdownOpen ? styles.AdminNotification_chevronOpen : ''}`}
-                  />
-                </div>
-                {dropdownOpen && (
-                  <div className={styles.AdminNotification_dropdown}>
-                    {loadingUsers ? (
-                      <div className={styles.AdminNotification_dropdownState}>Loading...</div>
-                    ) : users.length === 0 ? (
-                      <div className={styles.AdminNotification_dropdownState}>No users found</div>
-                    ) : (
-                      users.map((user) => (
-                        <div
-                          key={user.userId}
-                          className={`${styles.AdminNotification_dropdownItem} ${selectedUserIds.includes(user.userId) ? styles.AdminNotification_dropdownItemSelected : ''}`}
-                          onClick={() => toggleUser(user.userId)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault()
-                              toggleUser(user.userId)
-                            }
-                          }}
-                          role="option"
-                          tabIndex={0}
-                          aria-selected={selectedUserIds.includes(user.userId)}
-                        >
-                          <span>{user.name}</span>
-                          {selectedUserIds.includes(user.userId) && (
-                            <Check size={16} className={styles.AdminNotification_checkIcon} />
-                          )}
-                        </div>
-                      ))
-                    )}
-                  </div>
-                )}
-                {selectedUserIds.length > 0 && (
-                  <div className={styles.AdminNotification_chips}>
-                    {selectedUserIds.map((id) => {
-                      const user = users.find((u) => u.userId === id)
-                      return (
-                        <span key={id} className={styles.AdminNotification_chip}>
-                          {user?.name || `User #${id}`}
-                          <button
-                            className={styles.AdminNotification_chipRemove}
-                            onClick={() => toggleUser(id)}
-                            aria-label={`Remove ${user?.name || id}`}
-                          >
-                            <X size={14} />
-                          </button>
-                        </span>
-                      )
-                    })}
-                  </div>
-                )}
+                <Select
+                  isMulti
+                  options={userOptions}
+                  value={selectedValues}
+                  onChange={(selected) => setSelectedUserIds(selected ? selected.map((o) => o.value) : [])}
+                  placeholder="Choose users..."
+                  isLoading={loadingUsers}
+                  loadingMessage={() => 'Loading users...'}
+                  noOptionsMessage={() => 'No users found'}
+                  styles={selectStyles}
+                  closeMenuOnSelect={false}
+                  menuPlacement="top"
+                />
               </div>
             )}
 

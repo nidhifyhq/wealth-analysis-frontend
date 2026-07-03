@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Bell } from 'lucide-react'
+import { ArrowLeft, Bell, BarChart3, RefreshCw, Users } from 'lucide-react'
 import styles from './AdminAction.module.css'
 
 const features = [
@@ -11,6 +11,22 @@ const features = [
     description: 'Send push notifications to users',
     path: '/admin/notifications',
     color: '#0c3e38',
+  },
+  {
+    id: 'dailyNav',
+    icon: BarChart3,
+    title: 'Daily NAV',
+    description: 'Sync daily NAV data',
+    path: '/admin/daily-nav',
+    color: '#2563eb',
+  },
+  {
+    id: 'users',
+    icon: Users,
+    title: 'Users',
+    description: 'View all registered users',
+    path: '/admin/users',
+    color: '#059669',
   },
 ]
 

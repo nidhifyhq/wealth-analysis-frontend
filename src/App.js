@@ -21,6 +21,8 @@ import Assistant from "./screens/AiAssistant/Assistant";
 import PinLock from "./screens/LoginSign/PinLock/PinLock";
 import AdminAction from "./screens/AdminAction/AdminAction";
 import AdminNotification from "./screens/AdminAction/AdminNotification/AdminNotification";
+import DailyNAVUpdat from "./screens/AdminAction/DailyNAVUpdate/DailyNAVUpdat";
+import AllUsers from "./screens/AdminAction/AllUsers/AllUsers";
 
 const App = () => {
   return (
@@ -59,6 +61,8 @@ const App = () => {
             <Route path="/assistant" element={<Assistant />} />
             <Route path="/admin" element={<AdminAction />} />
             <Route path="/admin/notifications" element={<AdminNotification />} />
+            <Route path="/admin/daily-nav" element={<DailyNAVUpdat />} />
+            <Route path="/admin/users" element={<AllUsers />} />
           </Route>
         </Route>
 

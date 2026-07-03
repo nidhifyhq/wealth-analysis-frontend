@@ -1,0 +1,136 @@
+.AllUsers_container {
+  background-color: #f7f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.AllUsers_header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #f7f9fa;
+}
+
+.AllUsers_backBtn {
+  background: none;
+  border: none;
+  color: #111111;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AllUsers_title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #0c3e38;
+}
+
+.AllUsers_count {
+  font-size: 13px;
+  font-weight: 400;
+  color: #6b7280;
+  margin-left: 8px;
+}
+
+.AllUsers_content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.AllUsers_loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  gap: 12px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.AllUsers_spinner {
+  animation: AllUsers_spin 1s linear infinite;
+  color: #0c3e38;
+}
+
+@keyframes AllUsers_spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.AllUsers_empty {
+  text-align: center;
+  padding: 48px 16px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.AllUsers_list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.AllUsers_card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.AllUsers_avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #0c3e38;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.AllUsers_info {
+  flex: 1;
+  min-width: 0;
+}
+
+.AllUsers_name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.AllUsers_email {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 2px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.AllUsers_userId {
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 2px 0 0;
+  font-family: monospace;
+}

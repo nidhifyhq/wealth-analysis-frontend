@@ -37,4 +37,6 @@ export const API_ROUTES = {
   NOTIFICATION_USERS: "/api/notifications/users",
   NOTIFICATION_SEND: "/api/notifications/send",
   NOTIFICATION_SEND_RANDOM: "/api/notifications/send-random",
+  ADMIN_SYNC_NAV: "/api/admin/sync-nav",
+  ADMIN_UPDATE_PORTFOLIOS: "/api/admin/update-portfolios",
 }

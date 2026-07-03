@@ -176,9 +176,12 @@ export default function MFDashboard() {
             >
               <Eye size={16} />
             </button>
+
+            {asOnDate && (
             <span className={styles.MFDashboardAsOnDate}>
-              as on {formatDate(asOnDate)}
+              {isLoading ? '......' : `as on ${formatDate(asOnDate)}`}
             </span>
+            )}
           </div>
 
           <div className={styles.MFDashboardBalanceRowGroup}>
