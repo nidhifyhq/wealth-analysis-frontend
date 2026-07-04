@@ -72,7 +72,7 @@ export default function UserProfile() {
     subscribed,
     loading: notifLoading,
     subscribe,
-    unsubscribe,
+    // unsubscribe,
   } = useOneSignal(userId);
 
   const [userData, setUserData] = useState(null);
