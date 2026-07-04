@@ -156,7 +156,21 @@ export default function UserProfile() {
 
   const handleNotifToggle = () => {
     if (subscribed) {
-      unsubscribe().catch(console.error);
+      // unsubscribe().catch(console.error);
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+
+      window.OneSignalDeferred.push(async (OneSignal) => {
+        try {
+          await OneSignal.User.PushSubscription.optOut();
+          await OneSignal.logout();
+        } catch (err) {
+          console.error(err);
+        } finally {
+          dispatch(logout());
+          localStorage.clear();
+          navigate("/login");
+        }
+      });
     } else {
       setShowNotifModal(true);
     }

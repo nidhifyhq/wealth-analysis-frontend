@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectShowBalance } from "../../../../store/auth/auth.selectors";
 import {
   X,
   TrendingUp,
@@ -45,6 +47,7 @@ const defaultSubtitles = {
 };
 
 const OtherProducts = ({ isOpen, onClose, onDataChange }) => {
+  const showBalance = useSelector(selectShowBalance);
   const [animateIn, setAnimateIn] = useState(false);
   const [apiData, setApiData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -99,6 +102,7 @@ const OtherProducts = ({ isOpen, onClose, onDataChange }) => {
   const getAmount = (key) => {
     if (isLoading) return null;
     if (!apiData || !apiData[key]) return "₹0";
+    if (!showBalance) return "₹•••••";
     return formatCurrency(apiData[key].currentVal);
   };
 

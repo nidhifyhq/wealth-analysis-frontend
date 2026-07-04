@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleBalance } from "../../store/auth/auth.slice";
+import { selectShowBalance } from "../../store/auth/auth.selectors";
 import {
   ArrowLeft,
   Plus,
@@ -32,7 +35,8 @@ const formatDate = (dateStr) => {
 
 export default function RecurringDeposit() {
   const navigate = useNavigate();
-  const [showBalance, setShowBalance] = useState(true);
+  const dispatch = useDispatch();
+  const showBalance = useSelector(selectShowBalance);
   const [isLoading, setIsLoading] = useState(true);
   const [summary, setSummary] = useState(null);
   const [holdings, setHoldings] = useState([]);
@@ -94,7 +98,7 @@ export default function RecurringDeposit() {
             </span>
             <button
               className={styles.RecurringDepositToggleEye}
-              onClick={() => setShowBalance(!showBalance)}
+              onClick={() => dispatch(toggleBalance())}
             >
               <Eye size={16} />
             </button>

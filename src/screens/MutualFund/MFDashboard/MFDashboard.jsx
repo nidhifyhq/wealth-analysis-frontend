@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleBalance } from "../../../store/auth/auth.slice";
+import { selectShowBalance } from "../../../store/auth/auth.selectors";
 import {
   ArrowLeft,
   FileText,
@@ -47,7 +50,8 @@ const formatDate = (dateStr) => {
 
 export default function MFDashboard() {
   const navigate = useNavigate();
-  const [showBalance, setShowBalance] = useState(true);
+  const dispatch = useDispatch();
+  const showBalance = useSelector(selectShowBalance);
   const [showReturns, setShowReturns] = useState(false);
   const [showCasUpload, setShowCasUpload] = useState(false);
   const [showDeLinkCas, setShowDeLinkCas] = useState(false);
@@ -172,7 +176,7 @@ export default function MFDashboard() {
             </span>
             <button
               className={styles.MFDashboardToggleEye}
-              onClick={() => setShowBalance(!showBalance)}
+              onClick={() => dispatch(toggleBalance())}
             >
               <Eye size={16} />
             </button>
@@ -278,9 +282,11 @@ export default function MFDashboard() {
       {/* SECTION 3: Investment Holdings Area */}
       <section className={styles.MFDashboardFundsSection}>
         <div className={styles.MFDashboardSectionHeadingRow}>
+          {holdings.length > 0 && (
           <h3 className={styles.MFDashboardSectionHeading}>
             Funds ({holdings.length})
           </h3>
+          )}
 
           {holdings.length > 0 && (
             <button

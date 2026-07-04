@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleBalance } from "../../store/auth/auth.slice";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import {
@@ -16,7 +17,7 @@ import {
   fetchTotalAssets,
 } from "../../services/apis/dashboard.service";
 import LoadingDots from "../../components/LoadingDots/LoadingDots";
-import { selectUserName, selectUserId } from "../../store/auth/auth.selectors";
+import { selectUserName, selectUserId, selectShowBalance } from "../../store/auth/auth.selectors";
 import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
 import ProductSection from "./ProductSection/ProductSection";
@@ -54,7 +55,8 @@ const formatCurrency = (value) => {
 
 export default function Dashboard() {
   const userName = useSelector(selectUserName);
-  const [showBalance, setShowBalance] = useState(true);
+  const dispatch = useDispatch();
+  const showBalance = useSelector(selectShowBalance);
   const [dashboardData, setDashboardData] = useState(null);
   const [totalAssetsData, setTotalAssetsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -196,7 +198,7 @@ export default function Dashboard() {
                     </span>
                     <button
                       className={styles.mobileDashboardToggleEye}
-                      onClick={() => setShowBalance(!showBalance)}
+                      onClick={() => dispatch(toggleBalance())}
                     >
                       <Eye size={18} />
                     </button>
@@ -207,7 +209,7 @@ export default function Dashboard() {
                     ) : showBalance ? (
                       formatCurrency(totalAssets)
                     ) : (
-                      "••••••"
+                      "₹••••••"
                     )}
                   </h2>
 
@@ -247,7 +249,7 @@ export default function Dashboard() {
                     ) : showBalance ? (
                       formatCurrency(mutualFund?.currentVal)
                     ) : (
-                      "••••••"
+                      "₹••••••"
                     )}
                   </h2>
                   <div className={styles.mobileDashboardAssetTrend}>
@@ -305,7 +307,7 @@ export default function Dashboard() {
                     ) : showBalance ? (
                       formatCurrency(fixedDeposit?.currentValue)
                     ) : (
-                      "••••••"
+                      "₹••••••"
                     )}
                   </h2>
                   <div className={styles.mobileDashboardAssetTrend}>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { RefreshCw } from "lucide-react";
 import styles from "./ProductSection.module.css";
 import { fetchDashboardProduct } from "../../../services/apis/dashboard.service";
+import { selectShowBalance } from "../../../store/auth/auth.selectors";
 import othersImg from "../../../assets/images/others.png";
 import OtherProducts from "./OtherProducts/OtherProducts";
 import GoldAddModal from "../../Gold/GoldAddModal/GoldAddModal";
@@ -21,6 +23,7 @@ const formatCurrency = (num) => {
 };
 
 const ProductSection = ({ onRefresh }) => {
+  const showBalance = useSelector(selectShowBalance);
   const [productData, setProductData] = useState(null);
   const [openOtherProductModal, setOpenOtherProductModal] = useState(false);
   const [openGoldModal, setOpenGoldModal] = useState(false);
@@ -62,7 +65,7 @@ const ProductSection = ({ onRefresh }) => {
         >
           <span className={styles.productSection_label}>MUTUAL FUNDS</span>
           <span className={styles.productSection_value}>
-            {formatCurrency(data.mutualFunds)}
+            {showBalance ? formatCurrency(data.mutualFunds) : "₹•••••"}
           </span>
         </div>
         <div
@@ -71,7 +74,7 @@ const ProductSection = ({ onRefresh }) => {
         >
           <span className={styles.productSection_label}>Fixed Deposit</span>
           <span className={styles.productSection_value}>
-            {formatCurrency(data.fd)}
+            {showBalance ? formatCurrency(data.fd) : "₹•••••"}
           </span>
         </div>
 
@@ -87,7 +90,7 @@ const ProductSection = ({ onRefresh }) => {
               Recurring Deposit
             </span>
             <span className={styles.productSection_value}>
-              {formatCurrency(data.rd)}
+              {showBalance ? formatCurrency(data.rd) : "₹•••••"}
             </span>
           </div>
           <div
@@ -99,7 +102,7 @@ const ProductSection = ({ onRefresh }) => {
           >
             <span className={styles.productSection_label}>GOLD</span>
             <span className={styles.productSection_value}>
-              {formatCurrency(data.gold)}
+              {showBalance ? formatCurrency(data.gold) : "₹•••••"}
             </span>
           </div>
         </div>

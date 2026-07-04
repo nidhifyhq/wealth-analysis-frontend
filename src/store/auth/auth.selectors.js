@@ -7,4 +7,5 @@ export const selectPinHash = (state) => state.auth.pinHash;
 export const selectIsPinSet = (state) => state.auth.isPinSet;
 export const selectIsPinVerifiedThisSession = (state) => state.auth.isPinVerifiedThisSession;
 export const selectIsAdmin = (state) => state.auth.isAdmin;
+export const selectShowBalance = (state) => state.auth.showBalance;
 

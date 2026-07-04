@@ -9,7 +9,7 @@ import uiReducer from "./ui/ui.slice";
 const authPersistConfig = {
   key: "auth",
   storage,
-  whitelist: ["isAuthenticated", "authToken", "userId", "name", "email", "pinHash", "isPinSet", "isAdmin"]
+  whitelist: ["isAuthenticated", "authToken", "userId", "name", "email", "pinHash", "isPinSet", "isAdmin", "showBalance"]
 };
 
 const persistedAuthReducer = persistReducer(

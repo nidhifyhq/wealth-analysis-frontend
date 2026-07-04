@@ -10,6 +10,7 @@ const initialState = {
   isPinSet: false,
   isPinVerifiedThisSession: false,
   isAdmin: false,
+  showBalance: true,
 };
 
 const authSlice = createSlice({
@@ -45,9 +46,13 @@ const authSlice = createSlice({
       state.isPinVerifiedThisSession = false;
     },
 
+    toggleBalance: (state) => {
+      state.showBalance = !state.showBalance;
+    },
+
     logout: () => initialState,
   },
 });
 
-export const { setAuthFromLogin, setPin, clearPin, setPinVerified, clearPinVerified, logout } = authSlice.actions;
+export const { setAuthFromLogin, setPin, clearPin, setPinVerified, clearPinVerified, toggleBalance, logout } = authSlice.actions;
 export default authSlice.reducer;
