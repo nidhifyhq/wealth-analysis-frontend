@@ -165,10 +165,6 @@ export default function UserProfile() {
           await OneSignal.logout();
         } catch (err) {
           console.error(err);
-        } finally {
-          dispatch(logout());
-          localStorage.clear();
-          navigate("/login");
         }
       });
     } else {
