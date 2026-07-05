@@ -52,6 +52,7 @@ const AdminNotification = () => {
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
   const [url, setUrl] = useState('')
+  const [image, setImage] = useState('')
   const [sendToAll, setSendToAll] = useState(true)
   const [users, setUsers] = useState([])
   const [selectedUserIds, setSelectedUserIds] = useState([])
@@ -82,16 +83,18 @@ const AdminNotification = () => {
       title: title.trim(),
       message: message.trim(),
       url: url.trim() || undefined,
+      image: image.trim() || undefined,
       sendToAll,
       ...(sendToAll ? {} : { userIds: selectedUserIds }),
     }
     const res = await sendNotification(payload)
     setSending(false)
     if (res?.success) {
-      toast.success(`Sent to ${res.totalUserReceived} users`)
+      toast.success(res.message || 'Notification sent')
       setTitle('')
       setMessage('')
       setUrl('')
+      setImage('')
       setSelectedUserIds([])
     } else {
       toast.error('Failed to send notification')
@@ -104,7 +107,7 @@ const AdminNotification = () => {
     const res = await sendRandomNotification(payload)
     setSending(false)
     if (res?.success) {
-      toast.success(`Random notification sent to ${res.totalUserReceived} users`)
+      toast.success(res.message || 'Notification sent')
     } else {
       toast.error('Failed to send random notification')
     }
@@ -181,6 +184,19 @@ const AdminNotification = () => {
                 placeholder="https://wealth.nidhify.com/dashboard"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.AdminNotification_field}>
+              <label className={styles.AdminNotification_label}>
+                Image URL <span className={styles.AdminNotification_optional}>(optional)</span>
+              </label>
+              <input
+                className={styles.AdminNotification_input}
+                type="url"
+                placeholder="https://your-cdn.com/diwali-banner.jpg"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
               />
             </div>
 
