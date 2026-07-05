@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import ProtectedLayout from "./routes/ProtectedLayout";
 import MobileOnlyLayout from "./components/MobileOnlyLayout/MobileOnlyLayout";
 import { onForegroundMessage } from "./services/fcm";
+import NotificationToast from "./components/customToast/NotificationToast";
 
 import Dashboard from "./screens/Dashboard/Dashboard";
 import LoginSign from "./screens/LoginSign/LoginSign";
@@ -27,10 +28,12 @@ import DailyNAVUpdat from "./screens/AdminAction/DailyNAVUpdate/DailyNAVUpdat";
 import AllUsers from "./screens/AdminAction/AllUsers/AllUsers";
 
 const App = () => {
+  const [notifToast, setNotifToast] = useState(null);
+
   useEffect(() => {
     const unsubscribe = onForegroundMessage((payload) => {
       const { title, body } = payload.notification || {};
-      toast(body || title || "New notification", { duration: 5000 });
+      setNotifToast({ title: title || "Nidhify", body: body || "", id: Date.now() });
     });
     return () => unsubscribe();
   }, []);
@@ -38,6 +41,14 @@ const App = () => {
   return (
     <BrowserRouter>
       <MobileOnlyLayout>
+      {notifToast && (
+        <NotificationToast
+          title={notifToast.title}
+          body={notifToast.body}
+          key={notifToast.id}
+          onClose={() => setNotifToast(null)}
+        />
+      )}
       <Toaster
         position="bottom-center"
         reverseOrder={false}
