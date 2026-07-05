@@ -17,13 +17,13 @@ import {
   fetchTotalAssets,
 } from "../../services/apis/dashboard.service";
 import LoadingDots from "../../components/LoadingDots/LoadingDots";
-import { selectUserName, selectUserId, selectShowBalance } from "../../store/auth/auth.selectors";
+import { selectUserName, selectShowBalance, selectAuthToken } from "../../store/auth/auth.selectors";
 import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
 import ProductSection from "./ProductSection/ProductSection";
 import TrackInsuraceUi from "../Insurance/TrackInsuraceUi/TrackInsuraceUi";
+import { registerFCM } from "../../services/fcm";
 import PushNotificationModal from "../../components/PushNotificationModal/PushNotificationModal";
-import useOneSignal from "../../hooks/useOneSignal";
 
 import { Newspaper, Calculator } from "lucide-react";
 
@@ -64,28 +64,28 @@ export default function Dashboard() {
   const [showCasModal, setShowCasModal] = useState(false);
   const navigate = useNavigate();
 
-  // ----------------FOr OneSignal Use Start--------------------------------
-
-  const userId = useSelector(selectUserId);
-
-  const { subscribed, loading, subscribe } = useOneSignal(userId);
+  const token = useSelector(selectAuthToken);
 
   const [showNotificationModal, setShowNotificationModal] = useState(false);
-
   const [subscribing, setSubscribing] = useState(false);
+  const DISMISS_EXPIRY_MS = 24 * 60 * 60 * 1000;
 
   useEffect(() => {
-    if (loading) return;
+    const isSubscribed = localStorage.getItem("fcm_subscribed") === "true";
+    if (isSubscribed) return;
 
     const dismissed = localStorage.getItem("notification_popup_dismissed");
+    if (!dismissed) {
+      setShowNotificationModal(true);
+      return;
+    }
 
-    if (!subscribed && !dismissed) {
+    if (Date.now() - Number(dismissed) >= DISMISS_EXPIRY_MS) {
+      localStorage.removeItem("notification_popup_dismissed");
       setShowNotificationModal(true);
     }
-  }, [loading, subscribed]);
-
-
-   // ----------------FOr OneSignal Use End--------------------------------
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (sessionStorage.getItem("showCas") === "1") {
@@ -134,13 +134,9 @@ export default function Dashboard() {
   }, [totalAssetsData?.investProduct]);
 
   const handleSubscribe = async () => {
+    setSubscribing(true);
     try {
-      setSubscribing(true);
-
-      const subscriptionId = await subscribe();
-
-      console.log("Subscription ID:", subscriptionId);
-
+      await registerFCM(token);
       setShowNotificationModal(false);
     } catch (err) {
       console.error(err);
@@ -150,8 +146,7 @@ export default function Dashboard() {
   };
 
   const handleClose = () => {
-    localStorage.setItem("notification_popup_dismissed", "true");
-
+    localStorage.setItem("notification_popup_dismissed", String(Date.now()));
     setShowNotificationModal(false);
   };
 

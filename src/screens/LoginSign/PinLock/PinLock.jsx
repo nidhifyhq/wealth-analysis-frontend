@@ -5,12 +5,14 @@ import { LogOut, Delete, Check } from 'lucide-react';
 import styles from './PinLock.module.css';
 import AiIcon from "../../../assets/images/ai-icon.png";
 import { hashPin } from '../../../utils/pinHash';
+import { unregisterFCM } from '../../../services/fcm';
 import {
   selectIsAuthenticated,
   selectIsPinSet,
   selectIsPinVerifiedThisSession,
   selectPinHash,
   selectUserName,
+  selectAuthToken,
 } from '../../../store/auth/auth.selectors';
 import {
   setPin,
@@ -30,6 +32,7 @@ const PinLock = () => {
   const storedPinHash = useSelector(selectPinHash);
   const userName = useSelector(selectUserName);
   const redirectTo = searchParams.get('redirect');
+  const token = useSelector(selectAuthToken);
 
   const [pin, setPinState] = useState([]);
   const [confirmPin, setConfirmPin] = useState([]);
@@ -207,11 +210,14 @@ const PinLock = () => {
     }
   };
 
-  const handleForgetPin = () => {
+  const handleForgetPin = async () => {
     if (mode === 'change') {
       navigate('/profile', { replace: true });
       return;
     }
+    try {
+      await unregisterFCM(token);
+    } catch (_) {}
     dispatch(logout());
     navigate('/login', { replace: true });
   };
@@ -250,7 +256,7 @@ const PinLock = () => {
           alt="Logo"
           className={styles.PinLock_customLogo}
         />
-        <button className={styles.PinLock_profileButton} aria-label="Logout" onClick={() => { sessionStorage.clear(); dispatch(logout()); navigate('/login', { replace: true }); }}>
+        <button className={styles.PinLock_profileButton} aria-label="Logout" onClick={async () => { try { await unregisterFCM(token); } catch (_) {} sessionStorage.clear(); dispatch(logout()); navigate('/login', { replace: true }); }}>
           <div className={styles.PinLock_profileIconWrapper}>
             <LogOut className={styles.PinLock_profileIcon} />
           </div>

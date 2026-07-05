@@ -21,14 +21,14 @@ import { APP_VERSION } from "../../config/appVersion";
 import {
   selectUserName,
   selectUserEmail,
-  selectUserId,
   selectIsAdmin,
+  selectAuthToken,
 } from "../../store/auth/auth.selectors";
 import {
   fetchUserDetails,
   deleteUserAccount,
 } from "../../services/apis/user.service";
-import useOneSignal from "../../hooks/useOneSignal";
+import { registerFCM, unregisterFCM } from "../../services/fcm";
 import PushNotificationModal from "../../components/PushNotificationModal/PushNotificationModal";
 import DeleteAccountModal from "./DeleteAccountModal/DeleteAccountModal";
 import Terms from "../PolicyPages/Terms/Terms";
@@ -65,15 +65,13 @@ export default function UserProfile() {
 
   const reduxName = useSelector(selectUserName);
   const reduxEmail = useSelector(selectUserEmail);
-  const userId = useSelector(selectUserId);
   const isAdmin = useSelector(selectIsAdmin);
 
-  const {
-    subscribed,
-    loading: notifLoading,
-    subscribe,
-    // unsubscribe,
-  } = useOneSignal(userId);
+  const token = useSelector(selectAuthToken);
+
+  const [subscribed, setSubscribed] = useState(
+    localStorage.getItem("fcm_subscribed") === "true"
+  );
 
   const [userData, setUserData] = useState(null);
   const [, setIsLoading] = useState(true);
@@ -110,7 +108,10 @@ export default function UserProfile() {
       .toUpperCase()
       .slice(0, 2) || "U";
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await unregisterFCM(token);
+    } catch (_) {}
     dispatch(logout());
     navigate("/login");
   };
@@ -134,20 +135,12 @@ export default function UserProfile() {
     const res = await deleteUserAccount();
 
     if (res?.success) {
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-
-      window.OneSignalDeferred.push(async (OneSignal) => {
-        try {
-          await OneSignal.User.PushSubscription.optOut();
-          await OneSignal.logout();
-        } catch (err) {
-          console.error(err);
-        } finally {
-          dispatch(logout());
-          localStorage.clear();
-          navigate("/login");
-        }
-      });
+      try {
+        await unregisterFCM(token);
+      } catch (_) {}
+      dispatch(logout());
+      localStorage.clear();
+      navigate("/login");
     } else {
       setIsDeleting(false);
       setShowDeleteModal(false);
@@ -156,17 +149,8 @@ export default function UserProfile() {
 
   const handleNotifToggle = () => {
     if (subscribed) {
-      // unsubscribe().catch(console.error);
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-
-      window.OneSignalDeferred.push(async (OneSignal) => {
-        try {
-          await OneSignal.User.PushSubscription.optOut();
-          await OneSignal.logout();
-        } catch (err) {
-          console.error(err);
-        }
-      });
+      unregisterFCM(token).catch(console.error);
+      setSubscribed(false);
     } else {
       setShowNotifModal(true);
     }
@@ -175,7 +159,8 @@ export default function UserProfile() {
   const handleNotifSubscribe = async () => {
     setNotifSubscribing(true);
     try {
-      await subscribe();
+      await registerFCM(token);
+      setSubscribed(true);
       setShowNotifModal(false);
     } catch (err) {
       console.error(err);
@@ -348,7 +333,7 @@ export default function UserProfile() {
               role="switch"
               aria-checked={!!subscribed}
               onClick={handleNotifToggle}
-              disabled={notifLoading}
+               disabled={notifSubscribing}
               type="button"
             >
               <span className={styles.UserProfileToggleKnob} />

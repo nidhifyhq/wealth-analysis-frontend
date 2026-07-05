@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import ProtectedLayout from "./routes/ProtectedLayout";
 import MobileOnlyLayout from "./components/MobileOnlyLayout/MobileOnlyLayout";
+import { onForegroundMessage } from "./services/fcm";
 
 import Dashboard from "./screens/Dashboard/Dashboard";
 import LoginSign from "./screens/LoginSign/LoginSign";
@@ -25,6 +27,14 @@ import DailyNAVUpdat from "./screens/AdminAction/DailyNAVUpdate/DailyNAVUpdat";
 import AllUsers from "./screens/AdminAction/AllUsers/AllUsers";
 
 const App = () => {
+  useEffect(() => {
+    const unsubscribe = onForegroundMessage((payload) => {
+      const { title, body } = payload.notification || {};
+      toast(body || title || "New notification", { duration: 5000 });
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
     <BrowserRouter>
       <MobileOnlyLayout>
