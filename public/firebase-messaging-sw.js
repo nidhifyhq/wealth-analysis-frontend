@@ -12,11 +12,15 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  const { title, body } = payload.notification || {};
-  const { url } = payload.data || {};
+  // Firebase auto-displays notifications from the `notification` field.
+  // Skip manual handling to avoid duplicates.
+  if (payload.notification) return;
+
+  // const { title, body } = payload.notification || {};
+  const { title, body, url } = payload.data || {};
   const options = {
     body,
-    icon: "/logo192.png",
+    icon: "/logo192px.png",
     badge: "/whitebgnew128.png",
     data: { url },
   };
