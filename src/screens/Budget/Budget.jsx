@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Wallet, TriangleAlert, AlertCircle, CheckCircle } from 'lucide-react';
 import {
   PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
-  BarChart, Bar, XAxis, YAxis, Cell as BarCell,
+  BarChart, Bar, XAxis, YAxis,
   LineChart, Line, CartesianGrid,
 } from 'recharts';
 import { fetchBudget, saveBudget, deleteBudget } from '../../services/apis/budget.service';
@@ -128,11 +128,6 @@ const tabVariants = {
   animate: { opacity: 1, x: 0, scale: 1 },
   exit: { opacity: 0, x: -30, scale: 0.98 },
   transition: { type: 'spring', stiffness: 350, damping: 30, mass: 0.9 },
-};
-
-const cardVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
 };
 
 export default function Budget() {
