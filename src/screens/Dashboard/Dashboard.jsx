@@ -176,7 +176,7 @@ export default function Dashboard() {
             aria-label="Notifications"
             onClick={() => navigate("/assistant")}
           >
-            <Sparkles size={16} />
+            <Sparkles size={20} />
             <span className={styles.mobileDashboardAssistantDot} />
           </button>
         </header>

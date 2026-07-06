@@ -213,12 +213,7 @@ export default function Budget() {
 
   return (
     <div className={styles.Budget__page}>
-      <motion.div
-        className={styles.Budget__header}
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-      >
+      <div className={styles.Budget__header}>
         <motion.button
           className={styles.Budget__backBtn}
           onClick={() => navigate('/dashboard')}
@@ -234,7 +229,7 @@ export default function Budget() {
         <div className={styles.Budget__headerRing}>
           <Wallet size={16} />
         </div>
-      </motion.div>
+      </div>
 
       {loading && (
         <div className={styles.Budget__skeletonWrap}>
