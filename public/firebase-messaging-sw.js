@@ -26,18 +26,33 @@ const messaging = firebase.messaging();
 // });
 
 
-messaging.onBackgroundMessage((payload) => {
-  const notification = payload.notification || {};
-  const data = payload.data || {};
+// messaging.onBackgroundMessage((payload) => {
+//   const notification = payload.notification || {};
+//   const data = payload.data || {};
 
-  self.registration.showNotification(notification.title || "Nidhify", {
-    body: notification.body || "",
+//   self.registration.showNotification(notification.title || "Nidhify", {
+//     body: notification.body || "",
+//     icon: "/logo192px.png",
+//     badge: "/whitebgnew128.png",
+//     image: notification.image,
+//     data: { url: data.url || "/dashboard" },
+//   });
+// });
+
+// Replace your old onBackgroundMessage with this:
+messaging.onBackgroundMessage((payload) => {
+  // Extract custom fields directly from the data object
+  const { title, body, image, url } = payload.data || {};
+
+  self.registration.showNotification(title || "Nidhify", {
+    body: body || "",
     icon: "/logo192px.png",
     badge: "/whitebgnew128.png",
-    image: notification.image,
-    data: { url: data.url || "/dashboard" },
+    image: image || "", // Large preview image url 
+    data: { url: url || "/dashboard" },
   });
 });
+
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
