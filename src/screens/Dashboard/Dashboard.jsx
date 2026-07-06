@@ -4,13 +4,14 @@ import { toggleBalance } from "../../store/auth/auth.slice";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import {
-  Bell,
+  // Bell,
   Eye,
   ArrowUp,
   ArrowDown,
   ChevronRight,
   Upload,
   Landmark,
+  Sparkles
 } from "lucide-react";
 import {
   fetchInvestmentShortDetails,
@@ -161,13 +162,22 @@ export default function Dashboard() {
             </h1>
             <p className={styles.mobileDashboardSubGreeting}>Welcome back!</p>
           </div>
-          <button
+          {/* <button
             className={styles.mobileDashboardNotificationBtn}
             aria-label="Notifications"
             onClick={() => navigate("/notifications")}
           >
             <Bell size={20} />
             <span className={styles.mobileDashboardNotificationDot} />
+          </button> */}
+
+            <button
+            className={styles.mobileDashboardAssistantBtn}
+            aria-label="Notifications"
+            onClick={() => navigate("/assistant")}
+          >
+            <Sparkles size={16} />
+            <span className={styles.mobileDashboardAssistantDot} />
           </button>
         </header>
 

@@ -18,6 +18,7 @@ import OtherInvestment from "./screens/OtherInvestment/OtherInvestmentRoutes";
 import UserProfile from "./screens/UserProfile/UserProfile";
 import SIPCalculator from "./screens/Calculators/SIPCalculator/SIPCalculator";
 import FDCalculator from "./screens/Calculators/FDCalculator/FDCalculator";
+import Budget from "./screens/Budget/Budget";
 import ReadNews from "./screens/ReadNews/ReadNews"
 import NotificationCenter from "./components/NotificationCenter/NotificationCenter"
 import Assistant from "./screens/AiAssistant/Assistant";
@@ -77,6 +78,7 @@ const App = () => {
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/SIPCalculator" element={<SIPCalculator />} />
             <Route path="/FDCalculator" element={<FDCalculator />} />
+            <Route path="/budget" element={<Budget />} />
             <Route path="/ReadNews" element={<ReadNews />} />
             <Route path="/notifications" element={<NotificationCenter />} />
             <Route path="/assistant" element={<Assistant />} />

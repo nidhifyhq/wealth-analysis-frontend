@@ -39,4 +39,7 @@ export const API_ROUTES = {
   NOTIFICATION_SEND_RANDOM: "/api/notifications/send-random",
   ADMIN_SYNC_NAV: "/api/admin/sync-nav",
   ADMIN_UPDATE_PORTFOLIOS: "/api/admin/update-portfolios",
+  BUDGET_GET: "/api/budget",
+  BUDGET_SAVE: "/api/budget",
+  BUDGET_DELETE: "/api/budget",
 }

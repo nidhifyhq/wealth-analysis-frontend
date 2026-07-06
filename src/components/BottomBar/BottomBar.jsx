@@ -5,7 +5,7 @@ import {
   TrendingUp,
   Landmark,
   User,
-  Sparkles,
+  Wallet,
 } from "lucide-react";
 import styles from "./BottomBar.module.css";
 
@@ -13,7 +13,7 @@ const navItems = [
   { label: "Home", icon: LayoutDashboard, route: "/dashboard" },
   { label: "MF", icon: TrendingUp, route: "/mf/" },
   { label: "FD", icon: Landmark, route: "/fd" },
-  { label: "Ask", icon: Sparkles, route: "/assistant" },
+  { label: "Budget", icon: Wallet, route: "/budget" },
   { label: "Profile", icon: User, route: "/profile" },
 ];
 
