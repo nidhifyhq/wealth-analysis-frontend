@@ -12,3 +12,9 @@ firebase.initializeApp({
 // IMPORTANT: Do not comment this line out. 
 // This instantiates FCM and registers the browser push listeners.
 const messaging = firebase.messaging();
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = event.notification.data?.url || "/dashboard";
+  event.waitUntil(clients.openWindow(url));
+});
