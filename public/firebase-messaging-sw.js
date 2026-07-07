@@ -11,33 +11,33 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// messaging.onBackgroundMessage((payload) => {
-
-//   if (payload.notification) return;
-
-//   const { title, body, url } = payload.data || {};
-//   const options = {
-//     body,
-//     icon: "/logo192px.png",
-//     badge: "/whitebgnew128.png",
-//     data: { url },
-//   };
-//   self.registration.showNotification(title || "Nidhify", options);
-// });
-
-
 messaging.onBackgroundMessage((payload) => {
-  const notification = payload.notification || {};
-  const data = payload.data || {};
 
-  self.registration.showNotification(notification.title || "Nidhify", {
-    body: notification.body || "",
+  if (payload.notification) return;
+
+  const { title, body, url } = payload.data || {};
+  const options = {
+    body,
     icon: "/logo192px.png",
     badge: "/whitebgnew128.png",
-    image: notification.image,
-    data: { url: data.url || "/dashboard" },
-  });
+    data: { url },
+  };
+  self.registration.showNotification(title || "Nidhify", options);
 });
+
+
+// messaging.onBackgroundMessage((payload) => {
+//   const notification = payload.notification || {};
+//   const data = payload.data || {};
+
+//   self.registration.showNotification(notification.title || "Nidhify", {
+//     body: notification.body || "",
+//     icon: "/logo192px.png",
+//     badge: "/whitebgnew128.png",
+//     image: notification.image,
+//     data: { url: data.url || "/dashboard" },
+//   });
+// });
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
