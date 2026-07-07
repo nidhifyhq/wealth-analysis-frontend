@@ -724,6 +724,52 @@
 .Budget__chartBox {
   margin: 0 0 18px;
 }
+.Budget__investSubIntro {
+  font-size: 12px;
+  color: #64748B;
+  margin: -8px 0 18px;
+  line-height: 1.5;
+}
+.Budget__investEducateCard {
+  background: #F8FAFC;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 14px;
+  border: 1px solid #E2E8F0;
+}
+.Budget__investEducateCard h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 8px;
+}
+.Budget__investEducateCard p {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.6;
+  margin: 0 0 6px;
+}
+.Budget__investEducateCard ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.Budget__investEducateCard ul li {
+  font-size: 12px;
+  color: #6366f1;
+  background: rgba(99,102,241,0.08);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-weight: 500;
+}
+.Budget__investEducateNote {
+  font-size: 11px !important;
+  color: #94A3B8 !important;
+  font-style: italic;
+}
 .Budget__investWrap {
   background: #ffffff;
   border-radius: 16px;
@@ -765,7 +811,7 @@
   font-weight: 500;
 }
 .Budget__investAmt {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: #092042;
   white-space: nowrap;
@@ -877,7 +923,7 @@
   padding: 12px 32px;
   border-radius: 100px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   -webkit-tap-highlight-color: transparent;
@@ -891,4 +937,17 @@
   border-color: #ef4444;
   color: #ef4444;
   background: #FEF2F2;
+}
+
+/* ── FOOTER DISCLAIMER ── */
+.Budget__footerDisclaimer {
+  padding: 24px 20px 40px;
+}
+.Budget__footerDisclaimer p {
+  font-size: 11px;
+  color: #94A3B8;
+  line-height: 1.7;
+  margin: 0;
+  text-align: center;
+  font-weight: 400;
 }
