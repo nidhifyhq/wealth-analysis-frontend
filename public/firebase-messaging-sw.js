@@ -9,21 +9,21 @@ firebase.initializeApp({
   appId: "1:995695015061:web:eff7724dfccfab08c6179c",
 });
 
-const messaging = firebase.messaging();
+// const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
+// messaging.onBackgroundMessage((payload) => {
 
-  if (payload.notification) return;
+//   if (payload.notification) return;
 
-  const { title, body, url } = payload.data || {};
-  const options = {
-    body,
-    icon: "/logo192px.png",
-    badge: "/whitebgnew128.png",
-    data: { url },
-  };
-  self.registration.showNotification(title || "Nidhify", options);
-});
+//   const { title, body, url } = payload.data || {};
+//   const options = {
+//     body,
+//     icon: "/logo192px.png",
+//     badge: "/whitebgnew128.png",
+//     data: { url },
+//   };
+//   self.registration.showNotification(title || "Nidhify", options);
+// });
 
 
 // messaging.onBackgroundMessage((payload) => {
