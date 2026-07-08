@@ -66,7 +66,7 @@ const ReadNews = () => {
     setRelatedLoading(true);
     setShowRelated(false);
 
-    const data = await fetchNewsRelated({ url: articleUrl, limit: 5 });
+    const data = await fetchNewsRelated({ url: articleUrl, limit: 10 });
     if (!data || !data.success || version !== fetchVersionRef.current) {
       setRelatedLoading(false);
       return;
@@ -93,7 +93,15 @@ const ReadNews = () => {
 
     const data = await fetchNewsFeed(params);
 
-    if (!data || version !== fetchVersionRef.current) {
+    if (!data) {
+      setHasMore(false);
+      setLoading(false);
+      setInitialLoading(false);
+      isFetchingRef.current = false;
+      return;
+    }
+
+    if (version !== fetchVersionRef.current) {
       setLoading(false);
       setInitialLoading(false);
       isFetchingRef.current = false;
@@ -107,8 +115,8 @@ const ReadNews = () => {
         setArticles(newArticles);
       } else {
         setArticles(prev => {
-          const existingIds = new Set(prev.map(a => a.id));
-          const unique = newArticles.filter(a => !existingIds.has(a.id));
+          const existingIds = new Set(prev.map(a => a._id));
+          const unique = newArticles.filter(a => !existingIds.has(a._id));
           return [...prev, ...unique];
         });
       }
@@ -122,6 +130,7 @@ const ReadNews = () => {
       }
     } else {
       setError('Failed to load news. Please try again.');
+      setHasMore(false);
     }
 
     setLoading(false);
@@ -175,7 +184,7 @@ const ReadNews = () => {
 
   const renderCard = (article) => (
     <article
-      key={article.id}
+      key={article._id}
       className={styles.ReadNews__card}
       onClick={() => handleArticleClick(article.url)}
     >
