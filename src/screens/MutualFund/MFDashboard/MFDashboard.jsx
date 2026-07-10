@@ -182,9 +182,9 @@ export default function MFDashboard() {
             </button>
 
             {asOnDate && (
-            <span className={styles.MFDashboardAsOnDate}>
-              {isLoading ? '......' : `as on ${formatDate(asOnDate)}`}
-            </span>
+              <span className={styles.MFDashboardAsOnDate}>
+                {isLoading ? "......" : `as on ${formatDate(asOnDate)}`}
+              </span>
             )}
           </div>
 
@@ -211,26 +211,32 @@ export default function MFDashboard() {
               </span>
             </div>
             <div className={styles.MFDashboardMetricItem}>
-              <span className={styles.MFDashboardMetricLabel}>Current</span>
+              <span className={styles.MFDashboardMetricLabel}>Current returns</span>
               <span className={styles.MFDashboardMetricValue}>
                 {isLoading
                   ? "••••"
                   : showBalance
-                    ? formatCurrency(s?.CurrValue)
+                    ? formatCurrency(s?.currReturn)
                     : "••••"}
               </span>
             </div>
             <div className={styles.MFDashboardMetricItem}>
               <span className={styles.MFDashboardMetricLabel}>
-                Total Returns
+                Returns %
               </span>
               <span
                 className={`${styles.MFDashboardMetricValue} ${returnColorClass(s?.currReturn)}`}
               >
-                {isLoading
+                {/* {isLoading
                   ? "••••"
                   : showBalance
                     ? `₹${Math.abs(s?.currReturn || 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })} (${s?.AbsReturn != null ? s.AbsReturn.toFixed(2) : "0.00"}%)`
+                    : "••••"} */}
+
+                {isLoading
+                  ? "••••"
+                  : showBalance
+                    ? `${s?.AbsReturn != null ? s.AbsReturn.toFixed(2) : "0.00"}%`
                     : "••••"}
               </span>
             </div>
@@ -283,9 +289,9 @@ export default function MFDashboard() {
       <section className={styles.MFDashboardFundsSection}>
         <div className={styles.MFDashboardSectionHeadingRow}>
           {holdings.length > 0 && (
-          <h3 className={styles.MFDashboardSectionHeading}>
-            Funds ({holdings.length})
-          </h3>
+            <h3 className={styles.MFDashboardSectionHeading}>
+              Funds ({holdings.length})
+            </h3>
           )}
 
           {holdings.length > 0 && (

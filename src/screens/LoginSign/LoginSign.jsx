@@ -228,7 +228,7 @@ export default function LoginSign() {
       .toLowerCase()
       .replace(/\b\w/g, (c) => c.toUpperCase());
 
-      const sanitizedEmail = email.trim().toLowerCase();
+    const sanitizedEmail = email.trim().toLowerCase();
 
     setSignupLoading(true);
     const res = await registerSendOtp({
@@ -629,14 +629,15 @@ export default function LoginSign() {
                 {forgotOtp.map((digit, idx) => (
                   <input
                     key={idx}
-                    type="text"
+                    type="tel"
                     maxLength={1}
                     value={digit}
                     ref={forgotOtpRefs[idx]}
                     className={styles.LoginSignOtpBox}
                     onChange={(e) => handleForgotOtpChange(e.target.value, idx)}
                     onKeyDown={(e) => handleForgotOtpKeyDown(e, idx)}
-                    pattern="\d*"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     autoFocus={idx === 0}
                   />
                 ))}
@@ -879,14 +880,15 @@ export default function LoginSign() {
                 {otp.map((digit, idx) => (
                   <input
                     key={idx}
-                    type="text"
+                    type="tel"
                     maxLength={1}
                     value={digit}
                     ref={otpRefs[idx]}
                     className={styles.LoginSignOtpBox}
                     onChange={(e) => handleOtpChange(e.target.value, idx)}
                     onKeyDown={(e) => handleOtpKeyDown(e, idx)}
-                    pattern="\d*"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     autoFocus={idx === 0}
                   />
                 ))}
