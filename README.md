@@ -1,952 +1,390 @@
-.Budget__page {
-  min-height: 100vh;
-  min-height: 100dvh;
-  background: #ffffff;
-  max-width: 480px;
-  margin: 0 auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  padding-bottom: 48px;
+import React, { useEffect, useRef, useState } from "react";
+import cas1Img from "../../assets/FixedDeposit/cas1.png";
+import cas2Img from "../../assets/FixedDeposit/cas2.png";
+
+/**
+ * MFCentralTrackFunds
+ * ---------------------------------------------------------------
+ * Same layout as the reference screen ("Track funds through MF
+ * Central"). The preview box plays a looping auto-demo: cas1 and
+ * cas2 are stacked into ONE continuous scrollable strip (not two
+ * separate overlaid images), so the motion reads as a single page
+ * scrolling down rather than a page swap. A little cursor icon
+ * visibly moves to and "clicks" the CAS-CAMS+KFintech card, the
+ * Email/Password/Confirm fields, and the Submit button, with real
+ * typed text appearing in each field before the click.
+ *
+ * Inline-styled, single file. Drop cas1.png / cas2.png inside an
+ * `assets` folder next to this file (or update the two imports).
+ * ------------------------------------------------------------- */
+
+const EMAIL_TEXT = "adarsh.demo@gmail.com";
+const PASSWORD_MASK = "••••••••••";
+
+const FRAME_WIDTH = 280;
+const FRAME_HEIGHT = 380;
+
+// Natural screenshot sizes
+const CAS1_W = 455;
+const CAS1_H = 817;
+const CAS2_W = 475;
+const CAS2_H = 962;
+
+const CAS1_SCALE = FRAME_WIDTH / CAS1_W;
+const CAS2_SCALE = FRAME_WIDTH / CAS2_W;
+
+const H1 = CAS1_H * CAS1_SCALE; // cas1 rendered height inside the strip
+const H2 = CAS2_H * CAS2_SCALE; // cas2 rendered height inside the strip
+const TOTAL_H = H1 + H2;
+const MAX_SCROLL = TOTAL_H - FRAME_HEIGHT;
+
+const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+// Measured (pixel-picked) field boxes on the real screenshots, scaled into strip coords
+const CARD = { top: 361 * CAS1_SCALE, bottom: 522 * CAS1_SCALE, left: 20 * CAS1_SCALE, right: 225 * CAS1_SCALE };
+const EMAIL = { top: H1 + 498 * CAS2_SCALE, bottom: H1 + 549 * CAS2_SCALE, left: 45 * CAS2_SCALE, right: 434 * CAS2_SCALE };
+const PASSWORD = { top: H1 + 709 * CAS2_SCALE, bottom: H1 + 760 * CAS2_SCALE, left: 45 * CAS2_SCALE, right: 434 * CAS2_SCALE };
+const CONFIRM = { top: H1 + 824 * CAS2_SCALE, bottom: H1 + 874 * CAS2_SCALE, left: 45 * CAS2_SCALE, right: 434 * CAS2_SCALE };
+const SUBMIT = { top: H1 + 908 * CAS2_SCALE, bottom: H1 + 954 * CAS2_SCALE, left: 45 * CAS2_SCALE, right: 163 * CAS2_SCALE };
+
+const centerOf = (box) => ({ x: (box.left + box.right) / 2, y: (box.top + box.bottom) / 2 });
+const clickPoint = (box) => ({ x: box.left + 15, y: (box.top + box.bottom) / 2 });
+const centerScroll = (box) => clamp(centerOf(box).y - FRAME_HEIGHT / 2, 0, MAX_SCROLL);
+
+// Timeline driving the whole loop. `cursor` = {x,y} in strip coords, `tap` triggers a click ripple.
+const STEPS = [
+  { key: "top", duration: 700, scroll: 0 },
+  { key: "scroll-card", duration: 650, scroll: centerScroll(CARD) },
+  { key: "click-card", duration: 450, scroll: centerScroll(CARD), overlay: "clickCard", cursor: clickPoint(CARD), tap: true },
+  { key: "scroll-cas2", duration: 650, scroll: clamp(H1, 0, MAX_SCROLL) },
+  { key: "scroll-email", duration: 550, scroll: centerScroll(EMAIL) },
+  { key: "focus-email", duration: 350, scroll: centerScroll(EMAIL), overlay: "focusEmail", cursor: clickPoint(EMAIL), tap: true },
+  { key: "type-email", duration: 1000, scroll: centerScroll(EMAIL), overlay: "email", typingTarget: EMAIL_TEXT },
+  { key: "scroll-bottom", duration: 550, scroll: MAX_SCROLL },
+  { key: "focus-password", duration: 300, scroll: MAX_SCROLL, overlay: "focusPassword", cursor: clickPoint(PASSWORD), tap: true },
+  { key: "type-password", duration: 450, scroll: MAX_SCROLL, overlay: "password", typingTarget: PASSWORD_MASK },
+  { key: "focus-confirm", duration: 300, scroll: MAX_SCROLL, overlay: "focusConfirm", cursor: clickPoint(CONFIRM), tap: true },
+  { key: "type-confirm", duration: 450, scroll: MAX_SCROLL, overlay: "confirm", typingTarget: PASSWORD_MASK },
+  { key: "click-submit", duration: 550, scroll: MAX_SCROLL, overlay: "clickSubmit", cursor: centerOf(SUBMIT), tap: true },
+  { key: "success", duration: 850, scroll: MAX_SCROLL, overlay: "success" },
+  { key: "reset", duration: 700, scroll: 0 },
+];
+
+const STEP_LIST = [
+  { num: 1, text: <>Go to <b>MF Central</b> and enter <b>OTP</b></> },
+  { num: 2, text: <>Select <b>All AMCs</b> and generate <b>QR</b></> },
+  { num: 3, text: <>Download <b>QR</b> and click <b>Continue</b></> },
+];
+
+export default function MFCentralTrackFunds({ onBack, onStart }) {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [typedChars, setTypedChars] = useState(0);
+  const cursorPos = useRef(clickPoint(CARD));
+  const [, forceRender] = useState(0);
+
+  const step = STEPS[stepIndex];
+
+  // Advance the timeline
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setStepIndex((i) => (i + 1) % STEPS.length);
+    }, step.duration);
+    return () => clearTimeout(t);
+  }, [stepIndex, step.duration]);
+
+  // Keep cursor at its last known point; only move it on steps that define one
+  useEffect(() => {
+    if (step.cursor) {
+      cursorPos.current = step.cursor;
+      forceRender((n) => n + 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepIndex]);
+
+  // Typing effect for whichever field is active this step
+  useEffect(() => {
+    if (!step.typingTarget) {
+      setTypedChars(0);
+      return;
+    }
+    setTypedChars(0);
+    const target = step.typingTarget.length;
+    const tickMs = Math.max(30, Math.floor(step.duration / (target + 3)));
+    let count = 0;
+    const id = setInterval(() => {
+      count += 1;
+      setTypedChars(count);
+      if (count >= target) clearInterval(id);
+    }, tickMs);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepIndex]);
+
+  const emailValue = step.overlay === "email" ? EMAIL_TEXT.slice(0, typedChars) : "";
+  const passwordValue = step.overlay === "password" ? PASSWORD_MASK.slice(0, typedChars) : "";
+  const confirmValue = step.overlay === "confirm" ? PASSWORD_MASK.slice(0, typedChars) : "";
+
+  const cursorVisible = Boolean(step.cursor) || ["email", "password", "confirm"].includes(step.overlay);
+  const c = cursorPos.current;
+
+  return (
+    <div style={styles.page}>
+      <style>{keyframes}</style>
+
+      <button type="button" onClick={onBack} aria-label="Go back" style={styles.backButton}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#12121f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <h1 style={styles.title}>Track funds through MF Central</h1>
+      <p style={styles.subtitle}>Generate QR to track all your funds</p>
+
+      <div style={styles.previewBox}>
+        <div style={styles.frame}>
+          {/* Single continuous scroll strip: cas1 directly followed by cas2 */}
+          <div style={{ ...styles.track, transform: `translateY(-${step.scroll}px)` }}>
+            <img src={cas1Img} alt="MF Central statement picker" style={{ display: "block", width: FRAME_WIDTH, height: H1 }} />
+            <img src={cas2Img} alt="MF Central generate statement form" style={{ display: "block", width: FRAME_WIDTH, height: H2 }} />
+          </div>
+
+          {/* Click ring on the CAS-CAMS+KFintech card */}
+          {step.overlay === "clickCard" && (
+            <div
+              style={{
+                ...styles.clickRing,
+                top: CARD.top - step.scroll,
+                left: CARD.left,
+                width: CARD.right - CARD.left,
+                height: CARD.bottom - CARD.top,
+              }}
+            />
+          )}
+
+          {/* Email value typed into the field */}
+          {step.overlay === "email" && (
+            <div style={{ ...styles.fieldOverlay, top: EMAIL.top - step.scroll, left: EMAIL.left, width: EMAIL.right - EMAIL.left, height: EMAIL.bottom - EMAIL.top }}>
+              <span style={styles.typedText}>{emailValue}</span>
+              <span style={styles.caret} />
+            </div>
+          )}
+
+          {/* Password value typed into the field */}
+          {step.overlay === "password" && (
+            <div style={{ ...styles.fieldOverlay, top: PASSWORD.top - step.scroll, left: PASSWORD.left, width: 200, height: PASSWORD.bottom - PASSWORD.top }}>
+              <span style={styles.typedText}>{passwordValue}</span>
+              <span style={styles.caret} />
+            </div>
+          )}
+
+          {/* Confirm password value typed into the field */}
+          {step.overlay === "confirm" && (
+            <div style={{ ...styles.fieldOverlay, top: CONFIRM.top - step.scroll, left: CONFIRM.left, width: 200, height: CONFIRM.bottom - CONFIRM.top }}>
+              <span style={styles.typedText}>{confirmValue}</span>
+              <span style={styles.caret} />
+            </div>
+          )}
+
+          {/* Submit click ring */}
+          {step.overlay === "clickSubmit" && (
+            <div
+              style={{
+                ...styles.clickRing,
+                borderRadius: 8,
+                top: SUBMIT.top - step.scroll,
+                left: SUBMIT.left,
+                width: SUBMIT.right - SUBMIT.left,
+                height: SUBMIT.bottom - SUBMIT.top,
+              }}
+            />
+          )}
+
+          {step.overlay === "success" && <div style={styles.successToast}>Request submitted ✓</div>}
+
+          {/* Animated mouse cursor */}
+          {cursorVisible && (
+            <div style={{ ...styles.cursor, left: c.x, top: c.y - step.scroll }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M2 1.5L17 8.2L10.4 10.1L8 17L2 1.5Z" fill="#12121f" stroke="#ffffff" strokeWidth="1.2" strokeLinejoin="round" />
+              </svg>
+              {step.tap && <span key={stepIndex} style={styles.tapRipple} />}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div style={styles.stepsWrap}>
+        {STEP_LIST.map((s, i) => (
+          <div key={s.num} style={styles.stepRow}>
+            <div style={styles.stepDotCol}>
+              <div style={styles.stepCircle}>{s.num}</div>
+              {i !== STEP_LIST.length - 1 && <div style={styles.stepLine} />}
+            </div>
+            <div style={styles.stepText}>{s.text}</div>
+          </div>
+        ))}
+      </div>
+
+      <button type="button" onClick={onStart} style={styles.ctaButton}>
+        Start on MF Central
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ marginLeft: 8 }}>
+          <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+    </div>
+  );
 }
 
-/* ── HEADER ── */
-.Budget__header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #0c3e38;
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+const keyframes = `
+@keyframes mfc-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
+@keyframes mfc-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(12,62,56,0.35); }
+  70% { box-shadow: 0 0 0 10px rgba(12,62,56,0); }
+  100% { box-shadow: 0 0 0 0 rgba(12,62,56,0); }
+}
+@keyframes mfc-tap {
+  0% { transform: scale(0.3); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes mfc-toast-in {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+`;
 
-.Budget__backBtn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  color: #ffffff;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-.Budget__backBtn:active {
-  background: rgba(255, 255, 255, 0.16);
-}
-
-.Budget__headerContent {
-  flex: 1;
-  background: #0c3e38;
-}
-.Budget__title {
-  font-size: 17px;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0;
-  letter-spacing: -0.2px;
-}
-.Budget__subtitle {
-  font-size: 12px;
-  color: rgba(255,255,255,0.65);
-  margin: 1px 0 0;
-  font-weight: 400;
-}
-
-.Budget__headerRing {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  color: #ffffff;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-/* ── SKELETON ── */
-.Budget__skeletonWrap {
-  padding: 24px;
-}
-.Budget__skeleton {
-  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
-  background-size: 200% 100%;
-  animation: Budget__shimmer 1.8s ease-in-out infinite;
-  border-radius: 16px;
-}
-@keyframes Budget__shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* ── INPUT SECTION ── */
-.Budget__inputSection {
-  padding: 24px 20px 8px;
-}
-
-.Budget__inputHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 22px;
-}
-.Budget__inputTitle {
-  font-size: 15px;
-  font-weight: 700;
-  color: #092042;
-  letter-spacing: -0.3px;
-}
-.Budget__savedBadge {
-  font-size: 11px;
-  font-weight: 600;
-  color: #059669;
-  background: #ecfdf5;
-  padding: 6px 14px;
-  border-radius: 100px;
-  border: 1px solid #a7f3d0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  animation: Budget__badgePop 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
-}
-@keyframes Budget__badgePop {
-  0% { transform: scale(0.8); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* ── INCOME FIELD ── */
-.Budget__incomeField {
-  margin-bottom: 8px;
-}
-.Budget__label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #64748B;
-  display: block;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.Budget__labelHint {
-  font-size: 12px;
-  color: #94A3B8;
-  margin: 0 0 10px;
-  font-weight: 400;
-}
-.Budget__incomeRow {
-  display: flex;
-  align-items: center;
-  background: #F8FAFC;
-  border: 2px solid #E2E8F0;
-  border-radius: 16px;
-  padding: 0 20px;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-.Budget__incomeRow:focus-within {
-  border-color: #059669;
-  box-shadow: 0 0 0 4px rgba(5,150,101,0.1);
-}
-.Budget__rupeeSymbol {
-  font-size: 19px;
-  font-weight: 700;
-  color: #059669;
-  margin-right: 6px;
-  line-height: 1;
-}
-.Budget__incomeInput {
-  flex: 1;
-  border: none;
-  background: transparent;
-  font-size: 17px;
-  font-weight: 600;
-  color: #092042;
-  padding: 18px 0;
-  outline: none;
-  width: 100%;
-  font-variant-numeric: tabular-nums;
-}
-.Budget__incomeInput::placeholder { color: #CBD5E1; }
-.Budget__incomeInput::-webkit-outer-spin-button,
-.Budget__incomeInput::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.Budget__incomeInput[type=number] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-/* ── SECTION DIVIDER ── */
-.Budget__sectionDivider {
-  font-size: 11px;
-  font-weight: 700;
-  color: #94A3B8;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin: 28px 0 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.Budget__sectionDivider::before,
-.Budget__sectionDivider::after {
-  content: '';
-  flex: 1;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, #E2E8F0, transparent);
-}
-
-/* ── FIELD ROWS ── */
-.Budget__fieldRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid #F8FAFC;
-}
-.Budget__fieldRow:last-of-type {
-  border-bottom: none;
-}
-.Budget__fieldLeft {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.Budget__fieldIcon {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-.Budget__fieldIcon--rent {
-  background: linear-gradient(135deg, #fef2f2, #fee2e2);
-}
-.Budget__fieldIcon--emi {
-  background: linear-gradient(135deg, #fff7ed, #ffedd5);
-}
-.Budget__fieldIcon--others {
-  background: linear-gradient(135deg, #fffbeb, #fef3c7);
-}
-.Budget__fieldLabelWrap {
-  flex: 1;
-}
-.Budget__fieldLabel {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1E293B;
-  display: block;
-}
-.Budget__fieldLabel--rent { color: #e11d48; }
-.Budget__fieldLabel--emi { color: #ea580c; }
-.Budget__fieldLabel--others { color: #d97706; }
-
-.Budget__fieldHint {
-  font-size: 11px;
-  color: #94A3B8;
-  display: block;
-  margin-top: 2px;
-  font-weight: 400;
-}
-.Budget__fieldInputBox {
-  display: flex;
-  align-items: center;
-  background: #F8FAFC;
-  border: 1.5px solid #E2E8F0;
-  border-radius: 12px;
-  padding: 0 14px;
-  width: 120px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  flex-shrink: 0;
-}
-.Budget__fieldInputBox:focus-within {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.08);
-}
-.Budget__fieldRupee {
-  font-size: 13px;
-  color: #94A3B8;
-  margin-right: 4px;
-  flex-shrink: 0;
-  font-weight: 500;
-}
-.Budget__fieldInput {
-  width: 100%;
-  border: none;
-  background: transparent;
-  font-size: 13px;
-  font-weight: 600;
-  color: #092042;
-  padding: 12px 0;
-  outline: none;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-.Budget__fieldInput::placeholder { color: #CBD5E1; }
-.Budget__fieldInput::-webkit-outer-spin-button,
-.Budget__fieldInput::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.Budget__fieldInput[type=number] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-/* ── QUICK BUTTONS ── */
-.Budget__quickBtn {
-  font-size: 12px;
-  font-weight: 500;
-  background: none;
-  border: none;
-  padding: 6px 0 10px 56px;
-  cursor: pointer;
-  display: block;
-  text-align: left;
-  transition: all 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.Budget__quickBtn--rent { color: #e11d48; }
-.Budget__quickBtn--emi { color: #ea580c; }
-.Budget__quickBtn:active {
-  transform: scale(0.97);
-}
-
-/* ── SAVE BUTTON ── */
-.Budget__saveBtn {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #ffffff;
-  border: none;
-  border-radius: 14px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 24px;
-  letter-spacing: -0.2px;
-  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-  -webkit-tap-highlight-color: transparent;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(79,70,229,0.3);
-}
-.Budget__saveBtn:active:not(:disabled) {
-  transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(79,70,229,0.2);
-}
-.Budget__saveBtn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* ── RESULTS ── */
-.Budget__results {
-  margin-top: 8px;
-}
-
-/* ── WARNING BANNER ── */
-.Budget__banner {
-  border-radius: 16px;
-  padding: 16px 18px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin: 0 20px 14px;
-  font-size: 13px;
-  line-height: 1.5;
-  font-weight: 500;
-}
-.Budget__banner p {
-  margin: 0;
-  flex: 1;
-}
-.Budget__bannerIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.Budget__banner--danger .Budget__bannerIcon {
-  background: #fecaca;
-  color: #dc2626;
-}
-.Budget__banner--caution .Budget__bannerIcon {
-  background: #fde68a;
-  color: #d97706;
-}
-.Budget__banner--good .Budget__bannerIcon {
-  background: #bbf7d0;
-  color: #16a34a;
-}
-.Budget__banner--danger {
-  background: #FEF2F2;
-  border: 1px solid #FECACA;
-  color: #991B1B;
-}
-.Budget__banner--caution {
-  background: #FFFBEB;
-  border: 1px solid #FDE68A;
-  color: #92400E;
-}
-.Budget__banner--good {
-  background: #F0FDF4;
-  border: 1px solid #BBF7D0;
-  color: #166534;
-}
-
-/* ── SUMMARY CARDS ── */
-.Budget__summaryRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding: 0 20px;
-  margin-bottom: 16px;
-}
-.Budget__summaryCard {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 18px 10px;
-  text-align: center;
-  /* box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid #f1f5f9;
-}
-.Budget__summaryCard:active {
-  transform: scale(0.96);
-}
-.Budget__summaryIconWrap {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-}
-.Budget__summaryIconWrap--fixed {
-  background: linear-gradient(135deg, #fef2f2, #fee2e2);
-}
-.Budget__summaryIconWrap--free {
-  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-}
-.Budget__summaryIconWrap--savings {
-  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-}
-.Budget__summaryValue {
-  font-size: 15px;
-  font-weight: 700;
-  color: #092042;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.3px;
-}
-.Budget__summaryLabel {
-  font-size: 10px;
-  color: #94A3B8;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* ── TABS ── */
-.Budget__tabBar {
-  display: flex;
-  gap: 0;
-  background: #ffffff;
-  margin: 0 20px 14px;
-  border-radius: 14px;
-  padding: 4px;
-  border: 1px solid #E2E8F0;
-  /* box-shadow: 0 1px 3px rgba(0,0,0,0.04); */
-}
-.Budget__tab {
-  flex: 1;
-  padding: 10px 8px;
-  border: none;
-  background: transparent;
-  border-radius: 11px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #64748B;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-  -webkit-tap-highlight-color: transparent;
-  white-space: nowrap;
-  position: relative;
-}
-.Budget__tab:active {
-  transform: scale(0.96);
-}
-.Budget__tabActive {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #ffffff;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(79,70,229,0.25);
-}
-.Budget__tabPanel {
-  padding: 0 20px 14px;
-}
-
-/* ── DONUT ── */
-.Budget__donutWrap {
-  position: relative;
-  margin: 0 auto 16px;
-  max-width: 260px;
-}
-.Budget__donutCenter {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  pointer-events: none;
-}
-.Budget__donutAmount {
-  display: block;
-  font-size: 20px;
-  font-weight: 800;
-  color: #092042;
-  letter-spacing: -0.3px;
-  font-variant-numeric: tabular-nums;
-}
-.Budget__donutLabel {
-  display: block;
-  font-size: 11px;
-  color: #94A3B8;
-  margin-top: 2px;
-  font-weight: 500;
-}
-
-/* ── BREAKDOWN ── */
-.Budget__breakdownWrap {
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid #f1f5f9;
-  /* box-shadow: 0 2px 8px rgba(0,0,0,0.04); */
-  padding: 4px 16px;
-  margin-bottom: 14px;
-}
-.Budget__breakdownRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-}
-.Budget__breakdownRow + .Budget__breakdownRow {
-  border-top: 1px solid #F8FAFC;
-}
-.Budget__breakdownLeft {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.Budget__bIcon {
-  width: 38px;
-  height: 38px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-.Budget__bIcon--fixed { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
-.Budget__bIcon--emergency { background: linear-gradient(135deg, #fffbeb, #fef3c7); }
-.Budget__bIcon--invest { background: linear-gradient(135deg, #ecfdf5, #d1fae5); }
-.Budget__bIcon--life { background: linear-gradient(135deg, #eef2ff, #e0e7ff); }
-.Budget__bIcon--growth { background: linear-gradient(135deg, #f5f3ff, #ede9fe); }
-
-.Budget__bLabel {
-  font-size: 13px;
-  font-weight: 600;
-  color: #092042;
-  display: block;
-}
-.Budget__bSub {
-  font-size: 11px;
-  color: #94A3B8;
-  display: block;
-  margin-top: 2px;
-  font-weight: 400;
-}
-.Budget__breakdownRight {
-  text-align: right;
-  flex-shrink: 0;
-}
-.Budget__bAmount {
-  font-size: 14px;
-  font-weight: 700;
-  display: block;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.2px;
-}
-.Budget__bPercent {
-  font-size: 11px;
-  color: #94A3B8;
-  display: block;
-  margin-top: 2px;
-  font-weight: 500;
-}
-
-/* ── EMERGENCY ── */
-.Budget__emergencyCard {
-  background: linear-gradient(135deg, #fffbeb, #fef3c7);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 14px;
-  border: 1px solid #fde68a;
-}
-.Budget__emergencyTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 700;
-  color: #92400E;
-  margin-bottom: 14px;
-}
-.Budget__emergencyTop span:last-child {
-  font-variant-numeric: tabular-nums;
-  font-size: 15px;
-}
-.Budget__progressTrack {
-  height: 10px;
-  background: #fef3c7;
-  border-radius: 100px;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-.Budget__progressFill {
-  height: 100%;
-  background: linear-gradient(90deg, #f59e0b, #d97706, #f59e0b);
-  background-size: 200% 100%;
-  border-radius: 100px;
-  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
-}
-.Budget__emergencyNote {
-  font-size: 13px;
-  color: #92400E;
-  margin: 0;
-  font-weight: 500;
-}
-
-/* ── INSIGHT ── */
-.Budget__insightBox {
-  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-  border-radius: 16px;
-  padding: 18px 20px;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  border: 1px solid #c7d2fe;
-}
-.Budget__insightBox p {
-  font-size: 13px;
-  color: #3730A3;
-  line-height: 1.6;
-  margin: 0;
-  font-weight: 500;
-}
-.Budget__insightIcon {
-  flex-shrink: 0;
-  color: #3730A3;
-}
-
-/* ── YEARLY ── */
-.Budget__yearBox {
-  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid #a7f3d0;
-}
-.Budget__yearTitle {
-  font-size: 13px;
-  font-weight: 700;
-  color: #065f46;
-  margin: 0 0 16px;
-  letter-spacing: -0.1px;
-}
-.Budget__yearGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  text-align: center;
-}
-.Budget__yearItem {
-  background: rgba(255,255,255,0.7);
-  border-radius: 12px;
-  padding: 14px 8px;
-  backdrop-filter: blur(4px);
-}
-.Budget__yearValue {
-  font-size: 13px;
-  font-weight: 700;
-  display: block;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.2px;
-}
-.Budget__yearLabel {
-  font-size: 10px;
-  color: #065f46;
-  display: block;
-  margin-top: 4px;
-  font-weight: 600;
-}
-
-/* ── INVEST ── */
-.Budget__investIntro {
-  font-size: 14px;
-  color: #475569;
-  margin: 0 0 18px;
-  line-height: 1.5;
-}
-.Budget__chartBox {
-  margin: 0 0 18px;
-}
-.Budget__investSubIntro {
-  font-size: 12px;
-  color: #64748B;
-  margin: -8px 0 18px;
-  line-height: 1.5;
-}
-.Budget__investEducateCard {
-  background: #F8FAFC;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 14px;
-  border: 1px solid #E2E8F0;
-}
-.Budget__investEducateCard h4 {
-  font-size: 14px;
-  font-weight: 700;
-  color: #0F172A;
-  margin: 0 0 8px;
-}
-.Budget__investEducateCard p {
-  font-size: 12px;
-  color: #64748B;
-  line-height: 1.6;
-  margin: 0 0 6px;
-}
-.Budget__investEducateCard ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 8px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.Budget__investEducateCard ul li {
-  font-size: 12px;
-  color: #6366f1;
-  background: rgba(99,102,241,0.08);
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-weight: 500;
-}
-.Budget__investEducateNote {
-  font-size: 11px !important;
-  color: #94A3B8 !important;
-  font-style: italic;
-}
-.Budget__investWrap {
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid #f1f5f9;
-  /* box-shadow: 0 2px 8px rgba(0,0,0,0.04); */
-  padding: 4px 16px;
-  margin-bottom: 14px;
-}
-.Budget__investRow {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 0;
-}
-.Budget__investRow + .Budget__investRow {
-  border-top: 1px solid #F8FAFC;
-}
-.Budget__investDot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-}
-.Budget__investText {
-  flex: 1;
-}
-.Budget__investName {
-  font-size: 13px;
-  font-weight: 600;
-  color: #092042;
-  display: block;
-}
-.Budget__investPct {
-  font-size: 11px;
-  color: #94A3B8;
-  display: block;
-  margin-top: 2px;
-  font-weight: 500;
-}
-.Budget__investAmt {
-  font-size: 13px;
-  font-weight: 700;
-  color: #092042;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
-
-/* ── DISCLAIMER ── */
-.Budget__disclaimer {
-  font-size: 11px;
-  color: #94A3B8;
-  line-height: 1.6;
-  padding: 16px 18px;
-  background: #F8FAFC;
-  border-radius: 12px;
-  text-align: center;
-  font-weight: 400;
-  margin-bottom: 14px;
-  border: 1px solid #f1f5f9;
-}
-
-/* ── PROJECTION ── */
-.Budget__projIntro {
-  font-size: 13px;
-  color: #64748B;
-  line-height: 1.6;
-  margin: 0 0 18px;
-}
-.Budget__projCard {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 12px;
-  border: 1px solid #f1f5f9;
-  /* box-shadow: 0 2px 8px rgba(0,0,0,0.04); */
-  transition: transform 0.2s ease;
-}
-.Budget__projCard:active {
-  transform: scale(0.98);
-}
-.Budget__projEmoji {
-  font-size: 18px;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border-radius: 8px;
-  /* box-shadow: 0 2px 8px rgba(0,0,0,0.06); */
-}
-.Budget__projLeft {
-  flex: 1;
-}
-.Budget__projYear {
-  font-size: 12px;
-  color: #94A3B8;
-  display: block;
-  font-weight: 500;
-}
-.Budget__projVal {
-  font-size: 16px;
-  font-weight: 700;
-  color: #059669;
-  display: block;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.3px;
-}
-.Budget__projGain {
-  font-size: 11px;
-  color: #64748B;
-  display: block;
-  margin-top: 2px;
-  font-weight: 500;
-}
-.Budget__projRight {
-  text-align: right;
-  flex-shrink: 0;
-  background: #F8FAFC;
-  padding: 10px 14px;
-  border-radius: 12px;
-}
-.Budget__projInvLabel {
-  font-size: 10px;
-  color: #94A3B8;
-  display: block;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-.Budget__projInvVal {
-  font-size: 14px;
-  font-weight: 700;
-  color: #092042;
-  display: block;
-  font-variant-numeric: tabular-nums;
-}
-
-/* ── RESET ── */
-.Budget__resetBtn {
-  display: block;
-  margin: 6px auto 12px;
-  background: none;
-  border: 1.5px solid #E2E8F0;
-  color: #94A3B8;
-  padding: 12px 32px;
-  border-radius: 100px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.Budget__resetBtn:hover {
-  border-color: #ef4444;
-  color: #ef4444;
-}
-.Budget__resetBtn:active {
-  transform: scale(0.96);
-  border-color: #ef4444;
-  color: #ef4444;
-  background: #FEF2F2;
-}
-
-/* ── FOOTER DISCLAIMER ── */
-.Budget__footerDisclaimer {
-  padding: 24px 20px 40px;
-}
-.Budget__footerDisclaimer p {
-  font-size: 11px;
-  color: #94A3B8;
-  line-height: 1.7;
-  margin: 0;
-  text-align: center;
-  font-weight: 400;
-}
+const styles = {
+  page: {
+    fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif",
+    maxWidth: 480,
+    margin: "0 auto",
+    minHeight: "100vh",
+    background: "#ffffff",
+    padding: "20px 20px 28px",
+    display: "flex",
+    flexDirection: "column",
+    boxSizing: "border-box",
+  },
+  backButton: {
+    background: "none",
+    border: "none",
+    padding: 0,
+    width: 32,
+    height: 32,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+  },
+  title: { fontSize: 26, fontWeight: 700, color: "#12121f", margin: "20px 0 8px", lineHeight: 1.25 },
+  subtitle: { fontSize: 15, color: "#6b7280", margin: "0 0 20px" },
+  previewBox: {
+    border: "1px solid #e5e7eb",
+    borderRadius: 20,
+    padding: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 28,
+    background: "#fafafa",
+  },
+  frame: {
+    position: "relative",
+    width: FRAME_WIDTH,
+    height: FRAME_HEIGHT,
+    overflow: "hidden",
+    borderRadius: 14,
+    background: "#ffffff",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+  },
+  track: {
+    width: FRAME_WIDTH,
+    transition: "transform 0.65s cubic-bezier(0.45,0,0.15,1)",
+    willChange: "transform",
+  },
+  clickRing: {
+    position: "absolute",
+    border: "2px solid #0c3e38",
+    borderRadius: 12,
+    animation: "mfc-pulse 0.8s ease-out",
+    pointerEvents: "none",
+  },
+  fieldOverlay: {
+    position: "absolute",
+    display: "flex",
+    alignItems: "center",
+    background: "rgba(255,255,255,0.96)",
+    border: "1.5px solid #39cc6e",
+    borderRadius: 4,
+    padding: "0 8px",
+    boxSizing: "border-box",
+  },
+  typedText: { fontSize: 12, color: "#12121f", fontFamily: "'DM Sans', sans-serif", whiteSpace: "nowrap", overflow: "hidden" },
+  caret: { display: "inline-block", width: 1.5, height: 14, background: "#0c3e38", marginLeft: 2, animation: "mfc-blink 0.9s steps(1) infinite" },
+  cursor: {
+    position: "absolute",
+    transition: "left 0.4s ease, top 0.4s ease",
+    pointerEvents: "none",
+    filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.35))",
+  },
+  tapRipple: {
+    position: "absolute",
+    top: -6,
+    left: -6,
+    width: 14,
+    height: 14,
+    borderRadius: "50%",
+    border: "2px solid #0c3e38",
+    animation: "mfc-tap 0.5s ease-out",
+  },
+  successToast: {
+    position: "absolute",
+    bottom: 14,
+    left: "50%",
+    transform: "translate(-50%, 0)",
+    background: "#0c3e38",
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: 600,
+    padding: "8px 14px",
+    borderRadius: 20,
+    whiteSpace: "nowrap",
+    animation: "mfc-toast-in 0.3s ease-out",
+  },
+  stepsWrap: { marginBottom: 32 },
+  stepRow: { display: "flex", alignItems: "flex-start" },
+  stepDotCol: { display: "flex", flexDirection: "column", alignItems: "center", marginRight: 16 },
+  stepCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: "50%",
+    border: "1.5px solid #d1d5db",
+    color: "#6b7280",
+    fontSize: 14,
+    fontWeight: 600,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  },
+  stepLine: { width: 1.5, flex: 1, minHeight: 32, background: "#e5e7eb", margin: "4px 0" },
+  stepText: { fontSize: 17, color: "#12121f", paddingTop: 5, paddingBottom: 24, lineHeight: 1.4 },
+  ctaButton: {
+    marginTop: "auto",
+    background: "#39cc6e",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: 14,
+    padding: "16px 20px",
+    fontSize: 16,
+    fontWeight: 700,
+    fontFamily: "'DM Sans', sans-serif",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    width: "100%",
+  },
+};
