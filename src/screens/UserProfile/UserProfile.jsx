@@ -226,7 +226,7 @@ export default function UserProfile() {
                   Email Address
                 </span>
                 <p className={styles.UserProfileItemValue}>
-                  {userData?.email || "—"}
+                  {email || "—"}
                 </p>
               </div>
             </div>
