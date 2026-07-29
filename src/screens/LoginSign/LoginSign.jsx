@@ -41,7 +41,6 @@ export default function LoginSign() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [mobile, setMobile] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
 
@@ -74,7 +73,6 @@ export default function LoginSign() {
     setEmail("");
     setPassword("");
     setName("");
-    setMobile("");
     setConfirmPassword("");
     setAgreeTerms(false);
     setOtp(["", "", "", ""]);
@@ -215,8 +213,6 @@ export default function LoginSign() {
     setSuccessMsg("");
 
     if (!name.trim()) return setErrorMsg("Name field cannot be blank.");
-    if (!/^[6-9]\d{9}$/.test(mobile))
-      return setErrorMsg("Mobile number must be 10 digits starting with 6-9.");
     if (password !== confirmPassword)
       return setErrorMsg("Passwords do not match.");
     if (password.length < 6)
@@ -233,7 +229,6 @@ export default function LoginSign() {
     setSignupLoading(true);
     const res = await registerSendOtp({
       name: titleCaseName,
-      mobile,
       email: sanitizedEmail,
       password,
       isRegisterConsent: agreeTerms,
@@ -403,7 +398,6 @@ export default function LoginSign() {
       setResendLoading(true);
       const res = await registerSendOtp({
         name: titleCaseName,
-        mobile,
         email,
         password,
         isRegisterConsent: agreeTerms,
@@ -740,22 +734,6 @@ export default function LoginSign() {
                 className={styles.LoginSignInput}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className={styles.LoginSignInputBlock}>
-              <label className={styles.LoginSignLabel}>Mobile Number</label>
-              <input
-                type="tel"
-                placeholder="Enter mobile number"
-                className={styles.LoginSignInput}
-                value={mobile}
-                onChange={(e) => {
-                  const cleaned = e.target.value.replace(/\D/g, "");
-                  if (cleaned.length > 0 && !/^[6-9]/.test(cleaned[0])) return;
-                  setMobile(cleaned.slice(0, 10));
-                }}
                 required
               />
             </div>

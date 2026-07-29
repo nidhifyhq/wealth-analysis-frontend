@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowLeft,
   Pencil,
-  Phone,
   Calendar,
   FileText,
   ShieldCheck,
@@ -15,6 +14,7 @@ import {
   ChevronRight,
   Lock,
   Bell,
+  Mail,
 } from "lucide-react";
 import { logout } from "../../store/auth/auth.slice";
 import { APP_VERSION } from "../../config/appVersion";
@@ -70,7 +70,7 @@ export default function UserProfile() {
   const token = useSelector(selectAuthToken);
 
   const [subscribed, setSubscribed] = useState(
-    localStorage.getItem("fcm_subscribed") === "true"
+    localStorage.getItem("fcm_subscribed") === "true",
   );
 
   const [userData, setUserData] = useState(null);
@@ -204,7 +204,7 @@ export default function UserProfile() {
           </button>
         </div>
         <h2 className={styles.UserProfileUserName}>{name}</h2>
-        <p className={styles.UserProfileUserEmail}>{email}</p>
+        {/* <p className={styles.UserProfileUserEmail}>{email}</p> */}
         <p className={styles.UserProfileVersion}>v{APP_VERSION}</p>
       </section>
 
@@ -215,15 +215,18 @@ export default function UserProfile() {
           <h3 className={styles.UserProfileSectionLabel}>
             PERSONAL INFORMATION
           </h3>
+
           <div className={styles.UserProfileRowCard}>
             <div className={styles.UserProfileRowLeading}>
               <div className={styles.UserProfileIconFrame}>
-                <Phone size={18} />
+                <Mail size={18} />
               </div>
               <div>
-                <span className={styles.UserProfileItemTitle}>Mobile No.</span>
+                <span className={styles.UserProfileItemTitle}>
+                  Email Address
+                </span>
                 <p className={styles.UserProfileItemValue}>
-                  {userData?.mobile || "—"}
+                  {userData?.email || "—"}
                 </p>
               </div>
             </div>
@@ -232,6 +235,7 @@ export default function UserProfile() {
               className={styles.UserProfileChevronRight}
             />
           </div>
+
           {isAdmin && (
             <div
               className={styles.UserProfileRowCard}
@@ -333,7 +337,7 @@ export default function UserProfile() {
               role="switch"
               aria-checked={!!subscribed}
               onClick={handleNotifToggle}
-               disabled={notifSubscribing}
+              disabled={notifSubscribing}
               type="button"
             >
               <span className={styles.UserProfileToggleKnob} />
