@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Users, Loader2, Search, RefreshCw, Smartphone, Clock, AlertCircle } from 'lucide-react'
+import { ArrowLeft, Users, Loader2, Search, RefreshCw, Smartphone, AlertCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { fetchAllUsers } from '../../../services/apis/admin.service'
 import styles from './AllUsers.module.css'
@@ -56,13 +56,21 @@ const AllUsers = () => {
       .slice(0, 2)
   }
 
-  const formatDl = (dl) => {
-    if (dl == null) return 'Never'
-    const d = new Date(dl)
-    if (isNaN(d.getTime())) return 'Unknown'
-    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) +
-      ' ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
-  }
+const formatDl = (epochSeconds) => {
+  if (epochSeconds == null) return 'Never'
+
+  const date = new Date(epochSeconds * 1000)
+
+  if (isNaN(date.getTime())) return 'Unknown'
+
+  return date.toLocaleString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
+}
 
   const getPlatformLabel = (dp) => {
     if (!dp) return 'Unknown'
@@ -159,7 +167,7 @@ const AllUsers = () => {
                 </div>
                 <div className={styles.AllUsers_info}>
                   <p className={styles.AllUsers_name}>{user.name || 'Unknown'}</p>
-                  <p className={styles.AllUsers_email}>{user.emailId}</p>
+                  {/* <p className={styles.AllUsers_email}>{user.emailId}</p> */}
                   <p className={styles.AllUsers_userId}>ID: {user.userId}</p>
                 </div>
                 {(user.dp || user.dl != null) && (
@@ -172,10 +180,11 @@ const AllUsers = () => {
                     )}
                     {user.dl != null && (
                       <span className={styles.AllUsers_time} title="Last login">
-                        <Clock size={12} />
                         {formatDl(user.dl)}
                       </span>
                     )}
+
+                     <p className={styles.AllUsers_email}>{user.emailId}</p>
                   </div>
                 )}
               </div>
