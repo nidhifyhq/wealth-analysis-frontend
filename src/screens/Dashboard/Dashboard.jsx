@@ -11,15 +11,19 @@ import {
   ChevronRight,
   Upload,
   Landmark,
-  Sparkles
+  Sparkles,
 } from "lucide-react";
 import {
   fetchInvestmentShortDetails,
   fetchTotalAssets,
 } from "../../services/apis/dashboard.service";
 import LoadingDots from "../../components/LoadingDots/LoadingDots";
-import { selectUserName, selectShowBalance, selectAuthToken } from "../../store/auth/auth.selectors";
-import PortfolioVsMarket from "./PortfolioVsMarket";
+import {
+  selectUserName,
+  selectShowBalance,
+  selectAuthToken,
+} from "../../store/auth/auth.selectors";
+// import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
 import ProductSection from "./ProductSection/ProductSection";
 import TrackInsuraceUi from "../Insurance/TrackInsuraceUi/TrackInsuraceUi";
@@ -171,7 +175,7 @@ export default function Dashboard() {
             <span className={styles.mobileDashboardNotificationDot} />
           </button> */}
 
-            <button
+          <button
             className={styles.mobileDashboardAssistantBtn}
             aria-label="Notifications"
             onClick={() => navigate("/assistant")}
@@ -441,9 +445,13 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/*
         {!isLoading && isCasImported === true ? (
           <PortfolioVsMarket />
-        ) : !isLoading && isCasImported === false ? (
+        ) :
+         */}
+
+        {!isLoading && isCasImported === false && (
           <div className={styles.MobileDashboardImportSection}>
             <div
               className={styles.MobileDashboardImportCard}
@@ -467,7 +475,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
 
       <p className={styles.MobileDashboardDisclaimer}>
