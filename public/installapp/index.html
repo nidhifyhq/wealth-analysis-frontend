@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nidhify</title>
+    <script>
+      (function () {
+        var ua = navigator.userAgent || "";
+        var pkg = "com.nidhify.app";
+        var playUrl = "https://play.google.com/store/apps/details?id=" + pkg;
+        if (/Android/i.test(ua)) {
+          window.location.replace(
+            "intent://details?id=" + pkg +
+            "#Intent;scheme=market;action=android.intent.action.VIEW;package=com.android.vending;end"
+          );
+          setTimeout(function () { window.location.replace(playUrl); }, 1200);
+        } else {
+          window.location.replace("https://nidhify.com");
+        }
+      })();
+    </script>
+  </head>
+  <body style="font-family: sans-serif; text-align: center; padding-top: 40vh; margin: 0; color: #12121f;">
+    <noscript>
+      <p>Continue to Nidhify:</p>
+      <p><a href="https://nidhify.com">nidhify.com</a></p>
+    </noscript>
+    <p id="fallback" style="display:none;">
+      <a href="https://play.google.com/store/apps/details?id=com.nidhify.app"
+         style="display:inline-block;padding:14px 22px;background:#39cc6e;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;">
+        Get the app
+      </a>
+    </p>
+    <script>
+      // Show the fallback button only if the redirect hasn't taken effect.
+      setTimeout(function () { document.getElementById("fallback").style.display = "block"; }, 2500);
+    </script>
+  </body>
+</html>
