@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import EPFIntro from "./EPFIntro/EPFIntro";
 import EPFDashboard from "./EPFDashboard/EPFDashboard";
+import EPFSkeletonLoader from "./EPFSkeletonLoader/EPFSkeletonLoader";
 import { fetchEpfSummary } from "../../services/apis/epf.service";
 import {
   selectHasEpfData,
@@ -49,9 +50,9 @@ const EPFIndex = () => {
     return <EPFDashboard />;
   }
 
-  // 2. Checking API while no data in Redux -> Show skeleton shimmer
+  // 2. Checking API while no data in Redux -> Show neutral skeleton shimmer
   if (checkingApi) {
-    return <EPFDashboard />;
+    return <EPFSkeletonLoader />;
   }
 
   // 3. Checked and confirmed no data on backend -> Show Intro Screen
