@@ -4,7 +4,7 @@ import styles from "./EPFImportModal.module.css";
 import exportsIcon from "../../../assets/images/exportsIcon.gif";
 import { COLORS } from "../../../designConfig/colors";
 
-const EPFO_PASSBOOK_URL = "https://passbook.epfindia.gov.in/MemberPassBook/Login";
+const EPFO_PASSBOOK_URL = "https://passbook.epfindia.gov.in/MemberPassBook/login";
 
 export default function EPFImportModal({ isOpen, onClose, onProceed }) {
   const handleProceed = () => {

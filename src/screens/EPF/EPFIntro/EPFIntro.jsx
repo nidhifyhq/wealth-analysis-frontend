@@ -56,37 +56,35 @@ const EPFIntro = () => {
 
         {/* Content & Action Section */}
         <div className={styles.EPFintro_contentCard}>
-          <div className={styles.EPFintro_contentHeader}>
-            {/* Tagline / Subheading */}
-            <div className={styles.EPFintro_badge}>
-              <span className={styles.EPFintro_badgeDot} />
-              <span className={styles.EPFintro_badgeText}>
-                YOUR RETIREMENT, IN VIEW
-              </span>
-            </div>
-
-            {/* Main Title */}
-            <h1 className={styles.EPFintro_title}>
-              Track Your EPF Savings with Ease
-            </h1>
-
-            {/* Features Checklist */}
-            <div className={styles.EPFintro_featuresList}>
-              {featurePoints.map((text, index) => (
-                <div key={index} className={styles.EPFintro_featureRow}>
-                  <div className={styles.EPFintro_checkIconBadge}>
-                    <Check
-                      className={styles.EPFintro_checkIcon}
-                      strokeWidth={3}
-                    />
-                  </div>
-                  <p className={styles.EPFintro_featureText}>{text}</p>
-                </div>
-              ))}
-            </div>
+          {/* Tagline / Subheading */}
+          <div className={styles.EPFintro_badge}>
+            <span className={styles.EPFintro_badgeDot} />
+            <span className={styles.EPFintro_badgeText}>
+              YOUR RETIREMENT, IN VIEW
+            </span>
           </div>
 
-          {/* Action CTA */}
+          {/* Main Title */}
+          <h1 className={styles.EPFintro_title}>
+            Track Your EPF Savings with Ease
+          </h1>
+
+          {/* Features Checklist */}
+          <div className={styles.EPFintro_featuresList}>
+            {featurePoints.map((text, index) => (
+              <div key={index} className={styles.EPFintro_featureRow}>
+                <div className={styles.EPFintro_checkIconBadge}>
+                  <Check
+                    className={styles.EPFintro_checkIcon}
+                    strokeWidth={3}
+                  />
+                </div>
+                <p className={styles.EPFintro_featureText}>{text}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Action CTA - positioned directly after Features Checklist */}
           <div className={styles.EPFintro_footerAction}>
             <button
               type="button"
@@ -99,7 +97,6 @@ const EPFIntro = () => {
             >
               <span className={styles.EPFintro_ctaButtonText}>Track Now</span>
             </button>
-            <div className={styles.EPFintro_bottomBarIndicator} />
           </div>
         </div>
       </div>
