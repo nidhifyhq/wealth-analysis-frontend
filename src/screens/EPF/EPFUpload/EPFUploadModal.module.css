@@ -370,14 +370,14 @@
 }
 
 .EPFupload_successTitle {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   color: #092042;
   margin: 0 0 10px;
 }
 
 .EPFupload_successMessage {
-  font-size: 13.5px;
+  font-size: 13px;
   color: #475569;
   line-height: 1.5;
   margin: 0 0 28px;
@@ -391,7 +391,7 @@
   color: #ffffff;
   border: none;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
