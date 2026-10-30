@@ -33,7 +33,7 @@ export const COLORS = {
   chipActiveText: "#132B50",
 
 
-  cardBorder: "#E2E8F0",              // Subtle 1px tile border
+
   textPrimary: "#0F172A",             // Deep Navy/Slate for main body text
   textSecondary: "#64748B",           // Neutral grey for secondary body labels
 

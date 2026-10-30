@@ -8,19 +8,6 @@ const formatCurrency = (value) => {
   return `₹${Math.round(Number(value)).toLocaleString("en-IN")}`;
 };
 
-// ── Short Lakh / Crore Formatter for Subtitle ──
-const formatLakhShort = (amount) => {
-  if (!amount || isNaN(amount)) return "";
-  const num = Number(amount);
-  if (num >= 10000000) {
-    return ` (~₹${(num / 10000000).toFixed(2)} Cr)`;
-  }
-  if (num >= 100000) {
-    return ` (~₹${(num / 100000).toFixed(2)} L)`;
-  }
-  return "";
-};
-
 // ── Smooth Bezier Path Generator (Catmull-Rom to Cubic Bezier) ──
 function getSmoothPath(points) {
   if (!points || points.length < 2) return "";

@@ -5,14 +5,12 @@ import EPFIntro from "./EPFIntro/EPFIntro";
 import EPFDashboard from "./EPFDashboard/EPFDashboard";
 import { fetchEpfSummary } from "../../services/apis/epf.service";
 import {
-  selectEpfSummary,
   selectHasEpfData,
 } from "../../store/epf/epf.selectors";
 import { setEpfSummary, clearEpfData } from "../../store/epf/epf.slice";
 
 const EPFIndex = () => {
   const dispatch = useDispatch();
-  const summaryData = useSelector(selectEpfSummary);
   const hasData = useSelector(selectHasEpfData);
   const [checkingApi, setCheckingApi] = useState(!hasData);
 

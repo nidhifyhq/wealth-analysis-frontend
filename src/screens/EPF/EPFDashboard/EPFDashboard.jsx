@@ -7,7 +7,6 @@ import { selectEpfSummary } from "../../../store/epf/epf.selectors";
 import { setEpfSummary, clearEpfData } from "../../../store/epf/epf.slice";
 import {
   ArrowLeft,
-  ArrowDownLeft,
   Eye,
   EyeOff,
   RotateCw,
@@ -16,9 +15,7 @@ import {
   ChevronRight,
   ChevronDown,
   ChevronUp,
-  User,
   ShieldCheck,
-  Wallet,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { fetchEpfSummary } from "../../../services/apis/epf.service";
@@ -112,6 +109,7 @@ export default function EPFDashboard() {
     } else {
       setIsLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduxSummary]);
 
   const loadData = async () => {
