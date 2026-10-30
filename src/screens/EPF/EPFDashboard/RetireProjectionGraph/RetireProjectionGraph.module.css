@@ -1,0 +1,236 @@
+/* ══════════════════════════════════════════════════════════
+   RetireProjectionGraph Component Styles
+   Theme: Precision Blue Fintech
+   Prefix: RetireProjectionGraph_
+   ══════════════════════════════════════════════════════════ */
+
+.RetireProjectionGraph_card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 16px 16px 16px;
+  margin-top: 18px;
+  margin-bottom: 24px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header Tag + Info Row */
+.RetireProjectionGraph_headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 14px;
+}
+
+.RetireProjectionGraph_titleGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.RetireProjectionGraph_titleText {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: #64748b;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.RetireProjectionGraph_infoBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.RetireProjectionGraph_infoBtn:hover {
+  color: #2563eb;
+}
+
+/* Balance Display Block */
+.RetireProjectionGraph_balanceBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+
+.RetireProjectionGraph_balanceLabel {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0;
+}
+
+.RetireProjectionGraph_balanceAmount {
+  font-size: 18px;
+  font-weight: 700;
+  color: #092042;
+  margin: 0;
+  letter-spacing: -0.5px;
+  line-height: 1.25;
+}
+
+.RetireProjectionGraph_ageSubtitle {
+  font-size: 12.5px;
+  color: #64748b;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Chart Canvas Area */
+.RetireProjectionGraph_chartContainer {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+  margin-top: 6px;
+}
+
+.RetireProjectionGraph_svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* Floating Year Badge */
+.RetireProjectionGraph_badgeGroup {
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.RetireProjectionGraph_badgeRect {
+  fill: #1d4ed8;
+  rx: 11;
+  ry: 11;
+  filter: drop-shadow(0 2px 4px rgba(29, 78, 216, 0.25));
+}
+
+.RetireProjectionGraph_badgeText {
+  fill: #ffffff;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* Bottom Hint Row */
+.RetireProjectionGraph_tipRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #f1f5f9;
+}
+
+.RetireProjectionGraph_tipText {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+}
+
+/* Info Tooltip Popover */
+.RetireProjectionGraph_infoPopover {
+  position: absolute;
+  top: 48px;
+  left: 14px;
+  right: 14px;
+  background-color: #0f172a;
+  color: #f8fafc;
+  padding: 14px 16px;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.28);
+  z-index: 30;
+  animation: RetireProjectionGraph_fadeIn 0.2s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.RetireProjectionGraph_popoverHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.RetireProjectionGraph_popoverTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.RetireProjectionGraph_infoCloseBtn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.RetireProjectionGraph_infoCloseBtn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.RetireProjectionGraph_popoverList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.RetireProjectionGraph_popoverItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+.RetireProjectionGraph_popoverDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.RetireProjectionGraph_popoverStrong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+@keyframes RetireProjectionGraph_fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

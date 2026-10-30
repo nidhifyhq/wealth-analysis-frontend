@@ -43,4 +43,7 @@ export const API_ROUTES = {
   BUDGET_GET: "/api/budget",
   BUDGET_SAVE: "/api/budget",
   BUDGET_DELETE: "/api/budget",
+  EPF_UPLOAD: "/api/epf/upload",
+  EPF_SUMMARY: "/api/epf/summary",
+  EPF_DELETE_ALL: "/api/epf/delete-all",
 }

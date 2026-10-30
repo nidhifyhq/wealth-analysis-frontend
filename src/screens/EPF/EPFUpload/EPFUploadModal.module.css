@@ -1,0 +1,415 @@
+.EPFupload_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: EPFupload_fadeIn 0.3s ease-out;
+}
+
+.EPFupload_sheet {
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 24px 36px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: EPFupload_slideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Top Center Drag Handle Pill */
+.EPFupload_dragHandle {
+  width: 38px;
+  height: 4px;
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  margin: 0 auto 16px auto;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+}
+
+.EPFupload_dragHandle:hover {
+  background-color: #94a3b8;
+}
+
+.EPFupload_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.EPFupload_title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #092042;
+  margin: 0;
+}
+
+.EPFupload_closeBtn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.EPFupload_closeBtn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* File Drop Zone */
+.EPFupload_dropZone {
+  border: 2px dashed #d1d5db;
+  border-radius: 16px;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fafafa;
+  margin-bottom: 16px;
+}
+
+.EPFupload_dropZone:hover {
+  border-color: #3b82f6;
+  background: #f0f7ff;
+}
+
+.EPFupload_dropZoneIcon {
+  margin-bottom: 12px;
+  color: #9ca3af;
+}
+
+.EPFupload_dropZoneText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 4px;
+}
+
+.EPFupload_dropZoneHint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Selected File Pill */
+.EPFupload_fileSelected {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.EPFupload_fileSelectedIcon {
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+.EPFupload_fileSelectedName {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #166534;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.EPFupload_fileSelectedRemove {
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.EPFupload_fileSelectedRemove:hover {
+  color: #ef4444;
+}
+
+/* Password Field */
+.EPFupload_passwordSection {
+  animation: EPFupload_fadeIn 0.25s ease-out;
+  margin-bottom: 4px;
+}
+
+.EPFupload_fieldLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 6px 4px;
+}
+
+.EPFupload_fieldRequired {
+  font-weight: 500;
+  color: #ef4444;
+  font-size: 11.5px;
+}
+
+.EPFupload_passwordWrapper {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.EPFupload_passwordInput {
+  width: 100%;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  padding: 13px 44px 13px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  background: #fafafa;
+}
+
+.EPFupload_passwordInput:focus {
+  border-color: #3b82f6;
+  background: #ffffff;
+}
+
+.EPFupload_passwordInputHighlight {
+  border-color: #f59e0b !important;
+  background: #fffbeb !important;
+}
+
+.EPFupload_passwordInput::placeholder {
+  color: #9ca3af;
+}
+
+.EPFupload_passwordToggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.EPFupload_passwordToggle:hover {
+  color: #374151;
+}
+
+.EPFupload_passwordHint {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0 0 16px 4px;
+  line-height: 1.4;
+}
+
+/* Error Banner */
+.EPFupload_errorText {
+  font-size: 13px;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 0 0 16px;
+  line-height: 1.4;
+}
+
+/* Simple Agreement Checkbox (No consent modal required) */
+.EPFupload_termsRow {
+  margin: 0 0 20px 4px;
+}
+
+.EPFupload_termsLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: #374151;
+  user-select: none;
+  line-height: 1.4;
+}
+
+.EPFupload_termsCheckbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+/* Action Buttons */
+.EPFupload_actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.EPFupload_secondaryBtn {
+  flex: 1;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 13px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.3;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.EPFupload_secondaryBtn:hover {
+  background: #e5e7eb;
+}
+
+.EPFupload_primaryBtn {
+  flex: 1.2;
+  background: #3b82f6;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.3;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.EPFupload_primaryBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.EPFupload_primaryBtn:not(:disabled):active {
+  opacity: 0.9;
+}
+
+/* Success View */
+.EPFupload_successContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 8px 12px;
+}
+
+.EPFupload_successIconWrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.EPFupload_successIconCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #eff6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.EPFupload_successBadge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+
+.EPFupload_successLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #0284c7;
+  margin: 0 0 6px;
+}
+
+.EPFupload_successTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #092042;
+  margin: 0 0 10px;
+}
+
+.EPFupload_successMessage {
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0 0 28px;
+  max-width: 340px;
+}
+
+.EPFupload_successBtn {
+  width: 100%;
+  height: 48px;
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.EPFupload_successBtn:active {
+  opacity: 0.9;
+}
+
+@keyframes EPFupload_fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes EPFupload_slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

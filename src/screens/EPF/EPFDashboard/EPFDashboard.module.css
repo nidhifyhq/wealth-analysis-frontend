@@ -1,0 +1,513 @@
+/* EPFDashboard.module.css - All classes prefixed with EPFdash_ */
+
+.EPFdash_container {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* ══════════════════════════════════════════════
+   SECTION 1: Top Hero Banner (Deep Sapphire)
+   ══════════════════════════════════════════════ */
+.EPFdash_headerBanner {
+  background-color: #132b50;
+  padding: 20px 20px 52px 20px;
+  color: #ffffff;
+  position: relative;
+}
+
+.EPFdash_topActionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.EPFdash_topActionLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.EPFdash_screenTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.2px;
+  line-height: 1;
+}
+
+.EPFdash_circularBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.EPFdash_circularBtn:active {
+  background: rgba(255, 255, 255, 0.16);
+  transform: scale(0.96);
+}
+
+.EPFdash_balanceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.EPFdash_balanceTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #a3b8cc;
+  margin: 0;
+}
+
+.EPFdash_toggleEye {
+  background: none;
+  border: none;
+  color: #ffffff;
+  opacity: 0.75;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.EPFdash_toggleEye:hover {
+  opacity: 1;
+}
+
+.EPFdash_spinning {
+  animation: EPFdash_spin 0.75s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes EPFdash_spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.EPFdash_statementDate {
+  font-size: 10px;
+  font-weight: 400;
+  color: #a3b8cc;
+  opacity: 0.8;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.EPFdash_balanceRowGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  margin-bottom: 22px;
+}
+
+.EPFdash_primaryAmount {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
+
+/* 3-Share Breakdown Metrics Row */
+.EPFdash_metricsRow {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 14px;
+  gap: 8px;
+}
+
+.EPFdash_metricItem {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.EPFdash_metricLabel {
+  font-size: 11px;
+  color: #a3b8cc;
+  margin-bottom: 3px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.EPFdash_metricValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* ══════════════════════════════════════════════
+   SECTION 2: Overlapping Main Content Area
+   ══════════════════════════════════════════════ */
+.EPFdash_contentArea {
+  padding: 0 20px;
+  margin-top: -36px;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── Employer Details Card ── */
+.EPFdash_employerCard {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(19, 43, 80, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.EPFdash_employerCardTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.EPFdash_employerIconWrapper {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-color: #eff6ff;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.EPFdash_employerMeta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.EPFdash_employerLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #64748b;
+  margin: 0 0 2px 0;
+}
+
+.EPFdash_employerName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.EPFdash_employerCardBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.EPFdash_employerCardBottom:hover {
+  opacity: 0.8;
+}
+
+.EPFdash_employerCardBottom:active {
+  opacity: 0.65;
+}
+
+.EPFdash_accountDetailsText {
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.EPFdash_accountDetailsChevron {
+  color: #94a3b8;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.EPFdash_employerCardBottom:hover .EPFdash_accountDetailsChevron {
+  transform: translateX(2px);
+}
+
+/* ── Recent Transactions Section ── */
+.EPFdash_transactionsSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.EPFdash_sectionHeadingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0 12px 0;
+}
+
+.EPFdash_sectionHeading {
+  font-size: 13px;
+  font-weight: 600;
+  color: #092042;
+  margin: 0;
+  letter-spacing: -0.1px;
+}
+
+.EPFdash_viewAllBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2563eb;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.EPFdash_viewAllBtn:hover {
+  opacity: 0.8;
+}
+
+.EPFdash_sectionDivider {
+  height: 1px;
+  background-color: #f1f5f9;
+  width: 100%;
+}
+
+.EPFdash_transactionsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.EPFdash_transactionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #f1f5f9;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.EPFdash_transactionRow:last-child {
+  border-bottom: none;
+}
+
+.EPFdash_transactionRow:hover {
+  background-color: #f8fafc;
+}
+
+.EPFdash_transLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.EPFdash_transTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #092042;
+  margin: 0;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.EPFdash_transDate {
+  font-size: 11px;
+  color: #475569;
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.EPFdash_transRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-left: 12px;
+}
+
+.EPFdash_transAmount {
+  font-size: 13px;
+  font-weight: 600;
+  color: #16a34a;
+  margin: 0;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+}
+
+.EPFdash_transCircleIcon {
+  color: #16a34a;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.EPFdash_transactionRow:hover .EPFdash_transCircleIcon {
+  transform: scale(1.08);
+}
+
+/* Centered Show More / Show Less */
+.EPFdash_showMoreContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+
+.EPFdash_showMoreBtn {
+  background: none;
+  border: none;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #2563eb;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 6px;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.EPFdash_showMoreBtn:hover {
+  background-color: #f8fafc;
+  opacity: 0.9;
+}
+
+.EPFdash_showMoreBtn:active {
+  transform: scale(0.98);
+}
+
+
+/* Empty State */
+.EPFdash_emptyState {
+  padding: 32px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #64748b;
+  gap: 8px;
+}
+
+.EPFdash_emptyStateText {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+}
+/* ══════════════════════════════════════════════
+   SECTION 3: Exact-Match Skeleton Loading
+   ══════════════════════════════════════════════ */
+.EPFdash_skeletonShimmer {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: EPFdash_shimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.EPFdash_skeletonShimmerDark {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 25%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.08) 75%);
+  background-size: 200% 100%;
+  animation: EPFdash_shimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes EPFdash_shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   SECTION 4: Footer Disclaimer
+   ══════════════════════════════════════════════ */
+.EPFdash_footerDisclaimer {
+  margin-top: 18px;
+  margin-bottom: 28px;
+  padding: 14px 16px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.EPFdash_disclaimerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.EPFdash_disclaimerIcon {
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.EPFdash_disclaimerText {
+  font-size: 11px;
+  line-height: 1.55;
+  color: #64748b;
+  margin: 0;
+  text-align: left;
+}
+

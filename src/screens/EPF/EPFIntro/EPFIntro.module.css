@@ -1,0 +1,227 @@
+/* EPFIntro.module.css - All classes prefixed with EPFintro */
+
+.EPFintro_pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  overflow-x: hidden;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.EPFintro_container {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background: #ffffff;
+}
+
+/* Floating top navigation back button */
+.EPFintro_topBar {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.EPFintro_backBtn {
+  pointer-events: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  padding: 0;
+}
+
+.EPFintro_backBtn:active {
+  background: #f1f5f9;
+}
+
+/* Hero Section with 100% Full-Width Image */
+.EPFintro_heroSection {
+  position: relative;
+  width: 100%;
+  background-color: #eaf3fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.EPFintro_imageContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.EPFintro_heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Main Content Section */
+.EPFintro_contentCard {
+  position: relative;
+  background: #ffffff;
+  padding: 20px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.EPFintro_contentHeader {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tagline Subheading */
+.EPFintro_badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
+.EPFintro_badgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0284c7;
+}
+
+.EPFintro_badgeText {
+  color: #0284c7;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+/* Main Headline */
+.EPFintro_title {
+  color: #092042;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  margin: 0 0 22px 0;
+}
+
+/* Value Proposition Checklist */
+.EPFintro_featuresList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.EPFintro_featureRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.EPFintro_checkIconBadge {
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  border-radius: 50%;
+  background: #00a86b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.EPFintro_checkIcon {
+  width: 6px;
+  height: 6px;
+}
+
+.EPFintro_featureText {
+  color: #334155;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* CTA Footer & Action Button */
+.EPFintro_footerAction {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.EPFintro_ctaButton {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  background: #3B82F6;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s ease;
+}
+
+.EPFintro_ctaButton:active {
+  opacity: 0.9;
+}
+
+.EPFintro_ctaButtonText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Safe-area bottom indicator */
+.EPFintro_bottomBarIndicator {
+  width: 125px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  margin-top: 18px;
+}

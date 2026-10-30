@@ -20,8 +20,8 @@ export const getRequest = async (url, params, options = {}) => {
 export const deleteRequest = async (url, params) => {
   try {
     return await api.delete(url, { params })
-  } catch {
-    return false
+  } catch (error) {
+    return error.response?.data || false
   }
 }
 

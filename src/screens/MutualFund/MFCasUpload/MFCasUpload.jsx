@@ -6,7 +6,7 @@ import MFCasuploadConcent from './MFCasuploadConcent/MFCasuploadConcent'
 import ExternalFundsSyncedSuccess from './ExternalFundsSynced/ExternalFundsSyncedSuccess'
 import styles from './MFCasUpload.module.css'
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024
+const MAX_FILE_SIZE = 3 * 1024 * 1024 // 3MB
 
 export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
   const [selectedFile, setSelectedFile] = useState(null)
@@ -71,7 +71,7 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      setUploadError('File too large (max 10MB)')
+      setUploadError('File too large (max 3MB)')
       return
     }
 
@@ -175,7 +175,7 @@ export default function MFCasUpload({ isOpen, onClose, onUploadSuccess }) {
                 <div className={styles.MFCasUploadDropZone} onClick={() => fileInputRef.current?.click()}>
                   <Upload size={32} className={styles.MFCasUploadDropZoneIcon} />
                   <p className={styles.MFCasUploadDropZoneText}>Tap to upload PDF</p>
-                  <p className={styles.MFCasUploadDropZoneHint}>Max 10MB</p>
+                  <p className={styles.MFCasUploadDropZoneHint}>Max 3MB</p>
                   <input
                     ref={fileInputRef}
                     type="file"

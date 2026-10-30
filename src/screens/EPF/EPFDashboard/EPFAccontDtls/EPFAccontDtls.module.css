@@ -1,0 +1,333 @@
+/* EPFAccontDtls.module.css - All classes prefixed with EPFAccontDtls_ */
+
+.EPFAccontDtls_modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: EPFAccontDtls_fadeIn 0.25s ease-out;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+.EPFAccontDtls_modalSheet {
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 22px 28px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: EPFAccontDtls_slideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  box-sizing: border-box;
+}
+
+/* Top Center Drag Handle Pill */
+.EPFAccontDtls_dragHandle {
+  width: 38px;
+  height: 4px;
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  margin: 0 auto 16px auto;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+}
+
+.EPFAccontDtls_dragHandle:hover {
+  background-color: #94a3b8;
+}
+
+/* Header: Title and Close Circle Button */
+.EPFAccontDtls_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.EPFAccontDtls_titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.EPFAccontDtls_iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.EPFAccontDtls_title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #092042;
+  margin: 0;
+  letter-spacing: -0.1px;
+}
+
+.EPFAccontDtls_closeCircleBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.EPFAccontDtls_closeCircleBtn:hover {
+  background-color: #e2e8f0;
+  color: #334155;
+}
+
+/* Single Unified Rounded Gray Card */
+.EPFAccontDtls_detailsCard {
+  background-color: #f8fafc;
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  border: 1px solid #f1f5f9;
+}
+
+.EPFAccontDtls_itemSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.EPFAccontDtls_itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.EPFAccontDtls_itemLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  letter-spacing: 0.1px;
+}
+
+.EPFAccontDtls_itemValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #092042;
+  margin: 0;
+  word-break: break-all;
+  letter-spacing: 0.2px;
+}
+
+.EPFAccontDtls_itemDivider {
+  height: 1px;
+  background-color: #edf2f7;
+  width: 100%;
+}
+
+.EPFAccontDtls_copyBtn {
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.EPFAccontDtls_copyBtn:hover {
+  color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+.EPFAccontDtls_copiedText {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.EPFAccontDtls_checkIcon {
+  color: #16a34a;
+}
+
+/* Delete Card: Stop Tracking and delete data */
+.EPFAccontDtls_deleteCard {
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  border-radius: 12px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.EPFAccontDtls_deleteCard:hover {
+  background-color: #fee2e2;
+}
+
+.EPFAccontDtls_deleteCard:active {
+  transform: scale(0.99);
+}
+
+.EPFAccontDtls_deleteIcon {
+  color: #dc2626;
+  flex-shrink: 0;
+}
+
+.EPFAccontDtls_deleteText {
+  font-size: 13px;
+  font-weight: 600;
+  color: #dc2626;
+  margin: 0;
+}
+
+/* Delete Confirmation Box */
+.EPFAccontDtls_deleteConfirmCard {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  animation: EPFAccontDtls_fadeIn 0.2s ease-out;
+}
+
+.EPFAccontDtls_deleteConfirmHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.EPFAccontDtls_warningIcon {
+  color: #dc2626;
+  flex-shrink: 0;
+}
+
+.EPFAccontDtls_deleteConfirmTitle {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #991b1b;
+  margin: 0;
+}
+
+.EPFAccontDtls_deleteConfirmSubtitle {
+  font-size: 12px;
+  color: #7f1d1d;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.EPFAccontDtls_deleteConfirmActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.EPFAccontDtls_cancelDeleteBtn {
+  background-color: #ffffff;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.EPFAccontDtls_cancelDeleteBtn:hover {
+  background-color: #f3f4f6;
+}
+
+.EPFAccontDtls_confirmDeleteBtn {
+  background-color: #dc2626;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.EPFAccontDtls_confirmDeleteBtn:hover {
+  opacity: 0.9;
+}
+
+.EPFAccontDtls_confirmDeleteBtn:disabled,
+.EPFAccontDtls_cancelDeleteBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Close Button */
+.EPFAccontDtls_closeBtn {
+  width: 100%;
+  height: 48px;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, transform 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.EPFAccontDtls_closeBtn:active {
+  opacity: 0.9;
+  transform: scale(0.99);
+}
+
+@keyframes EPFAccontDtls_fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes EPFAccontDtls_slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   TrendingUp,
-  Landmark,
+  Building2,
   User,
   Wallet,
 } from "lucide-react";
@@ -12,7 +12,7 @@ import styles from "./BottomBar.module.css";
 const navItems = [
   { label: "Home", icon: LayoutDashboard, route: "/dashboard" },
   { label: "MF", icon: TrendingUp, route: "/mf/" },
-  { label: "FD", icon: Landmark, route: "/fd" },
+  { label: "EPF", icon: Building2, route: "/epf" },
   { label: "Budget", icon: Wallet, route: "/budget" },
   { label: "Profile", icon: User, route: "/profile" },
 ];
@@ -23,6 +23,7 @@ export default function BottomBar() {
 
   const activeIndex = navItems.findIndex((item) => {
     if (item.route === "/mf/") return pathname.startsWith("/mf");
+    if (item.route === "/epf") return pathname.startsWith("/epf");
     return pathname === item.route;
   });
 

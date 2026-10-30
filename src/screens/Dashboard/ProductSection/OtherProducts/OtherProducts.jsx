@@ -81,6 +81,7 @@ const OtherProducts = ({ isOpen, onClose, onDataChange }) => {
     fd: "/fd",
     rd: "/rd",
     other: "/other",
+    epf: "/epf",
   };
 
   const reloadData = () => {
@@ -151,6 +152,15 @@ const OtherProducts = ({ isOpen, onClose, onDataChange }) => {
       type: "portfolio",
     },
     {
+      id: "epf",
+      title: "EPF",
+      subtitle: "Track your EPF",
+      icon: <Grid className={styles.OtherProductsIconAsset} />,
+      amount: "view",
+      isComingSoon: false,
+      type: "portfolio",
+    },
+    {
       id: "other",
       title: "Other",
       subtitle: getSubtitle("Others"),
@@ -162,15 +172,6 @@ const OtherProducts = ({ isOpen, onClose, onDataChange }) => {
   ];
 
   const comingSoonItems = [
-    {
-      id: "epf",
-      title: "EPF",
-      subtitle: "Track your EPF",
-      icon: <Grid className={styles.OtherProductsIconAsset} />,
-      amount: "₹90,500",
-      isComingSoon: true,
-      type: "portfolio",
-    },
     {
       id: "stocks",
       title: "Stocks",
@@ -190,15 +191,6 @@ const OtherProducts = ({ isOpen, onClose, onDataChange }) => {
       isComingSoon: true,
       actionText: "Add",
       type: "discover",
-    },
-    {
-      id: "epf",
-      title: "EPF",
-      subtitle: "Track your EPF",
-      icon: <Grid className={styles.OtherProductsIconAsset} />,
-      amount: "₹90,500",
-      isComingSoon: true,
-      type: "portfolio",
     },
   ];
 
