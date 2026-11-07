@@ -43,7 +43,7 @@ export default function BottomBar() {
               <Icon
                 size={22}
                 strokeWidth={isActive ? 2.5 : 2}
-                color={isActive ? "#0c3e38" : "#9ca3af"}
+                color={isActive ? "#132B50" : "#9ca3af"}
               />
             </div>
             <span

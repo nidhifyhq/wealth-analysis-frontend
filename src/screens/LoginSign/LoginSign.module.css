@@ -1,6 +1,6 @@
 /* Core Styling Matrix aligning with premium mobile constraints */
 .LoginSignContainer {
-  background-color: #0c3e38;
+  background-color: #132B50;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -101,7 +101,7 @@
 }
 
 .LoginSignFooterLink:hover {
-  color: #0c3e38;
+  color: #132B50;
   text-decoration: underline;
 }
 
@@ -182,7 +182,7 @@
 }
 
 .LoginSignPasswordToggle:hover {
-  color: #0c3e38;
+  color: #132B50;
 }
 
 .LoginSignInput::placeholder {
@@ -258,7 +258,7 @@
 
 /* Action Control Buttons */
 .LoginSignActionBtn {
-  background-color: #0c3e38;
+  background-color: #132B50;
   color: #ffffff;
   border: none;
   border-radius: 16px;
@@ -325,7 +325,7 @@
 }
 
 .LoginSignTimerActive strong {
-  color: #0c3e38;
+  color: #132B50;
 }
 
 .LoginSignResendBtn {
@@ -357,7 +357,7 @@
 .LoginSignForgotBtn {
   background: none;
   border: none;
-  color: #0c3e38;
+  color: #132B50;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;

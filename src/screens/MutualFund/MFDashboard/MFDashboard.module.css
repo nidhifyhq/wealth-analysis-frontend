@@ -10,7 +10,7 @@
 
 /* SECTION 1: Top Hero Jumbotron Block Styling */
 .MFDashboardHeaderBanner {
-  background-color: #0c3e38;
+  background-color: #132B50;
   padding: 20px 20px 56px 20px; /* Generous padding bottom to securely mask background alignment layers */
   color: #ffffff;
 }
@@ -453,7 +453,7 @@
 }
 
 .MFDashboardTrackBtn {
-  background: #0c3e38;
+  background: #132B50;
   color: #ffffff;
   border: none;
   border-radius: 12px;
@@ -466,7 +466,7 @@
 }
 
 .MFDashboardTrackBtn:hover {
-  background: #0a322d;
+  background: #0d1e38;
 }
 
 .MFDashboardDisclaimer {

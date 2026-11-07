@@ -1,6 +1,6 @@
 .mobileDashboardContainer {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #0c3e38;
+  background-color: #132B50;
   min-height: 100vh;
   color: #ffffff;
   display: flex;
@@ -17,14 +17,14 @@
 }
 
 .mobileDashboardGreeting {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
   margin: 0;
 }
 
 .mobileDashboardSubGreeting {
   font-size: 13px;
-  color: #8fa7a4;
+  color: #A3B8CC;
   margin: 4px 0 0 0;
 }
 
@@ -56,8 +56,8 @@
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,150 +76,102 @@
   border-radius: 50%;
 }
 
-/* Swiper Slider Wrapper */
-.mobileDashboardSliderWrapper {
-  width: 100%;
-  padding-bottom: 6px;
+/* Networth Header Area (Integrated directly into Sapphire Header) */
+.mobileDashboardNetworthSection {
+  padding: 8px 20px 20px 20px;
+  background-color: #132B50;
 }
 
-/* Reduced Height Asset Card Layout */
-.mobileDashboardAssetCard {
-  border-radius: 24px;
-  margin: 4px 20px 20px 20px;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-  /* height: 145px; */
-  height: 118px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 8px 24px rgba(12, 62, 56, 0.15);
-}
-
-/* Card Color Themes */
-.mobileDashboardTotalAssetBg {
-  /* background-color: #39cc6e;
-  color: #0f4c43; */
-
-  background: linear-gradient(135deg, #4ed9be 0%, #2aab95 100%);
-  color: #063438;
-}
-
-.mobileDashboardMutualFundsBg {
-  /* background: linear-gradient(135deg, #4ed9be 0%, #2aab95 100%);
-  color: #063438; */
-
-  background-color: #39cc6e;
-  color: #0f4c43;
-
-}
-
-.mobileDashboardFdBg {
-  background: linear-gradient(135deg, #ffb076 0%, #ff7e42 100%);
-  color: #4a1f05;
-}
-
-/* Asset Card Internal Rules */
-.mobileDashboardAssetHeader {
+.mobileDashboardNetworthRow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
 }
 
-.mobileDashboardAssetLabel {
+.mobileDashboardNetworthLabelGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mobileDashboardNetworthLabel {
   font-size: 12px;
   font-weight: 600;
-  opacity: 0.85;
+  color: #A3B8CC;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.mobileDashboardSpinIcon {
+  color: #A3B8CC;
+  animation: mobileDashboardSpin 1s linear infinite;
+}
+
+@keyframes mobileDashboardSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .mobileDashboardToggleEye {
   background: none;
   border: none;
-  color: inherit;
-  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
-  padding: 0;
+  padding: 4px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
 }
 
-.mobileDashboardAssetAmount {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 4px 0;
+.mobileDashboardToggleEye:hover {
+  color: #ffffff;
+}
+
+.mobileDashboardNetworthAmount {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 4px 0 0 0;
+  padding-bottom: 4px;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
   letter-spacing: -0.5px;
 }
 
-.mobileDashboardAssetTrend {
-  display: flex;
-  align-items: center;
-  font-size: 11px;
-  font-weight: 600;
-  gap: 6px;
-}
-
-.mobileDashboardTrendBadge {
+/* Add Assets to Track CTA when no assets */
+.mobileDashboardAddAssetsBtn {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 1px 6px;
-  border-radius: 12px;
-}
-
-.mobileDashboardTrendPeriod {
-  opacity: 0.8;
-}
-
-.mobileDashboardCardFooterText {
-  margin: 6px 0 0 0;
-  font-size: 12px;
-  font-weight: 500;
-  opacity: 0.85;
-}
-
-/* Flex Container for Overlapping elements */
-.mobileDashboardHoldingAvatars {
-  display: flex;
-  padding-left: 6px;
+  gap: 8px;
   margin-top: 12px;
+  padding-bottom: 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding-left: 0;
+  font-family: inherit;
 }
 
-/* Premium White Border Pill Tags Overlapping */
-.mobileDashboardTag {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 11px;
-  color: #ffffff;
-  border: 2px solid #ffffff; /* Clean white bounding borders */
-  margin-left: -8px; /* Forces elements to touch and overlap precisely */
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-  display: inline-block;
+.mobileDashboardAddAssetsIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Ensure the first element resets its margin so it aligns left perfectly */
-.mobileDashboardTag:first-child {
-  margin-left: 0;
-}
-
-/* Theme color blocks */
-.mobileDashboardProductStocks { background-color: #1a73e8; }
-.mobileDashboardProductMf { background-color: #00796b; }
-.mobileDashboardProductFd { background-color: #e65100; }
-.mobileDashboardProductGold { background-color: #f5b000; color: #3e2723; }
-
-/* Abstract decorative circle */
-.mobileDashboardDecorativeCircle {
-  position: absolute;
-  width: 110px;
-  height: 110px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 50%;
-  right: -20px;
-  bottom: -20px;
-  pointer-events: none;
+.mobileDashboardAddAssetsText {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Action Group Buttons */
@@ -352,21 +304,6 @@
 
 .mobileDashboardNegative { color: #ff4a5a; }
 .mobileDashboardPositive { color: #2aab74; }
-
-/* Swiper Pagination Customization Overrides */
-:global(.swiper-pagination) {
-  bottom: -2px !important;
-}
-:global(.swiper-pagination-bullet) {
-  background: rgba(255, 255, 255, 0.3) !important;
-  opacity: 1 !important;
-}
-:global(.swiper-pagination-bullet-active) {
-  background: #39cc6e !important;
-  width: 16px !important;
-  border-radius: 4px !important;
-  transition: width 0.2s ease;
-}
 
 /* Import CAS Card Section */
 .MobileDashboardImportSection {

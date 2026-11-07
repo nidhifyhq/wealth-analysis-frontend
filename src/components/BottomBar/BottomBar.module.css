@@ -60,7 +60,7 @@
 }
 
 .BottomBarLabelActive {
-  color: #0c3e38;
+  color: #132B50;
 }
 
 .BottomBarLabelInactive {
@@ -72,7 +72,7 @@
   top: 0;
   width: 20px;
   height: 3px;
-  background: #0c3e38;
+  background: #132B50;
   border-radius: 0 0 4px 4px;
   transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

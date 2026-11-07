@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleBalance } from "../../store/auth/auth.slice";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
 import {
   // Bell,
   Eye,
-  ArrowUp,
-  ArrowDown,
+  EyeOff,
+  RotateCw,
+  Plus,
   ChevronRight,
   Upload,
   Landmark,
   Sparkles,
+  Newspaper,
+  Calculator,
 } from "lucide-react";
 import {
-  fetchInvestmentShortDetails,
   fetchTotalAssets,
 } from "../../services/apis/dashboard.service";
 import LoadingDots from "../../components/LoadingDots/LoadingDots";
@@ -26,32 +26,15 @@ import {
 // import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
 import ProductSection from "./ProductSection/ProductSection";
+import OtherProducts from "./ProductSection/OtherProducts/OtherProducts";
 import TrackInsuraceUi from "../Insurance/TrackInsuraceUi/TrackInsuraceUi";
 import { registerFCM } from "../../services/fcm";
 import PushNotificationModal from "../../components/PushNotificationModal/PushNotificationModal";
 
-import { Newspaper, Calculator } from "lucide-react";
-
-import "swiper/css";
-import "swiper/css/pagination";
 import styles from "./Dashboard.module.css";
 import { useNavigate } from "react-router-dom";
 import MFCasImportModal from "../MutualFund/MFCasImport/MFCasImportModal";
 import logoFull from "../../assets/images/nidhifylogofull.png";
-
-const productConfig = {
-  "Mutual Funds": { className: "mobileDashboardProductMf", label: "MFs" },
-  FD: { className: "mobileDashboardProductFd", label: "FDs" },
-};
-
-const stringToColor = (str) => {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const h = Math.abs(hash) % 360;
-  return `hsl(${h}, 55%, 45%)`;
-};
 
 const formatCurrency = (value) => {
   if (value == null) return "₹0.00";
@@ -62,11 +45,11 @@ export default function Dashboard() {
   const userName = useSelector(selectUserName);
   const dispatch = useDispatch();
   const showBalance = useSelector(selectShowBalance);
-  const [dashboardData, setDashboardData] = useState(null);
   const [totalAssetsData, setTotalAssetsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCasUpload, setShowCasUpload] = useState(false);
   const [showCasModal, setShowCasModal] = useState(false);
+  const [showOtherProducts, setShowOtherProducts] = useState(false);
   const navigate = useNavigate();
 
   const token = useSelector(selectAuthToken);
@@ -105,38 +88,15 @@ export default function Dashboard() {
 
   const loadData = async () => {
     setIsLoading(true);
-    const [detailsRes, assetsRes] = await Promise.all([
-      fetchInvestmentShortDetails(),
-      fetchTotalAssets(),
-    ]);
-    if (detailsRes && (detailsRes.MutualFund || detailsRes.FixedDeposit)) {
-      setDashboardData(detailsRes);
-    }
+    const assetsRes = await fetchTotalAssets();
     if (assetsRes) {
       setTotalAssetsData(assetsRes);
     }
     setIsLoading(false);
   };
 
-  const mutualFund = dashboardData?.MutualFund;
-  const fixedDeposit = dashboardData?.FixedDeposit;
-  const isCasImported = mutualFund?.isCasImported;
-
+  const isCasImported = totalAssetsData?.isCasImported;
   const totalAssets = totalAssetsData?.totalAssets;
-
-  const productTags = useMemo(() => {
-    const investProduct = totalAssetsData?.investProduct || [];
-    return investProduct.map((name) => {
-      const known = productConfig[name];
-      if (known) {
-        return { label: known.label, className: styles[known.className] };
-      }
-      return {
-        label: name,
-        style: { backgroundColor: stringToColor(name), color: "#ffffff" },
-      };
-    });
-  }, [totalAssetsData?.investProduct]);
 
   const handleSubscribe = async () => {
     setSubscribing(true);
@@ -164,7 +124,14 @@ export default function Dashboard() {
             <h1 className={styles.mobileDashboardGreeting}>
               Hi, {(userName || "User").split(" ")[0]} 👋
             </h1>
-            <p className={styles.mobileDashboardSubGreeting}>Welcome back!</p>
+            <p className={styles.mobileDashboardSubGreeting}>
+              {(() => {
+                const h = new Date().getHours();
+                if (h < 12) return "Good Morning!";
+                if (h < 17) return "Good Afternoon!";
+                return "Good Evening!";
+              })()}
+            </p>
           </div>
           {/* <button
             className={styles.mobileDashboardNotificationBtn}
@@ -177,7 +144,7 @@ export default function Dashboard() {
 
           <button
             className={styles.mobileDashboardAssistantBtn}
-            aria-label="Notifications"
+            aria-label="Assistant"
             onClick={() => navigate("/assistant")}
           >
             <Sparkles size={20} />
@@ -185,170 +152,56 @@ export default function Dashboard() {
           </button>
         </header>
 
-        {/* Swiper Wrapper for Asset Cards */}
-        <div className={styles.mobileDashboardSliderWrapper}>
-          <Swiper
-            modules={[Pagination]}
-            spaceBetween={0}
-            slidesPerView={1}
-            loop={true}
-            pagination={{ clickable: true }}
-            className="mySwiper"
-          >
-            {/* CARD 1: Total Asset Value */}
-            <SwiperSlide>
-              <section
-                className={`${styles.mobileDashboardAssetCard} ${styles.mobileDashboardTotalAssetBg}`}
-              >
-                <div className={styles.mobileDashboardAssetMain}>
-                  <div className={styles.mobileDashboardAssetHeader}>
-                    <span className={styles.mobileDashboardAssetLabel}>
-                      Total asset value
-                    </span>
-                    <button
-                      className={styles.mobileDashboardToggleEye}
-                      onClick={() => dispatch(toggleBalance())}
-                    >
-                      <Eye size={18} />
-                    </button>
-                  </div>
-                  <h2 className={styles.mobileDashboardAssetAmount}>
-                    {isLoading ? (
-                      <LoadingDots speed={300} />
-                    ) : showBalance ? (
-                      formatCurrency(totalAssets)
-                    ) : (
-                      "₹••••••"
-                    )}
-                  </h2>
+        {/* Total Networth / Assets Value Section */}
+        <section className={styles.mobileDashboardNetworthSection}>
+          <div className={styles.mobileDashboardNetworthRow}>
+            <div className={styles.mobileDashboardNetworthLabelGroup}>
+              <span className={styles.mobileDashboardNetworthLabel}>
+                Total Networth
+              </span>
+              {isLoading && (
+                <RotateCw
+                  size={13}
+                  className={styles.mobileDashboardSpinIcon}
+                />
+              )}
+            </div>
+            <button
+              className={styles.mobileDashboardToggleEye}
+              onClick={() => dispatch(toggleBalance())}
+              aria-label={showBalance ? "Hide balance" : "Show balance"}
+            >
+              {showBalance ? <Eye size={18} /> : <EyeOff size={18} />}
+            </button>
+          </div>
 
-                  {/* Overlapping Badges with white border */}
-                  {!isLoading && productTags.length > 0 && (
-                    <div className={styles.mobileDashboardHoldingAvatars}>
-                      {productTags.map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className={`${styles.mobileDashboardTag}${tag.className ? ` ${tag.className}` : ""}`}
-                          style={tag.style || {}}
-                        >
-                          {tag.label}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <div className={styles.mobileDashboardDecorativeCircle}></div>
-              </section>
-            </SwiperSlide>
+          <h2 className={styles.mobileDashboardNetworthAmount}>
+            {totalAssets == null && isLoading ? (
+              <LoadingDots speed={300} />
+            ) : showBalance ? (
+              formatCurrency(totalAssets)
+            ) : (
+              "₹••••••"
+            )}
+          </h2>
 
-            {/* CARD 2: Mutual Funds */}
-            <SwiperSlide>
-              <section
-                className={`${styles.mobileDashboardAssetCard} ${styles.mobileDashboardMutualFundsBg}`}
-              >
-                <div className={styles.mobileDashboardAssetMain}>
-                  <div className={styles.mobileDashboardAssetHeader}>
-                    <span className={styles.mobileDashboardAssetLabel}>
-                      Mutual Funds Investment
-                    </span>
-                  </div>
-                  <h2 className={styles.mobileDashboardAssetAmount}>
-                    {isLoading ? (
-                      <LoadingDots speed={300} />
-                    ) : showBalance ? (
-                      formatCurrency(mutualFund?.currentVal)
-                    ) : (
-                      "₹••••••"
-                    )}
-                  </h2>
-                  <div className={styles.mobileDashboardAssetTrend}>
-                    <span
-                      className={styles.mobileDashboardTrendBadge}
-                      style={{ color: "#0d5257" }}
-                    >
-                      {isLoading ? (
-                        <LoadingDots speed={300} />
-                      ) : (
-                        <>
-                          {mutualFund?.absoluteReturn != null &&
-                          mutualFund.absoluteReturn >= 0 ? (
-                            <ArrowUp size={12} />
-                          ) : (
-                            <ArrowDown size={12} />
-                          )}{" "}
-                          {mutualFund?.absoluteReturn != null
-                            ? mutualFund.absoluteReturn.toFixed(2)
-                            : "0.00"}
-                          %
-                        </>
-                      )}
-                    </span>
-                    <span className={styles.mobileDashboardTrendPeriod}>
-                      All-time Returns
-                    </span>
-                  </div>
-                  <p className={styles.mobileDashboardCardFooterText}>
-                    {isLoading ? (
-                      <LoadingDots speed={300} />
-                    ) : (
-                      `Active in ${mutualFund?.totalFunds || 0} Fund${mutualFund?.totalFunds !== 1 ? "s" : ""}`
-                    )}
-                  </p>
-                </div>
-                <div className={styles.mobileDashboardDecorativeCircle}></div>
-              </section>
-            </SwiperSlide>
-
-            {/* CARD 3: Fixed Deposits */}
-            <SwiperSlide>
-              <section
-                className={`${styles.mobileDashboardAssetCard} ${styles.mobileDashboardFdBg}`}
-              >
-                <div className={styles.mobileDashboardAssetMain}>
-                  <div className={styles.mobileDashboardAssetHeader}>
-                    <span className={styles.mobileDashboardAssetLabel}>
-                      Fixed Deposits (FD)
-                    </span>
-                  </div>
-                  <h2 className={styles.mobileDashboardAssetAmount}>
-                    {isLoading ? (
-                      <LoadingDots speed={300} />
-                    ) : showBalance ? (
-                      formatCurrency(fixedDeposit?.currentValue)
-                    ) : (
-                      "₹••••••"
-                    )}
-                  </h2>
-                  <div className={styles.mobileDashboardAssetTrend}>
-                    <span
-                      className={styles.mobileDashboardTrendBadge}
-                      style={{ color: "#4a1f05" }}
-                    >
-                      {isLoading ? (
-                        <LoadingDots speed={300} />
-                      ) : (
-                        <>⚡ {fixedDeposit?.absReturn || "0.00"}%</>
-                      )}
-                    </span>
-                    <span className={styles.mobileDashboardTrendPeriod}>
-                      All-time Returns
-                    </span>
-                  </div>
-                  <p className={styles.mobileDashboardCardFooterText}>
-                    {isLoading ? (
-                      <LoadingDots speed={300} />
-                    ) : fixedDeposit?.totalFD ? (
-                      `Active FDs ${fixedDeposit.totalFD}`
-                    ) : (
-                      "No active FD"
-                    )}
-                  </p>
-                </div>
-                <div className={styles.mobileDashboardDecorativeCircle}></div>
-              </section>
-            </SwiperSlide>
-          </Swiper>
-        </div>
+          {!isLoading &&
+            (totalAssets == null || totalAssets === 0) && (
+            <button
+              type="button"
+              className={styles.mobileDashboardAddAssetsBtn}
+              onClick={() => setShowOtherProducts(true)}
+            >
+              <div className={styles.mobileDashboardAddAssetsIcon}>
+                <Plus size={16} color="#ffffff" />
+              </div>
+              <span className={styles.mobileDashboardAddAssetsText}>
+                Add Assets to Track
+              </span>
+              <ChevronRight size={16} color="rgba(255,255,255,0.4)" />
+            </button>
+          )}
+        </section>
 
         {/* Action Buttons */}
         {/* <div className={styles.mobileDashboardActionGroup}>
@@ -487,6 +340,12 @@ export default function Dashboard() {
         Mutual fund investments are subject to market risks. Please consult a
         SEBI registered advisor before investing.
       </p>
+
+      <OtherProducts
+        isOpen={showOtherProducts}
+        onClose={() => setShowOtherProducts(false)}
+        onDataChange={loadData}
+      />
 
       <MFCasUpload
         isOpen={showCasUpload}

@@ -22,7 +22,7 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #0c3e38;
+  background: #132B50;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +59,7 @@
 
 .InstallAppBannerInstallBtn {
   border: none;
-  background: #0c3e38;
+  background: #132B50;
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;

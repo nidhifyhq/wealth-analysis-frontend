@@ -306,7 +306,7 @@ const styles = {
   },
   clickRing: {
     position: "absolute",
-    border: "2px solid #0c3e38",
+    border: "2px solid #132B50",
     borderRadius: 12,
     animation: "mfc-pulse 0.8s ease-out",
     pointerEvents: "none",
@@ -322,7 +322,7 @@ const styles = {
     boxSizing: "border-box",
   },
   typedText: { fontSize: 12, color: "#12121f", fontFamily: "'DM Sans', sans-serif", whiteSpace: "nowrap", overflow: "hidden" },
-  caret: { display: "inline-block", width: 1.5, height: 14, background: "#0c3e38", marginLeft: 2, animation: "mfc-blink 0.9s steps(1) infinite" },
+  caret: { display: "inline-block", width: 1.5, height: 14, background: "#132B50", marginLeft: 2, animation: "mfc-blink 0.9s steps(1) infinite" },
   cursor: {
     position: "absolute",
     transition: "left 0.4s ease, top 0.4s ease",
@@ -336,7 +336,7 @@ const styles = {
     width: 14,
     height: 14,
     borderRadius: "50%",
-    border: "2px solid #0c3e38",
+    border: "2px solid #132B50",
     animation: "mfc-tap 0.5s ease-out",
   },
   successToast: {
@@ -344,7 +344,7 @@ const styles = {
     bottom: 14,
     left: "50%",
     transform: "translate(-50%, 0)",
-    background: "#0c3e38",
+    background: "#132B50",
     color: "#ffffff",
     fontSize: 12,
     fontWeight: 600,

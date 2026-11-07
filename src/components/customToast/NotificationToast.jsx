@@ -47,7 +47,7 @@ const NotificationToast = ({ title, body, onClose }) => {
             width: '36px',
             height: '36px',
             borderRadius: '50%',
-            backgroundColor: '#0c3e38',
+            backgroundColor: '#132B50',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -64,7 +64,7 @@ const NotificationToast = ({ title, body, onClose }) => {
               margin: 0,
               fontSize: '14px',
               fontWeight: '600',
-              color: '#0c3e38',
+              color: '#132B50',
               lineHeight: 1.3,
               letterSpacing: '-0.01em',
               overflow: 'hidden',
@@ -129,7 +129,7 @@ const NotificationToast = ({ title, body, onClose }) => {
           style={{
             height: '100%',
             width: `${progress}%`,
-            backgroundColor: '#0c3e38',
+            backgroundColor: '#132B50',
             transition: 'width 0.1s linear',
           }}
         />

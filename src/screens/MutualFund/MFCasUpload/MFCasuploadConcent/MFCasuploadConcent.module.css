@@ -84,7 +84,7 @@
 
 .MFCasuploadConcentConsentBtn {
   flex: 1;
-  background: #0c3e38;
+  background: #132B50;
   border: none;
   border-radius: 14px;
   padding: 14px;
@@ -100,11 +100,21 @@
 }
 
 @keyframes MFCasuploadConcentFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes MFCasuploadConcentSlideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }

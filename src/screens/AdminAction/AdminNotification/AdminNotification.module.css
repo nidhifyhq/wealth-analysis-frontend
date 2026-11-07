@@ -62,7 +62,7 @@
 }
 
 .AdminNotification_tabActive {
-  background: #0c3e38;
+  background: #132B50;
   color: #ffffff;
 }
 
@@ -366,7 +366,7 @@
   padding: 16px;
   border: none;
   border-radius: 14px;
-  background: #0c3e38;
+  background: #132B50;
   color: #ffffff;
   font-size: 15px;
   font-weight: 700;
@@ -398,6 +398,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
