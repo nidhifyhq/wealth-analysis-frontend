@@ -345,57 +345,6 @@ export default function UserProfile() {
           </div>
         </div>
 
-        {/* GROUP 4: Investment Details */}
-        {userData?.isCasImported && (
-          <div className={styles.UserProfileSectionBlock}>
-            <h3 className={styles.UserProfileSectionLabel}>
-              INVESTMENT DETAILS
-            </h3>
-            <div
-              className={`${styles.UserProfileRowCard} ${styles.UserProfileHasBorderBottom}`}
-            >
-              <div className={styles.UserProfileRowLeading}>
-                <div className={styles.UserProfileIconFrame}>
-                  <Calendar size={18} />
-                </div>
-                <div>
-                  <span className={styles.UserProfileItemTitle}>
-                    CAS Import Date
-                  </span>
-                  <p className={styles.UserProfileItemValue}>
-                    {formatDate(userData?.casImportedDate)}
-                  </p>
-                </div>
-              </div>
-              <button
-                className={styles.UserProfileRowActionBtn}
-                aria-label="Refresh data"
-              >
-                <FileText size={16} />
-              </button>
-            </div>
-            <div className={styles.UserProfileRowCard}>
-              <div className={styles.UserProfileRowLeading}>
-                <div className={styles.UserProfileIconFrame}>
-                  <FileText size={18} />
-                </div>
-                <div>
-                  <span className={styles.UserProfileItemTitle}>
-                    Statement Date
-                  </span>
-                  <p className={styles.UserProfileItemValue}>
-                    {formatDate(userData?.statementDate)}
-                  </p>
-                </div>
-              </div>
-              <ChevronRight
-                size={18}
-                className={styles.UserProfileChevronRight}
-              />
-            </div>
-          </div>
-        )}
-
         {/* GROUP 3: Legal & Support */}
         <div className={styles.UserProfileSectionBlock}>
           <h3 className={styles.UserProfileSectionLabel}>LEGAL & SUPPORT</h3>

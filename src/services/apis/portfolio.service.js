@@ -5,12 +5,8 @@ export const uploadCas = (formData) => {
   return uploadFileRequest(API_ROUTES.CAS_UPLOAD, formData)
 }
 
-export const fetchMyFundSummary = () => {
-  return getRequest(API_ROUTES.MY_FUND_SUMMARY)
-}
-
-export const fetchAllMyFundViews = () => {
-  return getRequest(API_ROUTES.ALL_MYFUND_VIEWS)
+export const fetchMFDashboard = () => {
+  return getRequest(API_ROUTES.MF_DASHBOARD)
 }
 
 export const deleteCasData = () => {

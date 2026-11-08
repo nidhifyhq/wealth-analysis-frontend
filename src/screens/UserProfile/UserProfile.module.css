@@ -266,17 +266,6 @@
   transform: translateX(20px);
 }
 
-.UserProfileRowActionBtn {
-  background: none;
-  border: none;
-  color: #556b68;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* Settings Action Buttons Stack styles */
 .UserProfileActionsContainer {
   display: flex;

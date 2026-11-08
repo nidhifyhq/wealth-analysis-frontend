@@ -13,10 +13,10 @@ import {
   ChevronsUp,
   ChevronDown,
   ChevronsDown,
+  Sparkles,
 } from "lucide-react";
 import {
-  fetchMyFundSummary,
-  fetchAllMyFundViews,
+  fetchMFDashboard,
   deleteCasData,
 } from "../../../services/apis/portfolio.service";
 import MFCasUpload from "../MFCasUpload/MFCasUpload";
@@ -66,12 +66,15 @@ export default function MFDashboard() {
 
   const loadData = async () => {
     setIsLoading(true);
-    const [summaryRes, holdingsRes] = await Promise.all([
-      fetchMyFundSummary(),
-      fetchAllMyFundViews(),
-    ]);
-    setFundSummary(summaryRes?.success ? summaryRes.data : null);
-    setHoldings(holdingsRes?.success ? holdingsRes.data.holdings || [] : []);
+    const res = await fetchMFDashboard();
+    if (res?.success && res.data) {
+      const { holdings: nextHoldings = [], ...summaryData } = res.data;
+      setFundSummary(summaryData);
+      setHoldings(nextHoldings);
+    } else {
+      setFundSummary(null);
+      setHoldings([]);
+    }
     setIsLoading(false);
   };
 
@@ -80,7 +83,8 @@ export default function MFDashboard() {
     const res = await deleteCasData();
     if (res?.success) {
       setShowDeLinkCas(false);
-      loadData();
+      setFundSummary(null);
+      setHoldings([]);
     }
     setIsDelinking(false);
   };
@@ -90,6 +94,10 @@ export default function MFDashboard() {
   const asOnDate = fundSummary?.asOnDate;
   const statementDate = fundSummary?.statementDate;
   const importedAt = fundSummary?.importedAt;
+  const netReturn = s?.currReturn || 0;
+  const absReturnPct = Math.abs(s?.AbsReturn || 0).toFixed(2);
+  const profitCount = holdings.filter((f) => (f.currReturn || 0) >= 0).length;
+  const lossCount = holdings.filter((f) => (f.currReturn || 0) < 0).length;
 
   const priceColorClass = (returnVal) =>
     returnVal != null && returnVal < 0
@@ -284,6 +292,79 @@ export default function MFDashboard() {
           ))}
         </div>
       </section>
+
+      {/* SECTION 2.5: Portfolio Insights */}
+      {!isLoading && fundSummary && holdings.length > 0 && (
+        <section className={styles.MFDashboardInsightsSection}>
+          <div className={styles.MFDashboardInsightCard}>
+            <div className={styles.MFDashboardInsightHeader}>
+              <div className={styles.MFDashboardInsightBadge}>
+                <span className={styles.MFDashboardInsightIcon}>
+                  <Sparkles size={13} />
+                </span>
+                <span className={styles.MFDashboardInsightTitle}>
+                  Portfolio Summary
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.MFDashboardInsightBody}>
+              <p className={styles.MFDashboardInsightHeadline}>
+                Your portfolio{" "}
+                <span
+                  className={
+                    netReturn > 0
+                      ? styles.MFDashboardInsightPositive
+                      : netReturn < 0
+                        ? styles.MFDashboardInsightNegative
+                        : styles.MFDashboardInsightNeutral
+                  }
+                >
+                  {netReturn > 0
+                    ? `gained ${formatCurrency(Math.abs(netReturn))} (+${absReturnPct}%)`
+                    : netReturn < 0
+                      ? `dipped ${formatCurrency(Math.abs(netReturn))} (-${absReturnPct}%)`
+                      : "is currently at breakeven (\u20B90.00)"}
+                </span>
+              </p>
+              <p className={styles.MFDashboardInsightDesc}>
+                Your total valuation stands at{" "}
+                <strong>{formatCurrency(s?.CurrValue || 0)}</strong> against an
+                invested capital of{" "}
+                <strong>{formatCurrency(s?.InvestedValue || 0)}</strong>
+                {`${asOnDate ? ` as of ${formatDate(asOnDate)}` : ""}. (${profitCount} in profit, ${lossCount} in loss).`}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* SECTION 2.6: No Holdings */}
+      {!isLoading && (!fundSummary || holdings.length === 0) && (
+        <section className={styles.MFDashboardInsightsSection}>
+          <div className={styles.MFDashboardInsightCard}>
+            <div className={styles.MFDashboardInsightHeader}>
+              <div className={styles.MFDashboardInsightBadge}>
+                <span className={styles.MFDashboardInsightIcon}>
+                  <Sparkles size={13} />
+                </span>
+                <span className={styles.MFDashboardInsightTitle}>
+                  Portfolio Insights
+                </span>
+              </div>
+            </div>
+            <div className={styles.MFDashboardInsightBody}>
+              <p className={styles.MFDashboardInsightHeadline}>
+                No investments tracked yet
+              </p>
+              <p className={styles.MFDashboardInsightDesc}>
+                Upload your CAS statement to get an instant AI analysis of your
+                asset allocation, gains, and performance.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* SECTION 3: Investment Holdings Area */}
       <section className={styles.MFDashboardFundsSection}>
