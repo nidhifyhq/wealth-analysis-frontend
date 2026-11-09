@@ -302,3 +302,50 @@
   color: #8e8ea0;
   white-space: nowrap;
 }
+
+.AllUsers_tabs {
+  display: flex;
+  gap: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.AllUsers_tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.AllUsers_tabActive {
+  background: #132B50;
+  color: #ffffff;
+}
+
+.AllUsers_tabCount {
+  font-size: 11px;
+  font-weight: 600;
+  background: #eef1ff;
+  color: #4a6cf7;
+  padding: 1px 7px;
+  border-radius: 20px;
+  line-height: 1.5;
+}
+
+.AllUsers_tabActive .AllUsers_tabCount {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}

@@ -7,12 +7,19 @@ import styles from './AllUsers.module.css'
 
 const PLATFORM_ICONS = { a: 'Android', android: 'Android', i: 'iOS', ios: 'iOS', w: 'Web', web: 'Web' }
 
+const getDayRange = () => {
+  const now = new Date()
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
+  return { todayStart, yesterdayStart: todayStart - 24 * 60 * 60 * 1000 }
+}
+
 const AllUsers = () => {
   const navigate = useNavigate()
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [search, setSearch] = useState('')
+  const [activeTab, setActiveTab] = useState('all')
 
   useEffect(() => { loadUsers() }, [])
 
@@ -36,15 +43,42 @@ const AllUsers = () => {
     }
   }
 
+  const counts = useMemo(() => {
+    const { todayStart, yesterdayStart } = getDayRange()
+    let today = 0
+    let yesterday = 0
+    users.forEach((u) => {
+      if (u.dl == null) return
+      const t = u.dl * 1000
+      if (t >= todayStart) today += 1
+      else if (t >= yesterdayStart) yesterday += 1
+    })
+    return { all: users.length, today, yesterday }
+  }, [users])
+
   const filtered = useMemo(() => {
-    if (!search.trim()) return users
+    let list = users
+
+    if (activeTab !== 'all') {
+      const { todayStart, yesterdayStart } = getDayRange()
+      list = list.filter((u) => {
+        if (u.dl == null) return false
+        const t = u.dl * 1000
+        return activeTab === 'today'
+          ? t >= todayStart
+          : (t >= yesterdayStart && t < todayStart)
+      })
+      list = [...list].sort((a, b) => (b.dl ?? 0) - (a.dl ?? 0))
+    }
+
+    if (!search.trim()) return list
     const q = search.toLowerCase().trim()
-    return users.filter((u) =>
+    return list.filter((u) =>
       (u.name && u.name.toLowerCase().includes(q)) ||
       (u.emailId && u.emailId.toLowerCase().includes(q)) ||
       (u.userId != null && u.userId.toString().includes(q))
     )
-  }, [users, search])
+  }, [users, search, activeTab])
 
   const getInitials = (name, email) => {
     const src = name || email || ''
@@ -129,6 +163,26 @@ const formatDl = (epochSeconds) => {
 
       <main className={styles.AllUsers_content}>
         {users.length > 0 && (
+          <div className={styles.AllUsers_tabs}>
+            {[
+              { key: 'all', label: 'All', count: counts.all },
+              { key: 'today', label: 'Today', count: counts.today },
+              { key: 'yesterday', label: 'Yesterday', count: counts.yesterday },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                className={`${styles.AllUsers_tab} ${activeTab === tab.key ? styles.AllUsers_tabActive : ''}`}
+                onClick={() => setActiveTab(tab.key)}
+              >
+                {tab.label}
+                <span className={styles.AllUsers_tabCount}>{tab.count}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {users.length > 0 && (
           <div className={styles.AllUsers_searchWrap}>
             <Search size={16} className={styles.AllUsers_searchIcon} />
             <input
@@ -154,9 +208,29 @@ const formatDl = (epochSeconds) => {
           </div>
         ) : filtered.length === 0 ? (
           <div className={styles.AllUsers_empty}>
-            <Search size={40} strokeWidth={1.2} />
-            <p className={styles.AllUsers_emptyTitle}>No results</p>
-            <p className={styles.AllUsers_emptySub}>Try a different search term.</p>
+            {search.trim() ? (
+              <Search size={40} strokeWidth={1.2} />
+            ) : (
+              <Users size={40} strokeWidth={1.2} />
+            )}
+            <p className={styles.AllUsers_emptyTitle}>
+              {search.trim()
+                ? 'No results'
+                : activeTab === 'today'
+                ? 'No users active today'
+                : activeTab === 'yesterday'
+                ? 'No users active yesterday'
+                : 'No users found'}
+            </p>
+            <p className={styles.AllUsers_emptySub}>
+              {search.trim()
+                ? 'Try a different search term.'
+                : activeTab === 'today'
+                ? 'Users who opened the app today will appear here.'
+                : activeTab === 'yesterday'
+                ? 'Users who opened the app yesterday will appear here.'
+                : 'Users will appear here once they register.'}
+            </p>
           </div>
         ) : (
           <div className={styles.AllUsers_list}>
