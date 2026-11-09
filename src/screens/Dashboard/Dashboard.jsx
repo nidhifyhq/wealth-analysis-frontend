@@ -14,14 +14,13 @@ import {
   Newspaper,
   Calculator,
 } from "lucide-react";
-import {
-  fetchTotalAssets,
-} from "../../services/apis/dashboard.service";
+import { fetchTotalAssets } from "../../services/apis/dashboard.service";
 import LoadingDots from "../../components/LoadingDots/LoadingDots";
 import {
   selectUserName,
   selectShowBalance,
   selectAuthToken,
+  selectUserId,
 } from "../../store/auth/auth.selectors";
 // import PortfolioVsMarket from "./PortfolioVsMarket";
 import MFCasUpload from "../MutualFund/MFCasUpload/MFCasUpload";
@@ -43,10 +42,12 @@ const formatCurrency = (value) => {
 
 export default function Dashboard() {
   const userName = useSelector(selectUserName);
+  const userID = useSelector(selectUserId);
   const dispatch = useDispatch();
   const showBalance = useSelector(selectShowBalance);
   const [totalAssetsData, setTotalAssetsData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(Number(userID) !== 10);
   const [showCasUpload, setShowCasUpload] = useState(false);
   const [showCasModal, setShowCasModal] = useState(false);
   const [showOtherProducts, setShowOtherProducts] = useState(false);
@@ -83,8 +84,9 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
+    if (Number(userID) === 10) return;
     loadData();
-  }, []);
+  }, [userID]);
 
   const loadData = async () => {
     setIsLoading(true);
@@ -185,8 +187,7 @@ export default function Dashboard() {
             )}
           </h2>
 
-          {!isLoading &&
-            (totalAssets == null || totalAssets === 0) && (
+          {!isLoading && (totalAssets == null || totalAssets === 0) && (
             <button
               type="button"
               className={styles.mobileDashboardAddAssetsBtn}
